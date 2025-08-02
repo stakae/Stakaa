@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Wallet - Wallet UI</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS --- */
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+        }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #0f212f; 
+            color: #ffffff; 
+            margin: 0; 
+        }
+        .navbar { background-color: #1b2a38; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 36px; width: auto; display: block; }
+
+        .wallet-box { display: flex; align-items: center; background-color: #101d2b; border-radius: 4px; overflow: hidden; height: 45px; }
+        .wallet-balance { display: flex; align-items: center; padding: 6px 12px; background-color: #101d2b; gap: 6px; }
+        .wallet-balance span { font-weight: bold; color: white; }
+        .wallet-balance img { width: 14px; }
+        .wallet-balance > span {
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .wallet-btn { background-color: #3e19f1; color: white; padding: 8px 14px; border: none; font-weight: bold; cursor: pointer; height: 100%; font-family: 'Inter', sans-serif; }
+        .right-buttons { display: flex; gap: 10px; }
+        .right-buttons button { padding: 8px 14px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; font-family: 'Inter', sans-serif; }
+        .login-btn { background-color: #394d63; color: white; }
+        .register-btn { background-color: #2583ff; color: white; }
+
+        .loading-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+                .chat-message-link {
+            color: #2583ff; /* यह आपके बटन जैसा नीला रंग है */
+            text-decoration: underline;
+        }
+        .loading-content {
+            background-color: #1a2c38;
+            border-radius: 8px;
+            padding: 160px;
+            width: 500px;
+            text-align: center;
+        }
+        .loading-content-small {
+            width: 400px;
+            padding: 80px 40px;
+        }
+        .loading-bar-container {
+            width: 50%;
+            margin: 0 auto;
+            height: 8px;
+            background-color: #1a2c38;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 4px;
+            box-shadow: 0 0 0 1px #0f212f;
+        }
+        .loading-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            background-color: #ffffff;
+            border-radius: 2px;
+            animation: slideFull 0.70s ease-in-out infinite;
+            animation-direction: alternate;
+        }
+        @keyframes slideFull {
+            from { left: -50%; }
+            to { left: 100%; }
+        }
+        .wallet-modal, .verification-modal, .final-details-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.7); 
+            z-index: 9999; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        #loginModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .wallet-content { 
+            background-color: #1a2c38;
+            width: 500px; 
+            border-radius: 8px; 
+            color: #ffffff;
+            padding: 0;
+            overflow: hidden;
+        }
+        .wallet-header { 
+            padding: 16px 20px;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header-top h3 { 
+            font-size: 16px; 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .header-bottom {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            display: none; 
+            align-items: center;
+            gap: 10px;
+        }
+        .header-bottom .back-arrow {
+            font-weight: bold;
+            cursor: pointer;
+            color: #8A97A8;
+        }
+        .close-btn { 
+            font-size: 24px; 
+            cursor: pointer; 
+            color: #8A97A8;
+            font-weight: 300;
+        }
+        .wallet-body {
+            padding: 20px;
+            padding-top: 0;
+        }
+        .wallet-toggle { 
+            display: flex; 
+            background-color: #0f212f;
+            border-radius: 30px;
+            padding: 4px;
+            margin-bottom: 24px;
+        }
+        .wallet-tab { 
+            flex: 1; 
+            border: none; 
+            padding: 14px 0;
+            border-radius: 30px;
+            background-color: transparent; 
+            color: #9eabbb;
+            cursor: pointer; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .wallet-tab.active { 
+            color: #ffffff;
+            background-color: #2f4553;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            padding: 5px 0;
+        }
+        .wallet-dropdown label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: #8A97A8;
+        }
+        .wallet-address label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #8A97A8;
+        }
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .select-display {
+            width: 100%;
+            margin: 0 auto;
+            background-color: #2f4553;
+            padding: 12px; 
+            border-radius: 4px; 
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 12px;
+            transition: border-color 0.2s;
+        }
+        .select-display:hover { border-color: #5a7690; }
+        .select-display img { width: 32px; height: 32px; }
+        .select-display .coin-info { flex-grow: 1; text-align: left; }
+        .select-display .coin-info .coin-ticker { font-weight: 700; font-size: 16px; }
+        .select-display .coin-info .coin-name { font-weight: 500; font-size: 12px; color: #8A97A8; }
+        .arrow-icon { transform: rotate(0deg); transition: transform 0.3s; fill: #ffffff;  }
+        .custom-select-wrapper.open .arrow-icon { transform: rotate(180deg); }
+        .options-list {
+            position: absolute;
+            top: calc(100% + 10px);
+            width: 98%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2f4553;
+            border-radius: 8px;
+            overflow: visible;
+            z-index: 100;
+            display: none;
+            border: none;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        .search-bar { padding: 15px; }
+        .search-bar input {
+            width: 100%;
+            background-color: #1a2c38;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 10px 10px 35px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .verification-prompt {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: #0f212f;
+            border: 1px dashed #8A97A8;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .verification-prompt p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #e1e8f0;
+        }
+        .verification-icon {
+            stroke: #8A97A8;
+            flex-shrink: 0;
+        }
+        .search-container { position: relative; }
+        .search-icon { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); width: 16px; height: 16px; fill: #8A97A8; }
+        .options-scroll { max-height: 220px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
+        .options-scroll::-webkit-scrollbar { display: none; }
+        .option-item { padding: 12px 15px; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background-color 0.2s; }
+        .option-item:hover { background-color: #4a6075; }
+        .option-item img { width: 32px; height: 32px; }
+        .wallet-address .address-box { display: flex; background-color: #2f4553; padding: 10px; border-radius: 4px; border: none; align-items: center; justify-content: space-between; }
+        .wallet-address input { background: transparent; border: none; color: #ffffff; width: 90%; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14px; }
+        .wallet-qr { text-align: center; margin-top: 20px; }
+        .wallet-qr img { width: 130px; border-radius: 8px; padding: 8px; background-color: #ffffff; }
+        .svg-icon { display: inline-block; width: 1em; height: 1em; vertical-align: middle; }
+        .icon-wallet { width: 20px; height: 20px; fill: #9eabbb; }
+        .icon-copy { width: 16px; height: 16px; fill: #ffffff; cursor: pointer;}
+        .two-factor-prompt { margin-top: 24px; padding: 16px; background-color: #2f4553; border: none; border-radius: 4px; text-align: center; }
+        .two-factor-prompt p { color: #9eabbb; font-size: 14px; margin-bottom: 12px; }
+        .two-factor-button { width: 100%; padding: 12px; background-color: #2583FF; border: none; border-radius: 4px; color: #ffffff; font-weight: 700; font-size: 15px; cursor: pointer; }
+        #logoutBtn { background-color: #e9113c; }
+        .login-content { background-color: #1a2c38; width: 688px; min-height: 450px; border-radius: 8px; position: relative; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+        .login-header { display: flex; justify-content: space-between; align-items: center; background-color: #2f4553; padding: 15px 30px; margin-bottom: 0; }
+        #loginForm { display: flex; flex-direction: column; flex-grow: 1; padding: 10px 30px 30px 30px; }
+        .form-fields { flex-grow: 1; }
+        .login-header h3 { font-size: 20px; font-weight: 700; }
+        .login-content .close-btn { color: #ffffff; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #8A97A8; }
+        .form-group input { width: 100%; background-color: #0F212E; border: 1px solid #2f4553; border-radius: 4px; padding: 10px 10px; color: #fff; font-size: 15px; transition: border-color 0.2s; }
+        .password-wrapper { position: relative; }
+        .password-wrapper .eye-icon { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer; fill: #8A97A8; width: 20px; height: 20px; }
+        .signin-btn { width: 100%; background-color: #2583ff; border: none; padding: 18px; border-radius: 4px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; }
+        .profile-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 250px; margin: 20px; }
+        .profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .profile-username { font-size: 18px; font-weight: 700; }
+        .profile-info { font-size: 14px; color: #8A97A8; margin-bottom: 8px; }
+        .profile-info span { color: #fff; font-weight: 500; }
+        .history-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 250px; margin: 0 20px 20px 20px; }
+        .history-header { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #2f4553; }
+        .history-item { border: 1px solid #2f4553; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+        .history-item:last-child { margin-bottom: 0; }
+        .history-detail { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: #8A97A8; }
+        .history-detail span { color: #fff; font-weight: 500; }
+        .history-status-pending { color: #e53e3e !important; }
+        .history-status-completed { color: #28a745 !important; }
+        .history-completion-message { font-size: 11px; color: #8A97A8; margin-top: 8px; line-height: 1.4; }
+        .form-group input.error { border-color: #e53e3e !important; }
+        .error-message { color: #e53e3e; font-size: 12px; margin-top: 6px; display: none; text-align: left; }
+        .toast-notification { position: fixed; top: 20px; left: -100%; background-color: #1a2c38; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); padding: 16px; width: 320px; z-index: 10001; transition: left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow: hidden; }
+        .toast-notification.show { left: 20px; }
+        .toast-content { font-size: 14px; font-weight: 500; color: #e1e8f0; }
+        .toast-progress { position: absolute; bottom: 0; left: 0; height: 4px; width: 100%; background-color: #2583ff; }
+        .toast-notification.show .toast-progress { animation: progress-bar 4s linear forwards; }
+        @keyframes progress-bar { from { width: 100%; } to { width: 0%; } }
+        .support-chat-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background-color: #2c3e50; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 9998; transition: transform 0.2s; }
+        .support-chat-btn:hover { transform: scale(1.1); }
+        .support-chat-btn svg { color: #ffffff; width: 28px; height: 28px; }
+        .support-chat-popup { position: fixed; bottom: 10px; right: 20px; width: 400px; height: 700px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 9999; }
+        .chat-header { background-color: #f1f1f1; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0; }
+        .chat-header span { font-weight: 700; color: #333; font-size: 16px; }
+        .close-chat-btn { font-size: 24px; color: #888; cursor: pointer; font-weight: 300; }
+        .chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; background-color: #ffffff; display: flex; flex-direction: column; }
+        .message { max-width: 80%; padding: 10px 15px; border-radius: 18px; margin-bottom: 10px; word-wrap: break-word; }
+        .message p { margin: 0; padding: 0; font-size: 14px; white-space: pre-wrap; }
+        .message .timestamp { font-size: 10px; display: block; margin-top: 4px; text-align: right; }
+        .user-message { align-self: flex-end; background-color: #2583ff; color: white; border-bottom-right-radius: 4px; }
+        .user-message .timestamp { color: #e0e0e0; }
+        .support-message { align-self: flex-start; background-color: #f1f1f1; color: #333; border-bottom-left-radius: 4px; }
+        .support-message .timestamp { color: #888; }
+        .chat-form { display: flex; align-items: center; padding: 10px; border-top: 1px solid #e0e0e0; background-color: #f9f9f9; }
+        .chat-form input[type="text"] { flex-grow: 1; border: 1px solid #ddd; border-radius: 20px; padding: 10px 15px; font-size: 14px; margin: 0 10px; outline: none; }
+        .chat-form button { background: none; border: none; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; }
+        .chat-form .attach-btn svg { color: #555; }
+        .chat-form .send-btn { background-color: #2583ff; border-radius: 50%; width: 38px; height: 38px; }
+        .chat-form .send-btn svg { color: white; }
+        .local-currency-wallet-box { background-color: #2f4553; border-radius: 5px; padding: 8px; display: flex; align-items: center; gap: 15px; }
+        .local-currency-wallet-box .currency-symbol { font-size: 24px; font-weight: bold; color: #FFC107; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .local-currency-wallet-box .currency-info span { font-weight: 700; font-size: 16px; display: block; }
+        .local-currency-wallet-box .currency-info small { font-size: 12px; color: #8A97A8; }
+        .local-deposit-btn { position: relative; transition: all 0.3s ease; width: 100%; background-color: #2583ff; color: white; border: none; padding: 12px; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; }
+        .upi-selection-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+        .upi-options { display: flex; flex-direction: column; gap: 16px; }
+        .upi-payment-method { background: none; border: none; color: #8A97A8; padding: 0; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+        .upi-payment-method::before { content: ''; width: 5px; height: 5px; border-radius: 50%; border: 1px solid #8A97A8; background-color: transparent; }
+        .upi-payment-method.active { color: #ffffff; }
+        .upi-payment-method.active::before { border-color: #ffffff; background-color: #ffffff; box-shadow: 0 0 0 2px #1a2c38, 0 0 0 6px #000000; }
+        .upi-logo { height: 30px; }
+        .deposit-form-group { margin-bottom: 16px; }
+        .deposit-form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #8A97A8; }
+        .deposit-form-group input, .deposit-form-group select { width: 100%; background-color: #0F212E; border: 1px solid #2f4553; border-radius: 4px; padding: 16px 12px; color: #fff; font-size: 15px; }
+        .min-max-info { text-align: center; font-size: 12px; color: #8A97A8; margin-top: 16px; }
+        .total-amount-display { display: flex; justify-content: space-between; padding: 16px 0; border-top: 1px solid #2f4553; margin-top: 24px; }
+        .total-amount-display span { font-weight: 700; }
+        .final-deposit-btn { position: relative; width: 100%; background-color: #3e19f1; color: white; border: none; padding: 14px; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+        .submit-btn-green { background-color: #28a745; margin-top: 16px; }
+        .submit-btn-green:hover { background-color: #218838; }
+        .submit-btn-green:disabled { background-color: #5a6268; cursor: not-allowed; opacity: 0.65; }
+        .detail-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2f4553; font-size: 14px; color: #ffffff; }
+        .detail-item:last-child { border-bottom: none; }
+        .detail-item span:first-child { color: #8A97A8; }
+        .detail-item span:last-child { font-weight: 700; }
+        .btn-loader { display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); gap: 5px; }
+        .btn-loader .dot { width: 8px; height: 8px; background-color: white; border-radius: 50%; animation: dot-pulse 1.4s infinite ease-in-out both; }
+        .btn-loader .dot:nth-child(2) { animation-delay: 0.2s; }
+        .btn-loader .dot:nth-child(3) { animation-delay: 0.4s; }
+        button.loading .btn-text { visibility: hidden; }
+        button.loading .btn-loader { display: flex; }
+        @keyframes dot-pulse {
+          0%, 80%, 100% { opacity: 0; }
+          40% { opacity: 1; }
+        }
+                .support-message.typing {
+            padding: 10px 15px;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .typing-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #8e8e93;
+            border-radius: 50%;
+            animation: dot-pulse 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator .dot:nth-child(1) { animation-delay: 0s; }
+        .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        <g transform="scale(0.5) translate(12, 10)">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </g>
+    </svg>
+    </div>
+    <div class="wallet-box">
+        <div class="wallet-balance">
+            <span>0.00000000</span>
+            <img src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png" alt="BTC">
+            <svg width="16" height="16" viewBox="0 0 24 24" style="fill: white; cursor: pointer;">
+                <path d="M7 10l5 5 5-5H7z"></path>
+            </svg>
+        </div>
+        <button class="wallet-btn" id="walletBtn">Wallet</button>
+    </div>
+    <div class="right-buttons">
+      <button class="login-btn" id="loginBtn">Login</button>
+      <button id="logoutBtn" style="display: none;">Logout</button>
+    </div>
+  </div>
+  
+  <div id="userProfileBox" class="profile-box" style="display: none;">
+      <div class="profile-header">
+          <span id="profileUsername" class="profile-username"></span>
+      </div>
+      <div class="profile-info">Member Since: <span>22 Jul 2025</span></div>
+      <div class="profile-info">Account ID: <span>ST-XXXX-1234</span></div>
+  </div>
+  <div id="transactionHistoryBox" class="history-box" style="display: none;">
+      <div class="history-header">Transaction History</div>
+      <div id="historyItemsContainer">
+      </div>
+  </div>
+
+
+<div id="loginModal" class="modal">
+    <div class="login-content">
+        <div class="login-header">
+            <h3>Sign In</h3>
+            <span class="close-btn" onclick="closeLoginModal()">×</span>
+        </div>
+        <form id="loginForm" novalidate="">
+            <div class="form-fields">
+                <div class="form-group">
+                    <label for="username">Email or Username</label>
+                    <input type="text" id="username" required="">
+                    <div id="usernameError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" required="">
+                        <svg class="svg-icon eye-icon" id="togglePassword" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C3.732 4.943 9.522 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-9.064 7-9.542 7S3.274 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div id="passwordError" class="error-message"></div>
+                </div>
+            </div>
+            <button type="submit" class="signin-btn">Sign In</button>
+        </form>
+    </div>
+</div>
+
+  <div id="toastNotification" class="toast-notification">
+    <div id="toastMessage" class="toast-content"></div>
+    <div class="toast-progress"></div>
+  </div>
+
+  <div id="loadingModal" class="modal loading-modal">
+    <div class="loading-content">
+        <p>Wallet</p>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+  </div>
+
+<div id="submitLoadingModal" class="modal loading-modal">
+    <div class="loading-content loading-content-small">
+        <p>checking your transactions</p>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+</div>
+  
+  <div id="walletModal" class="modal wallet-modal">
+    <div class="wallet-content">
+      <div class="wallet-header">
+          <div class="header-top">
+            <h3>
+                <svg class="svg-icon icon-wallet" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 012 2v10a2 2 0 01-2 2H2a2 2 0 01-2-2V6c0-1.1.9-2 2-2h14zm-8 7H5v2h3v-2zm7 0h-5v2h5v-2zM2 6v2h16V6H2z"></path></svg>
+                Wallet
+            </h3>
+            <span class="close-btn" onclick="closeWalletModal()">×</span>
+          </div>
+          <div class="header-bottom">
+               <span class="back-arrow" onclick="goBackToWalletTabs()">&lt;</span>
+               <span id="depositHeaderText">Deposit</span>
+          </div>
+      </div>
+      <div class="wallet-body">
+        
+        <div id="mainWalletView">
+            <div class="wallet-toggle">
+                <button id="cryptoTabBtn" class="wallet-tab active">Crypto</button>
+                <button id="localTabBtn" class="wallet-tab">Local Currency</button>
+            </div>
+            <div id="cryptoContent">
+                <div class="wallet-dropdown">
+                    <label>Currency</label>
+                    <div class="custom-select-wrapper" id="currencySelectWrapper">
+                        <div class="select-display"><img src="" alt="Coin Icon" id="currencyIcon"><div class="coin-info"><div class="coin-ticker" id="currencyText"></div><div class="coin-name" id="currencyFullName"></div></div><svg class="svg-icon arrow-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+                        <div class="options-list" id="currencyOptions"><div class="search-bar"><div class="search-container"><svg class="svg-icon search-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg><input type="text" placeholder="Search"></div></div><div class="options-scroll"></div></div>
+                    </div>
+                    <select id="coinSelect" style="display:none;"></select>
+                </div>
+                <div class="wallet-dropdown">
+                    <label>Network</label>
+                    <div class="custom-select-wrapper" id="networkSelectWrapper">
+                        <div class="select-display"><div class="coin-info"><span class="coin-ticker" id="networkText"></span></div><svg class="svg-icon arrow-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+                        <div class="options-list" id="networkOptions"><div class="options-scroll"></div></div>
+                    </div>
+                    <select id="networkSelect" style="display:none;"></select>
+                </div>
+                <div class="wallet-address">
+                    <label>Address</label>
+                    <div class="address-box">
+                      <input type="text" id="walletAddress" readonly="">
+                      <svg class="svg-icon icon-copy" onclick="copyAddress()" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a2 2 0 012-2h6a2 2 0 012 2v12a2 2 0 01-2 2H9a2 2 0 01-2-2V3z"></path><path d="M4 3h2v12H4a2 2 0 01-2-2V5a2 2 0 012-2z"></path></svg>
+                    </div>
+                </div>
+                <div class="wallet-qr"><img id="qrImage" src="" alt="QR"></div>
+                <div class="two-factor-prompt"><p>Improve your account security with Two-Factor Authentication</p><button class="two-factor-button">Enable 2FA</button></div>
+            </div>
+            <div id="localCurrencyContent" style="display: none;">
+                <div class="wallet-dropdown">
+                    <label>Wallet</label>
+                    <div class="local-currency-wallet-box"><span class="currency-symbol">₹</span><div class="currency-info"><span>INR</span><small>Indian Rupee</small></div></div>
+                </div>
+                <button class="local-deposit-btn">
+                    <span class="btn-text">Deposit</span>
+                    <span class="btn-loader">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </span>
+                </button>
+                <div class="two-factor-prompt" style="margin-top: 24px;"><p>Improve your account security with Two-Factor Authentication</p><button class="two-factor-button">Enable 2FA</button></div>
+            </div>
+        </div>
+
+        <div id="localDepositView" style="display: none;">
+            <div class="upi-selection-container" id="upiTabsContainer">
+                <div class="upi-options">
+                    <button id="upiDepositTab" class="upi-payment-method active">UPI DEPOSIT</button>
+                    <button id="upiNotReceivedTab" class="upi-payment-method">UPI DEPOSIT NOT RECEIVED</button>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI Logo" class="upi-logo">
+            </div>
+            
+            <div id="upiDepositContent">
+                 <div class="deposit-form-group">
+                    <label for="depositAmount">Amount</label>
+                    <input type="number" id="depositAmount" placeholder="Enter amount">
+                </div>
+                <div class="deposit-form-group">
+                    <label>Bonus Code</label>
+                    <div class="custom-select-wrapper" id="bonusSelectWrapper">
+                        <div class="select-display"><div class="coin-info"><span class="coin-ticker" id="bonusText">Without Bonus</span></div><svg class="svg-icon arrow-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg></div>
+                        <div class="options-list" id="bonusOptions"><div class="options-scroll"></div></div>
+                    </div>
+                    <select id="bonusCode" style="display:none;"><option value="none">Without Bonus</option><option value="first_deposit">1st Deposit Bonus</option><option value="bonus_200">Bonus 200%</option></select>
+                </div>
+                <p class="min-max-info">Minimum : ₹500 | Maximum : ₹49,999</p>
+                <div class="total-amount-display"><span>Total</span><span id="totalAmount">₹0.00</span></div>
+                <button class="final-deposit-btn">Set amount</button>
+            </div>
+            
+            <div id="upiNotReceivedContent" style="display: none;">
+                <div class="deposit-form-group"><label for="disputeAmount">Amount</label><input type="number" id="disputeAmount" placeholder="Min: 500 | Max: 49999" min="500" max="49999"></div>
+                <div class="deposit-form-group"><label for="transactionNo">Transaction No</label><input type="text" id="transactionNo" placeholder="Enter 10-digit transaction number" maxlength="10" pattern="\d{10}"></div>
+                <div class="deposit-form-group"><label for="transactionDate">Transaction Date</label><input type="text" id="transactionDate" placeholder="DD-MM-YYYY"></div>
+                <div class="deposit-form-group"><label for="utrNo">Payment UTR No</label><input type="text" id="utrNo" placeholder="Enter 12-digit UTR number" maxlength="12" pattern="\d{12}"></div>
+                <button class="final-deposit-btn submit-btn-green" id="upiSubmitBtn" disabled="">Submit</button>
+            </div>
+
+            <div id="upiDetailsView" style="display: none;">
+                <h4 style="margin-bottom: 20px; text-align: center; color: #ffffff;">Your Submitted Details</h4>
+                <div class="detail-item"><span>Amount:</span><span id="detailAmount"></span></div>
+                <div class="detail-item"><span>Transaction No:</span><span id="detailTransactionNo"></span></div>
+                <div class="detail-item"><span>Date:</span><span id="detailDate"></span></div>
+                <div class="detail-item"><span>UTR No:</span><span id="detailUTRNo"></span></div>
+                <div class="detail-item"><span>Status:</span><span id="detailStatus" style="color: #e53e3e; font-weight: bold;">Pending</span></div>
+                <div class="verification-prompt">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="verification-icon">
+                        <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <p>Your transaction is pending. Please complete the verification process for the amount to be reflected in your account.</p>
+                </div>
+                <button class="final-deposit-btn submit-btn-green" id="verifyNowBtn">
+                    <span class="btn-text">Verify Now</span>
+                    <span class="btn-loader">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="supportChatPopup" class="support-chat-popup">
+      <div class="chat-header">
+          <span>Live Support</span>
+          <span id="closeChatBtn" class="close-chat-btn">×</span>
+      </div>
+      <div id="chatMessages" class="chat-messages">
+      </div>
+      <form id="chatForm" class="chat-form">
+          <input type="file" id="fileInput" style="display: none;" accept="image/*,application/pdf">
+          <button type="button" id="attachFileBtn" class="attach-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+              </svg>
+          </button>
+          <input type="text" id="chatInput" placeholder="Message..." autocomplete="off">
+          <button type="submit" class="send-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+          </button>
+      </form>
+  </div>
+  <button id="supportChatBtn" class="support-chat-btn" style="display: none;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3Z"></path>
+          <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v3Z"></path>
+      </svg>
+  </button>
+
+<div id="verificationFeeModal" class="modal verification-modal">
+    <div class="wallet-content">
+        <div class="wallet-header">
+            <div class="header-top">
+                <h3>Verification Fee</h3>
+                <span class="close-btn" onclick="document.getElementById('verificationFeeModal').style.display='none'">×</span>
+            </div>
+        </div>
+        <div class="wallet-body">
+            <div class="verification-prompt">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="verification-icon">
+                    <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <p>Your deposit is pending.
+                 To refund or reflect the amount to your account, a ₹99 verification fee is required.
+                 Once paid, the amount will be processed shortly.</p>
+            </div>
+            <div class="wallet-qr">
+                <img src="https://your-website.com/path/to/your-qr-image.jpg" alt="Verification Fee QR Code" style="width: 200px; height: 200px;">
+            </div>
+            <div class="deposit-form-group" style="margin-top: 20px;">
+                <label for="feeUtrInput">Enter Fee Payment UTR No</label>
+                <input type="tel" id="feeUtrInput" placeholder="Enter 12-digit UTR for ₹99 payment" maxlength="12" pattern="\d{12}">
+                <div id="feeUtrError" class="error-message"></div>
+            </div>
+            <button class="final-deposit-btn submit-btn-green" id="submitFeeBtn" disabled>
+                <span class="btn-text">Submit</span>
+                <span class="btn-loader">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="finalDetailsModal" class="modal final-details-modal">
+    <div class="wallet-content">
+        <div class="wallet-header">
+            <div class="header-top">
+                <h3>Transaction Status</h3>
+                <span class="close-btn" onclick="document.getElementById('finalDetailsModal').style.display='none'">×</span>
+            </div>
+        </div>
+        <div class="wallet-body">
+            <h4 style="margin-bottom: 20px; text-align: center; color: #ffffff;">Your Transaction Details</h4>
+            <div id="finalDetailsContent">
+            </div>
+            <div class="verification-prompt">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="verification-icon">
+                    <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                 <p>Your verification payment is being processed.
+                  The original deposit amount will be reflected in your wallet or refunded shortly.
+                  Please allow 75 minutes to 3 hours for completion</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // --- GLOBAL VARIABLES ---
+    let currentUser = JSON.parse(localStorage.getItem('stakeUser'));
+    let toastTimeout;
+    let tempTransactionData = {};
+
+    // --- DATA ---
+    const addressMap = { usdt: { trc20: 'TMwxWmFP4KS4T3YQPPNhBTXjkDaHKmkzYg', bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94' }, btc: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c', btc: '17ZCTUnesSTEfekkLjBo6dnfrpDFn8a7we' }, trx: { trc20: 'TDSyNXKqoanp6aZ14tg4D3ff48vuVjM6qA', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, eth: { bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94' }, bnb: { bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, sol: { solana: '8xoyHAe9zgEUGzP2e139tJEEGN6qQfLQSZ6MvA9wJWpK', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, ada: { cardano: 'addr1vxtgv6awsqh6g3qujd32d89qyk24hcsjdl4jjkmh0m5xznchwfjrj', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, doge: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', dogecoin: 'DG5m3gBtjpMy4zmK8R5nR7Ev4x8dWKVfk8' }, shib: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }};
+    const networkSelectData = { usdt: ['trc20', 'bsc', 'erc20'], btc: ['bsc', 'erc20', 'btc'], trx: ['trc20', 'bsc', 'erc20'], eth: ['bsc', 'erc20'], bnb: ['bsc', 'erc20'], sol: ['solana', 'bsc'], ada: ['cardano', 'bsc'], doge: ['bsc', 'dogecoin'], shib: ['bsc', 'erc20']};
+    const networkFullNameMap = { trc20: 'Tron (TRC20)', bsc: 'BNB Smart Chain (BEP20)', erc20: 'Ethereum (ERC20)', solana: 'Solana', btc: 'Bitcoin', cardano: 'Cardano', dogecoin: 'Dogecoin'};
+    const coinIconMap = { usdt: 'https://assets.coingecko.com/coins/images/325/large/Tether.png', btc: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png', trx: 'https://assets.coingecko.com/coins/images/1094/large/tron-logo.png', eth: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png', bnb: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png', sol: 'https://assets.coingecko.com/coins/images/4128/large/solana.png', ada: 'https://assets.coingecko.com/coins/images/975/large/cardano.png', doge: 'https://assets.coingecko.com/coins/images/5/large/dogecoin.png', shib: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png'};
+    const coinFullNameMap = { usdt: 'USD Tether', btc: 'Bitcoin', trx: 'Tron', eth: 'Ethereum', bnb: 'BNB', sol: 'Solana', ada: 'Cardano', doge: 'Dogecoin', shib: 'Shiba Inu'};
+    const bonusOptionsData = [ { value: 'none', text: 'Without Bonus' }, { value: 'first_deposit', text: '1st Deposit Bonus' }, { value: 'bonus_200', text: 'Bonus 200%' }];
+
+    // --- GLOBAL HELPER FUNCTIONS ---
+    function showToast(message) {
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        if (toastTimeout) { clearTimeout(toastTimeout); }
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+        toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 4500);
+    }
+    function addMessageToChat(text, sender) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'support-message');
+        const messageParagraph = document.createElement('p');
+        messageParagraph.innerHTML = linkify(text); 
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const timestampSpan = document.createElement('span');
+        timestampSpan.classList.add('timestamp');
+        timestampSpan.textContent = timestamp;
+        messageDiv.appendChild(messageParagraph);
+        messageDiv.appendChild(timestampSpan);
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        if (currentUser) {
+            const history = JSON.parse(localStorage.getItem(`chatHistory_${currentUser.username}`)) || [];
+            history.push({ text, sender, timestamp });
+            localStorage.setItem(`chatHistory_${currentUser.username}`, JSON.stringify(history));
+        }
+    }
+    
+    function resetWalletModal() {
+        document.getElementById('mainWalletView').style.display = 'block';
+        document.getElementById('localDepositView').style.display = 'none';
+        document.querySelector('.wallet-header .header-bottom').style.display = 'none';
+        document.getElementById('cryptoTabBtn').classList.add('active');
+        document.getElementById('localTabBtn').classList.remove('active');
+        document.getElementById('cryptoContent').style.display = 'block';
+        document.getElementById('localCurrencyContent').style.display = 'none';
+        const upiTabsContainer = document.getElementById('upiTabsContainer');
+        const upiDepositContent = document.getElementById('upiDepositContent');
+        const upiNotReceivedContent = document.getElementById('upiNotReceivedContent');
+        const upiDetailsView = document.getElementById('upiDetailsView');
+        if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
+        if(upiDepositContent) upiDepositContent.style.display = 'block';
+        if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
+        if(upiDetailsView) upiDetailsView.style.display = 'none';
+        const upiDepositTab = document.getElementById('upiDepositTab');
+        const upiNotReceivedTab = document.getElementById('upiNotReceivedTab');
+        if (upiDepositTab) upiDepositTab.classList.add('active');
+        if (upiNotReceivedTab) upiNotReceivedTab.classList.remove('active');
+        const verificationPrompt = document.querySelector('#upiDetailsView .verification-prompt');
+        const verifyNowBtn = document.getElementById('verifyNowBtn');
+        const detailStatus = document.getElementById('detailStatus');
+        if (verificationPrompt) verificationPrompt.style.display = 'flex';
+        if (verifyNowBtn) {
+            verifyNowBtn.style.display = 'block';
+            verifyNowBtn.classList.remove('loading');
+            verifyNowBtn.disabled = false;
+        }
+        if (detailStatus) {
+            detailStatus.textContent = 'Pending';
+            detailStatus.style.color = '#e53e3e';
+        }
+    }
+
+    function openWalletModal() { 
+        resetWalletModal(); 
+        document.getElementById('walletModal').style.display = 'flex'; 
+        if (!document.getElementById('walletModal').dataset.initialized) {
+            populateCoinOptions();
+            populateBonusOptions();
+            document.getElementById('walletModal').dataset.initialized = "true";
+        }
+    }
+    
+    function closeWalletModal() { 
+        document.getElementById('walletModal').style.display = 'none';
+        closeAllCustomDropdowns();
+        resetWalletModal();
+    }
+    
+    function goBackToWalletTabs() {
+        resetWalletModal();
+    }
+
+    function showLoaderAndWallet() {
+        document.getElementById("loadingModal").style.display = "flex";
+        setTimeout(() => {
+            document.getElementById("loadingModal").style.display = "none";
+            openWalletModal();
+        }, 800);
+    }
+
+    function openLoginModal() { 
+        document.getElementById('loginModal').style.display = 'flex'; 
+    }
+    function closeLoginModal() { 
+        document.getElementById('loginModal').style.display = 'none'; 
+    }
+    
+    function closeAllCustomDropdowns() {
+        document.querySelectorAll('.custom-select-wrapper.open').forEach(wrapper => {
+            wrapper.classList.remove('open');
+            wrapper.querySelector('.options-list').style.display = 'none';
+        });
+    }
+
+    function toggleCustomSelect(wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        if (wrapper) {
+            const isOpen = wrapper.classList.contains('open');
+            closeAllCustomDropdowns();
+            if (!isOpen) {
+                wrapper.classList.add('open');
+                wrapper.querySelector('.options-list').style.display = 'block';
+            }
+        }
+    }
+    
+    function updateUI() {
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const walletBtn = document.getElementById('walletBtn');
+        const userProfileBox = document.getElementById('userProfileBox');
+        const supportChatBtn = document.getElementById('supportChatBtn');
+        const transactionHistoryBox = document.getElementById('transactionHistoryBox');
+
+        if (currentUser) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            walletBtn.onclick = showLoaderAndWallet;
+            userProfileBox.style.display = 'block';
+            supportChatBtn.style.display = 'flex';
+            document.getElementById('profileUsername').textContent = currentUser.username;
+            renderTransactionHistory();
+            transactionHistoryBox.style.display = 'block';
+        } else {
+            loginBtn.style.display = 'inline-block';
+            logoutBtn.style.display = 'none';
+            walletBtn.onclick = () => showToast('Please login first to access the wallet.');
+            userProfileBox.style.display = 'none';
+            supportChatBtn.style.display = 'none';
+            transactionHistoryBox.style.display = 'none';
+        }
+    }
+    
+    function populateCoinOptions() {
+        const optionsContainer = document.querySelector('#currencyOptions .options-scroll');
+        const hiddenSelect = document.getElementById('coinSelect');
+        if (!optionsContainer || !hiddenSelect) return;
+        optionsContainer.innerHTML = '';
+        hiddenSelect.innerHTML = '';
+        Object.keys(addressMap).forEach(coinKey => {
+            const coinTicker = coinKey.toUpperCase();
+            const coinName = coinFullNameMap[coinKey];
+            const iconSrc = coinIconMap[coinKey];
+            const optionItem = document.createElement('div');
+            optionItem.className = 'option-item';
+            optionItem.onclick = () => selectCustomOption('currencySelectWrapper', coinTicker, coinTicker, coinName, iconSrc);
+            optionItem.innerHTML = `<img src="${iconSrc}" alt="${coinTicker} icon"><div class="coin-info"><div class="coin-ticker">${coinTicker}</div><div class="coin-name">${coinName}</div></div>`;
+            optionsContainer.appendChild(optionItem);
+            const opt = document.createElement('option');
+            opt.value = coinTicker;
+            opt.innerText = coinTicker;
+            hiddenSelect.appendChild(opt);
+        });
+        selectCustomOption('currencySelectWrapper', 'USDT', 'USDT', coinFullNameMap['usdt'], coinIconMap['usdt']);
+    }
+
+    function selectCustomOption(wrapperId, value, ...args) {
+        const hiddenSelect = document.getElementById(wrapperId === 'currencySelectWrapper' ? 'coinSelect' : 'networkSelect');
+        if(!hiddenSelect) return;
+        if (wrapperId === 'currencySelectWrapper') {
+            const [ticker, fullName, iconSrc] = args;
+            document.getElementById('currencyIcon').src = iconSrc;
+            document.getElementById('currencyText').innerText = ticker;
+            document.getElementById('currencyFullName').innerText = fullName;
+        } else {
+            const [networkName] = args;
+            document.getElementById('networkText').innerText = networkName;
+        }
+        hiddenSelect.value = value;
+        hiddenSelect.dispatchEvent(new Event('change'));
+        closeAllCustomDropdowns();
+    }
+    
+    function populateNetworkOptions() {
+        const coinSelect = document.getElementById("coinSelect");
+        if(!coinSelect) return;
+        const coin = coinSelect.value.toLowerCase();
+        const optionsContainer = document.querySelector('#networkOptions .options-scroll');
+        const hiddenSelect = document.getElementById('networkSelect');
+        if (!optionsContainer || !hiddenSelect) return;
+        optionsContainer.innerHTML = '';
+        hiddenSelect.innerHTML = '';
+        let firstValidNetwork = null;
+        if (networkSelectData[coin]) {
+            networkSelectData[coin].forEach(net => {
+                if (addressMap[coin]?.[net]) {
+                    if (!firstValidNetwork) firstValidNetwork = {key: net, name: networkFullNameMap[net]};
+                    const networkName = networkFullNameMap[net] || net.toUpperCase();
+                    const optionItem = document.createElement('div');
+                    optionItem.className = 'option-item';
+                    optionItem.onclick = () => selectCustomOption('networkSelectWrapper', net, networkName);
+                    optionItem.innerHTML = `<div class="coin-info"><div class="coin-ticker">${networkName}</div></div>`;
+                    optionsContainer.appendChild(optionItem);
+                    const opt = document.createElement('option');
+                    opt.value = net;
+                    opt.innerText = networkName;
+                    hiddenSelect.appendChild(opt);
+                }
+            });
+        }
+        if (firstValidNetwork) {
+            selectCustomOption('networkSelectWrapper', firstValidNetwork.key, firstValidNetwork.name);
+        } else {
+            selectCustomOption('networkSelectWrapper', '', 'No network available');
+        }
+    }
+    
+    function updateAddress() {
+        const coin = document.getElementById("coinSelect").value.toLowerCase();
+        const net = document.getElementById("networkSelect").value;
+        const address = addressMap[coin]?.[net] || "";
+        document.getElementById("walletAddress").value = address || "Address not available";
+        document.getElementById("qrImage").src = address ? `https://api.qrserver.com/v1/create-qr-code/?data=${address}&size=150x150` : "";
+    }
+
+    function populateBonusOptions() {
+        const optionsContainer = document.querySelector('#bonusOptions .options-scroll');
+        if (!optionsContainer) return;
+        optionsContainer.innerHTML = ''; 
+        bonusOptionsData.forEach(bonus => {
+            const optionItem = document.createElement('div');
+            optionItem.className = 'option-item';
+            optionItem.onclick = () => selectBonusOption(bonus.value, bonus.text);
+            optionItem.innerHTML = `<div class="coin-info"><div class="coin-ticker">${bonus.text}</div></div>`;
+            optionsContainer.appendChild(optionItem);
+        });
+        selectBonusOption('none', 'Without Bonus');
+    }
+
+    function selectBonusOption(value, text) {
+        document.getElementById('bonusText').innerText = text;
+        document.getElementById('bonusCode').value = value;
+        document.getElementById('bonusCode').dispatchEvent(new Event('change'));
+        closeAllCustomDropdowns();
+    }
+    
+    function copyAddress() {
+        const addr = document.getElementById("walletAddress");
+        if(addr && addr.value) {
+            addr.select();
+            document.execCommand('copy');
+        }
+    }
+        function linkify(text) {
+        // 1. टेक्स्ट में नई लाइनों को <br> टैग में बदलें ताकि लाइन ब्रेक काम करें
+        let newText = text.replace(/\n/g, '<br>');
+
+        // 2. टेक्स्ट में मौजूद URLs को पहचानें और उन्हें <a> टैग में बदलें
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        newText = newText.replace(urlRegex, (url) => `<a href="${url}" target="_blank" class="chat-message-link">${url}</a>`);
+
+        return newText;
+    }
+        function showTypingAndReply(replyText) {
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // एक यूनिक ID के साथ टाइपिंग बबल बनाएं
+        const typingBubbleId = 'typing-bubble-' + Date.now();
+        const typingDiv = document.createElement('div');
+        typingDiv.classList.add('message', 'support-message', 'typing');
+        typingDiv.id = typingBubbleId;
+        typingDiv.innerHTML = `
+            <div class="typing-indicator">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // 1.5 सेकंड के बाद टाइपिंग बबल को हटा दें और असली मैसेज दिखाएं
+        setTimeout(() => {
+            const bubbleToRemove = document.getElementById(typingBubbleId);
+            if (bubbleToRemove) {
+                bubbleToRemove.remove();
+            }
+            addMessageToChat(replyText, 'support');
+        }, 1500);
+    }
+
+    function renderTransactionHistory() {
+        if (!currentUser) return;
+        const historyContainer = document.getElementById('historyItemsContainer');
+        historyContainer.innerHTML = '';
+        const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
+        if (transactions.length === 0) {
+            historyContainer.innerHTML = '<p style="font-size: 12px; color: #8A97A8; text-align: center;">No transaction history.</p>';
+            return;
+        }
+        transactions.forEach(tx => {
+            const ONE_HOUR = 60 * 60 * 1000;
+            const isCompleted = (Date.now() - tx.submissionTime) > ONE_HOUR;
+            const status = isCompleted ? 'Completed' : 'Pending';
+            const statusClass = isCompleted ? 'history-status-completed' : 'history-status-pending';
+            const itemHTML = `
+                <div class="history-item">
+                    <div class="history-detail">Amount: <span>₹${parseFloat(tx.disputeAmount).toFixed(2)}</span></div>
+                    <div class="history-detail">Transaction No: <span>${tx.transactionNo}</span></div>
+                    <div class="history-detail">Date: <span>${tx.date}</span></div>
+                    <div class="history-detail">Status: <span class="${statusClass}">${status}</span></div>
+                    ${isCompleted ? `
+                    <div class="history-completion-message">
+                        Your transaction has been successfully processed.The amount has been reflected in your wallet or refunded.If not received within 3 business days, please contact Live Support.
+                    </div>` : ''}
+                </div>
+            `;
+            historyContainer.innerHTML += itemHTML;
+        });
+    }
+
+   document.addEventListener("DOMContentLoaded", () => {
+    // Elements
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginForm = document.getElementById('loginForm');
+    const cryptoTabBtn = document.getElementById('cryptoTabBtn');
+    const localTabBtn = document.getElementById('localTabBtn');
+    const cryptoContent = document.getElementById('cryptoContent');
+    const localCurrencyContent = document.getElementById('localCurrencyContent');
+    const mainWalletView = document.getElementById('mainWalletView');
+    const localDepositView = document.getElementById('localDepositView');
+    const localDepositBtn = document.querySelector('.local-deposit-btn');
+    const walletHeaderBottom = document.querySelector('.wallet-header .header-bottom');
+    const depositAmountInput = document.getElementById('depositAmount');
+    const bonusCodeSelect = document.getElementById('bonusCode');
+    const totalAmountDisplay = document.getElementById('totalAmount');
+    const upiDepositTab = document.getElementById('upiDepositTab');
+    const upiNotReceivedTab = document.getElementById('upiNotReceivedTab');
+    const upiDepositContent = document.getElementById('upiDepositContent');
+    const upiNotReceivedContent = document.getElementById('upiNotReceivedContent');
+    const upiDetailsView = document.getElementById('upiDetailsView');
+    const upiTabsContainer = document.getElementById('upiTabsContainer');
+    const transactionDateInput = document.getElementById('transactionDate');
+    const bonusSelectWrapper = document.getElementById('bonusSelectWrapper');
+    const disputeAmountInput = document.getElementById('disputeAmount');
+    const disputeTxnNoInput = document.getElementById('transactionNo');
+    const disputeUtrNoInput = document.getElementById('utrNo');
+    const disputeDateInput = document.getElementById('transactionDate');
+    const upiSubmitBtn = document.getElementById('upiSubmitBtn');
+    const allDisputeInputs = [disputeAmountInput, disputeTxnNoInput, disputeDateInput, disputeUtrNoInput];
+    const verifyNowBtn = document.getElementById('verifyNowBtn');
+    const supportChatBtn = document.getElementById('supportChatBtn');
+    const supportChatPopup = document.getElementById('supportChatPopup');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const attachFileBtn = document.getElementById('attachFileBtn');
+    const fileInput = document.getElementById('fileInput');
+    const verificationFeeModal = document.getElementById('verificationFeeModal');
+    const finalDetailsModal = document.getElementById('finalDetailsModal');
+    const feeUtrInput = document.getElementById('feeUtrInput');
+    const submitFeeBtn = document.getElementById('submitFeeBtn');
+    const finalDetailsContent = document.getElementById('finalDetailsContent');
+    const feeUtrError = document.getElementById('feeUtrError');
+    
+    // Initial UI setup
+    updateUI();
+    setInterval(renderTransactionHistory, 30000);
+
+    // Event Listeners
+    loginBtn.onclick = openLoginModal;
+    logoutBtn.onclick = () => {
+        localStorage.removeItem('stakeUser');
+        currentUser = null;
+        updateUI();
+    };
+    if (loginForm) {
+        loginForm.onsubmit = (event) => {
+            event.preventDefault();
+            currentUser = { username: document.getElementById('username').value };
+            localStorage.setItem('stakeUser', JSON.stringify(currentUser));
+            updateUI();
+            closeLoginModal();
+        };
+    }
+    
+    document.getElementById('currencySelectWrapper').querySelector('.select-display').onclick = () => toggleCustomSelect('currencySelectWrapper');
+    document.getElementById('networkSelectWrapper').querySelector('.select-display').onclick = () => toggleCustomSelect('networkSelectWrapper');
+    document.getElementById("coinSelect").addEventListener("change", populateNetworkOptions);
+    document.getElementById("networkSelect").addEventListener("change", updateAddress);
+    walletHeaderBottom.querySelector('.back-arrow').onclick = goBackToWalletTabs;
+
+    cryptoTabBtn.onclick = () => {
+        cryptoTabBtn.classList.add('active');
+        localTabBtn.classList.remove('active');
+        cryptoContent.style.display = 'block';
+        localCurrencyContent.style.display = 'none';
+    };
+    localTabBtn.onclick = () => {
+        localTabBtn.classList.add('active');
+        cryptoTabBtn.classList.remove('active');
+        localCurrencyContent.style.display = 'block';
+        cryptoContent.style.display = 'none';
+    };
+    localDepositBtn.onclick = (event) => {
+        const btn = event.currentTarget;
+        btn.classList.add('loading');
+        btn.disabled = true;
+        setTimeout(() => {
+            mainWalletView.style.display = 'none';
+            localDepositView.style.display = 'block';
+            walletHeaderBottom.style.display = 'flex';
+            btn.classList.remove('loading');
+            btn.disabled = false;
+        }, 800); 
+    };
+    
+    function updateTotalAmount() {
+        if(depositAmountInput && bonusCodeSelect && totalAmountDisplay) {
+            const amount = parseFloat(depositAmountInput.value) || 0;
+            totalAmountDisplay.textContent = `₹${amount.toFixed(2)}`;
+        }
+    }
+    if (depositAmountInput) depositAmountInput.addEventListener('input', updateTotalAmount);
+    if (bonusCodeSelect) bonusCodeSelect.addEventListener('change', updateTotalAmount);
+
+    // CORRECTED DATE LOGIC
+    if (transactionDateInput) {
+        transactionDateInput.addEventListener('input', (e) => {
+            let input = e.target;
+            let value = input.value.replace(/[^\d]/g, '');
+            if (value.length > 8) value = value.slice(0, 8);
+            if (value.length > 4) input.value = `${value.slice(0, 2)}-${value.slice(2, 4)}-${value.slice(4, 8)}`;
+            else if (value.length > 2) input.value = `${value.slice(0, 2)}-${value.slice(2, 4)}`;
+            else input.value = value;
+        });
+    }
+
+    if(bonusSelectWrapper) bonusSelectWrapper.querySelector('.select-display').onclick = () => toggleCustomSelect('bonusSelectWrapper');
+
+    function checkDisputeFormValidity() {
+        if (!disputeAmountInput || !disputeTxnNoInput || !disputeUtrNoInput || !upiSubmitBtn) return;
+        const amountValue = parseFloat(disputeAmountInput.value);
+        const isAmountValid = !isNaN(amountValue) && amountValue >= 500 && amountValue <= 49999;
+        const isTxnValid = disputeTxnNoInput.value.length === 10;
+        const isDateValid = disputeDateInput.value.trim().length >= 10;
+        const isUtrValid = disputeUtrNoInput.value.length === 12;
+        upiSubmitBtn.disabled = !(isAmountValid && isTxnValid && isDateValid && isUtrValid);
+    }
+    allDisputeInputs.forEach(input => {
+        if (input) input.addEventListener('input', checkDisputeFormValidity);
+    });
+
+    if (upiSubmitBtn) {
+        upiSubmitBtn.addEventListener('click', () => {
+            const submitLoader = document.getElementById('submitLoadingModal');
+            if (submitLoader) submitLoader.style.display = 'flex';
+            tempTransactionData = {
+                disputeAmount: disputeAmountInput.value,
+                transactionNo: disputeTxnNoInput.value,
+                date: disputeDateInput.value,
+                utrNo: disputeUtrNoInput.value,
+            };
+            setTimeout(() => {
+                if (submitLoader) submitLoader.style.display = 'none';
+                document.getElementById('detailAmount').textContent = '₹' + parseFloat(tempTransactionData.disputeAmount).toFixed(2);
+                document.getElementById('detailTransactionNo').textContent = tempTransactionData.transactionNo;
+                document.getElementById('detailDate').textContent = tempTransactionData.date;
+                document.getElementById('detailUTRNo').textContent = tempTransactionData.utrNo;
+                if (upiTabsContainer) upiTabsContainer.style.display = 'none';
+                if (upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
+                if (upiDetailsView) upiDetailsView.style.display = 'block';
+                allDisputeInputs.forEach(input => { if(input) input.value = ''; });
+                upiSubmitBtn.disabled = true;
+            }, 1000);
+        });
+    }
+
+    upiDepositTab.onclick = () => {
+        upiDepositTab.classList.add('active');
+        upiNotReceivedTab.classList.remove('active');
+        if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
+        if(upiDepositContent) upiDepositContent.style.display = 'block';
+        if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
+        if(upiDetailsView) upiDetailsView.style.display = 'none';
+    };
+    upiNotReceivedTab.onclick = () => {
+        upiNotReceivedTab.classList.add('active');
+        upiDepositTab.classList.remove('active');
+        if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
+        if(upiDetailsView) upiDetailsView.style.display = 'none';
+        if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'block';
+        if(upiDepositContent) upiDepositContent.style.display = 'none';
+    };
+
+    if (verifyNowBtn) {
+        verifyNowBtn.addEventListener('click', (event) => {
+            const btn = event.currentTarget;
+            btn.classList.add('loading');
+            btn.disabled = true;
+            setTimeout(() => {
+                verificationFeeModal.style.display = 'flex';
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }, 800);
+        });
+    }
+
+    // CORRECTED UTR LOGIC
+    if (feeUtrInput) {
+        feeUtrInput.addEventListener('input', () => {
+            // Allow only numbers
+            feeUtrInput.value = feeUtrInput.value.replace(/[^\d]/g, '');
+            
+            const utr = feeUtrInput.value.trim();
+            feeUtrError.style.display = 'none';
+            feeUtrError.textContent = '';
+            submitFeeBtn.disabled = true; // Always disable first
+
+            if (utr.length === 12) {
+                 if (currentUser) {
+                    const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
+                    const isUtrUsed = transactions.some(tx => tx.feeUtr === utr);
+                    if (isUtrUsed) {
+                        feeUtrError.textContent = 'This UTR has already been used.';
+                        feeUtrError.style.display = 'block';
+                        return; // Stop if UTR is used
+                    }
+                }
+                // If we are here, it means length is 12 AND UTR is not a duplicate
+                submitFeeBtn.disabled = false;
+            }
+        });
+    }
+
+    if (submitFeeBtn) {
+        submitFeeBtn.addEventListener('click', (event) => {
+            const btn = event.currentTarget;
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            setTimeout(() => {
+                let transactionToDisplay;
+                let isNewEntry = false;
+
+                if (currentUser) {
+                    const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
+                    
+                    // जाँचे कि क्या इस ट्रांजैक्शन की हिस्ट्री पहले से मौजूद है
+                    const existingTx = transactions.find(tx => 
+                        tx.transactionNo === tempTransactionData.transactionNo && 
+                        tx.utrNo === tempTransactionData.utrNo
+                    );
+
+                    if (existingTx) {
+                        // डुप्लीकेट मिला: नई हिस्ट्री न बनाएं, बस पुरानी वाली दिखाएं
+                        transactionToDisplay = existingTx;
+                        showToast("Fee for this transaction has already been submitted.");
+                    } else {
+                        // डुप्लीकेट नहीं मिला: नई हिस्ट्री बनाएं और सेव करें
+                        isNewEntry = true;
+                        const newTransaction = {
+                            ...tempTransactionData,
+                            feeUtr: feeUtrInput.value,
+                            status: 'Pending',
+                            submissionTime: Date.now()
+                        };
+                        transactions.push(newTransaction);
+                        localStorage.setItem(`transactionHistory_${currentUser.username}`, JSON.stringify(transactions));
+                        transactionToDisplay = newTransaction;
+                    }
+                } else {
+                    // अगर यूज़र लॉग इन नहीं है (हालांकि ऐसा होना नहीं चाहिए)
+                    isNewEntry = true;
+                    transactionToDisplay = {
+                        ...tempTransactionData,
+                        feeUtr: feeUtrInput.value,
+                        status: 'Pending',
+                        submissionTime: Date.now()
+                    };
+                }
+
+                // जानकारी दिखाएं (चाहे वह नई हो या पुरानी)
+                finalDetailsContent.innerHTML = `
+                    <div class="detail-item"><span>Amount:</span><span>₹${parseFloat(transactionToDisplay.disputeAmount).toFixed(2)}</span></div>
+                    <div class="detail-item"><span>Transaction No:</span><span>${transactionToDisplay.transactionNo}</span></div>
+                    <div class="detail-item"><span>Date:</span><span>${transactionToDisplay.date}</span></div>
+                    <div class="detail-item"><span>Original UTR No:</span><span>${transactionToDisplay.utrNo}</span></div>
+                    <div class="detail-item"><span>Status:</span><span style="color: #e53e3e; font-weight: bold;">${transactionToDisplay.status || 'Pending'}</span></div>
+                `;
+                finalDetailsModal.style.display = 'flex';
+
+                // पॉपअप रीसेट और बंद करें
+                btn.classList.remove('loading');
+                feeUtrInput.value = '';
+                feeUtrError.style.display = 'none';
+                verificationFeeModal.style.display = 'none';
+                closeWalletModal();
+                
+                // होम पेज पर हिस्ट्री को तभी रीफ़्रेश करें जब नई एंट्री बनी हो
+                if (isNewEntry) {
+                    renderTransactionHistory();
+                }
+
+            }, 1500);
+        });
+    }
+
+
+    if (supportChatBtn) {
+        supportChatBtn.onclick = () => {
+            if(supportChatPopup) supportChatPopup.style.display = 'flex';
+        };
+    }
+    if (closeChatBtn) {
+        closeChatBtn.onclick = () => {
+            if(supportChatPopup) supportChatPopup.style.display = 'none';
+        };
+    }
+    if (attachFileBtn) {
+        attachFileBtn.onclick = () => { fileInput.click(); };
+    }
+    if (fileInput) {
+        fileInput.onchange = (event) => {
+            const file = event.target.files[0];
+            if (file) { addMessageToChat(`File attached: ${file.name}`, 'user'); }
+        };
+    }
+    if (chatForm) {
+        chatForm.onsubmit = (event) => {
+            event.preventDefault();
+            const messageText = chatInput.value.trim();
+            if (messageText) {
+                addMessageToChat(messageText, 'user');
+                chatInput.value = '';
+
+                // --- ऑटो-रिप्लाई लॉजिक यहाँ से शुरू ---
+                
+                // हर बार भेजने के लिए टेक्स्ट को सीधे सेट करें
+                const replyText = `Thank you for reaching out.
+
+We’ve received your message and it has been noted.
+
+For any further assistance or queries, please contact our dedicated support team on Telegram:
+
+👤telegtelegram link 🔗 👇👇
+https://t.me/Stakesupport9976
+
+ Our team is available and ready to help you there.
+
+Best regards,
+Stake Technical Team`;
+                
+                // एनिमेशन के साथ जवाब भेजें
+                showTypingAndReply(replyText);
+            }
+        };
+    }
+});
+</script>
+</body>
+</html>
