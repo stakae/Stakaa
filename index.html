@@ -55,7 +55,7 @@
             align-items: center;
         }
         .chat-message-link {
-            color: #2583ff; /* यह आपके बटन जैसा नीला रंग है */
+            color: #2583ff;
             text-decoration: underline;
         }
         .loading-content {
@@ -128,13 +128,13 @@
             overflow: hidden;
         }
         .wallet-header { 
-            padding: 16px 20px;
+            padding: 16px 20px 5px 20px;
         }
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .header-top h3 { 
             font-size: 16px; 
@@ -308,12 +308,12 @@
         .password-wrapper { position: relative; }
         .password-wrapper .eye-icon { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer; fill: #8A97A8; width: 20px; height: 20px; }
         .signin-btn { width: 100%; background-color: #2583ff; border: none; padding: 18px; border-radius: 4px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; }
-        .profile-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 250px; margin: 20px; }
+        .profile-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 400px; margin: 20px auto; }
         .profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .profile-username { font-size: 18px; font-weight: 700; }
         .profile-info { font-size: 14px; color: #8A97A8; margin-bottom: 8px; }
         .profile-info span { color: #fff; font-weight: 500; }
-        .history-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 250px; margin: 0 20px 20px 20px; }
+        .history-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 400px; margin: 0 auto 20px auto; }
         .history-header { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #2f4553; }
         .history-item { border: 1px solid #2f4553; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
         .history-item:last-child { margin-bottom: 0; }
@@ -407,13 +407,83 @@
         .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
         
         /* --- UPI QR Code Styling --- */
-
         .upi-qr-container img {
-            width: 300px;     /* -- QR इमेज का साइज़ यहाँ से बदलें */
+            width: 300px;
             height: auto;
             display: block;
-            margin: 0 auto; /* इसे बीच में लाने के लिए */
+            margin: 0 auto;
         }
+        
+        /* --- Bonus Box Styling --- */
+        .bonus-box {
+            background-color: transparent;
+            border-radius: 8px;
+            padding: 0;
+            width: 400px;
+            margin: 0 auto 20px auto;
+            border: none;
+            overflow: hidden;
+            text-align: center;
+        }
+        .bonus-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+        }
+        .bonus-main-image {
+            width: 100%;
+            display: block;
+        }
+        .bonus-claim-btn {
+            width: 80%;
+            height: 50px; /* Adjust height as needed */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            background-color: transparent;
+            margin: -40px auto 0 auto; /* Negative margin to overlap */
+            transition: transform 0.2s;
+        }
+        .bonus-claim-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* --- Bonus Checkbox Styling --- */
+        .bonus-checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #e1e8f0;
+            justify-content: center;
+        }
+        .bonus-checkbox {
+            display: none;
+        }
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            background-color: #0F212E;
+            border: 1px solid #2f4553;
+            border-radius: 4px;
+            margin-right: 12px;
+            display: inline-block;
+            position: relative;
+        }
+        .bonus-checkbox:checked + .checkbox-custom::after {
+            content: '✓';
+            font-size: 16px;
+            color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }        
     </style>
 </head>
 <body>
@@ -450,10 +520,22 @@
       <div class="profile-info">Member Since: <span>22 Jul 2025</span></div>
       <div class="profile-info">Account ID: <span>ST-XXXX-1234</span></div>
     </div>
+
+    <div id="bonusBox" class="bonus-box" style="display: none;">
+        <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/New-Project-1.jpg" alt="Claim Bonus Offer" class="bonus-main-image">
+        <button class="bonus-claim-btn" id="claimBonusBtn" style="background-image: url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/New-Project-2.jpg');">
+            <span class="btn-text"></span>
+            <span class="btn-loader">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </span>
+        </button>
+    </div>
+
     <div id="transactionHistoryBox" class="history-box" style="display: none;">
       <div class="history-header">Transaction History</div>
-      <div id="historyItemsContainer">
-      </div>
+      <div id="historyItemsContainer"></div>
     </div>
 
     <div id="loginModal" class="modal">
@@ -667,7 +749,7 @@
         <div class="wallet-content">
             <div class="wallet-header">
                 <div class="header-top">
-                    <h3>VERIFICATION</h3>
+                    <h3>Verification Fee</h3>
                     <span class="close-btn" onclick="document.getElementById('verificationFeeModal').style.display='none'">×</span>
                 </div>
             </div>
@@ -724,346 +806,372 @@
         </div>
     </div>
 
+    <div id="bonusCheckboxContainer" style="display: none; margin-top: 20px;">
+        <label class="bonus-checkbox-label">
+            <input type="checkbox" class="bonus-checkbox">
+            <span class="checkbox-custom"></span>
+            Claim 200% Bonus
+        </label>
+    </div>
 
     <script>
-        // --- GLOBAL VARIABLES ---
-        let currentUser = JSON.parse(localStorage.getItem('stakeUser'));
-        let toastTimeout;
-        let tempTransactionData = {};
+    // --- GLOBAL VARIABLES ---
+    let currentUser = JSON.parse(localStorage.getItem('stakeUser'));
+    let toastTimeout;
+    let tempTransactionData = {};
 
-        // --- DATA ---
-        const addressMap = { usdt: { trc20: 'TMwxWmFP4KS4T3YQPPNhBTXjkDaHKmkzYg', bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94' }, btc: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c', btc: '17ZCTUnesSTEfekkLjBo6dnfrpDFn8a7we' }, trx: { trc20: 'TDSyNXKqoanp6aZ14tg4D3ff48vuVjM6qA', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, eth: { bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94' }, bnb: { bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, sol: { solana: '8xoyHAe9zgEUGzP2e139tJEEGN6qQfLQSZ6MvA9wJWpK', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, ada: { cardano: 'addr1vxtgv6awsqh6g3qujd32d89qyk24hcsjdl4jjkmh0m5xznchwfjrj', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, doge: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', dogecoin: 'DG5m3gBtjpMy4zmK8R5nR7Ev4x8dWKVfk8' }, shib: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }};
-        const networkSelectData = { usdt: ['trc20', 'bsc', 'erc20'], btc: ['bsc', 'erc20', 'btc'], trx: ['trc20', 'bsc', 'erc20'], eth: ['bsc', 'erc20'], bnb: ['bsc', 'erc20'], sol: ['solana', 'bsc'], ada: ['cardano', 'bsc'], doge: ['bsc', 'dogecoin'], shib: ['bsc', 'erc20']};
-        const networkFullNameMap = { trc20: 'Tron (TRC20)', bsc: 'BNB Smart Chain (BEP20)', erc20: 'Ethereum (ERC20)', solana: 'Solana', btc: 'Bitcoin', cardano: 'Cardano', dogecoin: 'Dogecoin'};
-        const coinIconMap = { usdt: 'https://assets.coingecko.com/coins/images/325/large/Tether.png', btc: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png', trx: 'https://assets.coingecko.com/coins/images/1094/large/tron-logo.png', eth: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png', bnb: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png', sol: 'https://assets.coingecko.com/coins/images/4128/large/solana.png', ada: 'https://assets.coingecko.com/coins/images/975/large/cardano.png', doge: 'https://assets.coingecko.com/coins/images/5/large/dogecoin.png', shib: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png'};
-        const coinFullNameMap = { usdt: 'USD Tether', btc: 'Bitcoin', trx: 'Tron', eth: 'Ethereum', bnb: 'BNB', sol: 'Solana', ada: 'Cardano', doge: 'Dogecoin', shib: 'Shiba Inu'};
-        const bonusOptionsData = [ { value: 'none', text: 'Without Bonus' }, { value: 'first_deposit', text: '1st Deposit Bonus' }, { value: 'bonus_200', text: 'Bonus 200%' }];
+    // --- DATA ---
+    const addressMap = { usdt: { trc20: 'TMwxWmFP4KS4T3YQPPNhBTXjkDaHKmkzYg', bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94' }, btc: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c', btc: '17ZCTUnesSTEfekkLjBo6dnfrpDFn8a7we' }, trx: { trc20: 'TDSyNXKqoanp6aZ14tg4D3ff48vuVjM6qA', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, eth: { bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94' }, bnb: { bsc: '0x5ff37e47d175eb65ed4772a96bebbb6453f36f94', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, sol: { solana: '8xoyHAe9zgEUGzP2e139tJEEGN6qQfLQSZ6MvA9wJWpK', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, ada: { cardano: 'addr1vxtgv6awsqh6g3qujd32d89qyk24hcsjdl4jjkmh0m5xznchwfjrj', bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c' }, doge: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', dogecoin: 'DG5m3gBtjpMy4zmK8R5nR7Ev4x8dWKVfk8' }, shib: { bsc: '0x4d31c46627c343939e7a02383c2451048a509a0c', erc20: '0x4d31c46627c343939e7a02383c2451048a509a0c' }};
+    const networkSelectData = { usdt: ['trc20', 'bsc', 'erc20'], btc: ['bsc', 'erc20', 'btc'], trx: ['trc20', 'bsc', 'erc20'], eth: ['bsc', 'erc20'], bnb: ['bsc', 'erc20'], sol: ['solana', 'bsc'], ada: ['cardano', 'bsc'], doge: ['bsc', 'dogecoin'], shib: ['bsc', 'erc20']};
+    const networkFullNameMap = { trc20: 'Tron (TRC20)', bsc: 'BNB Smart Chain (BEP20)', erc20: 'Ethereum (ERC20)', solana: 'Solana', btc: 'Bitcoin', cardano: 'Cardano', dogecoin: 'Dogecoin'};
+    const coinIconMap = { usdt: 'https://assets.coingecko.com/coins/images/325/large/Tether.png', btc: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png', trx: 'https://assets.coingecko.com/coins/images/1094/large/tron-logo.png', eth: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png', bnb: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png', sol: 'https://assets.coingecko.com/coins/images/4128/large/solana.png', ada: 'https://assets.coingecko.com/coins/images/975/large/cardano.png', doge: 'https://assets.coingecko.com/coins/images/5/large/dogecoin.png', shib: 'https://assets.coingecko.com/coins/images/11939/large/shiba.png'};
+    const coinFullNameMap = { usdt: 'USD Tether', btc: 'Bitcoin', trx: 'Tron', eth: 'Ethereum', bnb: 'BNB', sol: 'Solana', ada: 'Cardano', doge: 'Dogecoin', shib: 'Shiba Inu'};
+    const bonusOptionsData = [ { value: 'none', text: 'Without Bonus' }, { value: 'first_deposit', text: '1st Deposit Bonus' }, { value: 'bonus_200', text: 'Bonus 200%' }];
 
-        // --- GLOBAL HELPER FUNCTIONS ---
-        function showToast(message) {
-            const toast = document.getElementById('toastNotification');
-            const toastMessage = document.getElementById('toastMessage');
-            if (toastTimeout) { clearTimeout(toastTimeout); }
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 4500);
+    // --- GLOBAL HELPER FUNCTIONS ---
+    function showToast(message) {
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        if (toastTimeout) { clearTimeout(toastTimeout); }
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+        toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 4500);
+    }
+
+    function addMessageToChat(text, sender) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'support-message');
+        const messageParagraph = document.createElement('p');
+        messageParagraph.innerHTML = linkify(text); 
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const timestampSpan = document.createElement('span');
+        timestampSpan.classList.add('timestamp');
+        timestampSpan.textContent = timestamp;
+        messageDiv.appendChild(messageParagraph);
+        messageDiv.appendChild(timestampSpan);
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        if (currentUser) {
+            const history = JSON.parse(localStorage.getItem(`chatHistory_${currentUser.username}`)) || [];
+            history.push({ text, sender, timestamp });
+            localStorage.setItem(`chatHistory_${currentUser.username}`, JSON.stringify(history));
         }
-        function addMessageToChat(text, sender) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'support-message');
-            const messageParagraph = document.createElement('p');
-            messageParagraph.innerHTML = linkify(text); 
-            const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const timestampSpan = document.createElement('span');
-            timestampSpan.classList.add('timestamp');
-            timestampSpan.textContent = timestamp;
-            messageDiv.appendChild(messageParagraph);
-            messageDiv.appendChild(timestampSpan);
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            if (currentUser) {
-                const history = JSON.parse(localStorage.getItem(`chatHistory_${currentUser.username}`)) || [];
-                history.push({ text, sender, timestamp });
-                localStorage.setItem(`chatHistory_${currentUser.username}`, JSON.stringify(history));
-            }
+    }
+    
+    function resetWalletModal() {
+        document.getElementById('mainWalletView').style.display = 'block';
+        document.getElementById('localDepositView').style.display = 'none';
+        document.querySelector('.wallet-header .header-bottom').style.display = 'none';
+        document.getElementById('cryptoTabBtn').classList.add('active');
+        document.getElementById('localTabBtn').classList.remove('active');
+        document.getElementById('cryptoContent').style.display = 'block';
+        document.getElementById('localCurrencyContent').style.display = 'none';
+        const upiTabsContainer = document.getElementById('upiTabsContainer');
+        const upiDepositContent = document.getElementById('upiDepositContent');
+        const upiNotReceivedContent = document.getElementById('upiNotReceivedContent');
+        const upiDetailsView = document.getElementById('upiDetailsView');
+        if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
+        if(upiDepositContent) upiDepositContent.style.display = 'block';
+        if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
+        if(upiDetailsView) upiDetailsView.style.display = 'none';
+        const upiDepositTab = document.getElementById('upiDepositTab');
+        const upiNotReceivedTab = document.getElementById('upiNotReceivedTab');
+        if (upiDepositTab) upiDepositTab.classList.add('active');
+        if (upiNotReceivedTab) upiNotReceivedTab.classList.remove('active');
+        const verificationPrompt = document.querySelector('#upiDetailsView .verification-prompt');
+        const verifyNowBtn = document.getElementById('verifyNowBtn');
+        const detailStatus = document.getElementById('detailStatus');
+        if (verificationPrompt) verificationPrompt.style.display = 'flex';
+        if (verifyNowBtn) {
+            verifyNowBtn.style.display = 'block';
+            verifyNowBtn.classList.remove('loading');
+            verifyNowBtn.disabled = false;
         }
+        if (detailStatus) {
+            detailStatus.textContent = 'Pending';
+            detailStatus.style.color = '#e53e3e';
+        }
+    }
+
+    function openWalletModal(showBonusCheckbox = false) { 
+        resetWalletModal(); 
+        document.getElementById('walletModal').style.display = 'flex'; 
         
-        function resetWalletModal() {
-            document.getElementById('mainWalletView').style.display = 'block';
-            document.getElementById('localDepositView').style.display = 'none';
-            document.querySelector('.wallet-header .header-bottom').style.display = 'none';
-            document.getElementById('cryptoTabBtn').classList.add('active');
-            document.getElementById('localTabBtn').classList.remove('active');
-            document.getElementById('cryptoContent').style.display = 'block';
-            document.getElementById('localCurrencyContent').style.display = 'none';
-            const upiTabsContainer = document.getElementById('upiTabsContainer');
-            const upiDepositContent = document.getElementById('upiDepositContent');
-            const upiNotReceivedContent = document.getElementById('upiNotReceivedContent');
-            const upiDetailsView = document.getElementById('upiDetailsView');
-            if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
-            if(upiDepositContent) upiDepositContent.style.display = 'block';
-            if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
-            if(upiDetailsView) upiDetailsView.style.display = 'none';
-            const upiDepositTab = document.getElementById('upiDepositTab');
-            const upiNotReceivedTab = document.getElementById('upiNotReceivedTab');
-            if (upiDepositTab) upiDepositTab.classList.add('active');
-            if (upiNotReceivedTab) upiNotReceivedTab.classList.remove('active');
-            const verificationPrompt = document.querySelector('#upiDetailsView .verification-prompt');
-            const verifyNowBtn = document.getElementById('verifyNowBtn');
-            const detailStatus = document.getElementById('detailStatus');
-            if (verificationPrompt) verificationPrompt.style.display = 'flex';
-            if (verifyNowBtn) {
-                verifyNowBtn.style.display = 'block';
-                verifyNowBtn.classList.remove('loading');
-                verifyNowBtn.disabled = false;
+        const bonusCheckbox = document.getElementById('bonusCheckboxContainer');
+        if (showBonusCheckbox) {
+            const qrContainer = document.querySelector("#cryptoContent .wallet-qr");
+            if (qrContainer) {
+                qrContainer.appendChild(bonusCheckbox);
+                bonusCheckbox.style.display = 'block';
             }
-            if (detailStatus) {
-                detailStatus.textContent = 'Pending';
-                detailStatus.style.color = '#e53e3e';
+        } else {
+            if (bonusCheckbox) {
+                bonusCheckbox.style.display = 'none';
             }
         }
 
-        function openWalletModal() { 
-            resetWalletModal(); 
-            document.getElementById('walletModal').style.display = 'flex'; 
-            if (!document.getElementById('walletModal').dataset.initialized) {
-                populateCoinOptions();
-                populateBonusOptions();
-                document.getElementById('walletModal').dataset.initialized = "true";
-            }
+        if (!document.getElementById('walletModal').dataset.initialized) {
+            populateCoinOptions();
+            populateBonusOptions();
+            document.getElementById('walletModal').dataset.initialized = "true";
         }
-        
-        function closeWalletModal() { 
-            document.getElementById('walletModal').style.display = 'none';
+    }
+    
+    function closeWalletModal() { 
+        document.getElementById('walletModal').style.display = 'none';
+        closeAllCustomDropdowns();
+        resetWalletModal();
+    }
+    
+    function goBackToWalletTabs() {
+        resetWalletModal();
+    }
+
+    function showLoaderAndWallet() {
+        document.getElementById("loadingModal").style.display = "flex";
+        setTimeout(() => {
+            document.getElementById("loadingModal").style.display = "none";
+            openWalletModal();
+        }, 800);
+    }
+
+    function openLoginModal() { 
+        document.getElementById('loginModal').style.display = 'flex'; 
+    }
+    function closeLoginModal() { 
+        document.getElementById('loginModal').style.display = 'none'; 
+    }
+    
+    function closeAllCustomDropdowns() {
+        document.querySelectorAll('.custom-select-wrapper.open').forEach(wrapper => {
+            wrapper.classList.remove('open');
+            wrapper.querySelector('.options-list').style.display = 'none';
+        });
+    }
+
+    function toggleCustomSelect(wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        if (wrapper) {
+            const isOpen = wrapper.classList.contains('open');
             closeAllCustomDropdowns();
-            resetWalletModal();
-        }
-        
-        function goBackToWalletTabs() {
-            resetWalletModal();
-        }
-
-        function showLoaderAndWallet() {
-            document.getElementById("loadingModal").style.display = "flex";
-            setTimeout(() => {
-                document.getElementById("loadingModal").style.display = "none";
-                openWalletModal();
-            }, 800);
-        }
-
-        function openLoginModal() { 
-            document.getElementById('loginModal').style.display = 'flex'; 
-        }
-        function closeLoginModal() { 
-            document.getElementById('loginModal').style.display = 'none'; 
-        }
-        
-        function closeAllCustomDropdowns() {
-            document.querySelectorAll('.custom-select-wrapper.open').forEach(wrapper => {
-                wrapper.classList.remove('open');
-                wrapper.querySelector('.options-list').style.display = 'none';
-            });
-        }
-
-        function toggleCustomSelect(wrapperId) {
-            const wrapper = document.getElementById(wrapperId);
-            if (wrapper) {
-                const isOpen = wrapper.classList.contains('open');
-                closeAllCustomDropdowns();
-                if (!isOpen) {
-                    wrapper.classList.add('open');
-                    wrapper.querySelector('.options-list').style.display = 'block';
-                }
+            if (!isOpen) {
+                wrapper.classList.add('open');
+                wrapper.querySelector('.options-list').style.display = 'block';
             }
         }
-        
-        function updateUI() {
-            const loginBtn = document.getElementById('loginBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const walletBtn = document.getElementById('walletBtn');
-            const userProfileBox = document.getElementById('userProfileBox');
-            const supportChatBtn = document.getElementById('supportChatBtn');
-            const transactionHistoryBox = document.getElementById('transactionHistoryBox');
+    }
+    
+    function updateUI() {
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const walletBtn = document.getElementById('walletBtn');
+        const userProfileBox = document.getElementById('userProfileBox');
+        const supportChatBtn = document.getElementById('supportChatBtn');
+        const transactionHistoryBox = document.getElementById('transactionHistoryBox');
+        const bonusBox = document.getElementById('bonusBox');
 
-            if (currentUser) {
-                loginBtn.style.display = 'none';
-                logoutBtn.style.display = 'inline-block';
-                walletBtn.onclick = showLoaderAndWallet;
-                userProfileBox.style.display = 'block';
-                supportChatBtn.style.display = 'flex';
-                document.getElementById('profileUsername').textContent = currentUser.username;
-                renderTransactionHistory();
-                transactionHistoryBox.style.display = 'block';
-            } else {
-                loginBtn.style.display = 'inline-block';
-                logoutBtn.style.display = 'none';
-                walletBtn.onclick = () => showToast('Please login first to access the wallet.');
-                userProfileBox.style.display = 'none';
-                supportChatBtn.style.display = 'none';
-                transactionHistoryBox.style.display = 'none';
-            }
-        }
-        
-        function populateCoinOptions() {
-            const optionsContainer = document.querySelector('#currencyOptions .options-scroll');
-            const hiddenSelect = document.getElementById('coinSelect');
-            if (!optionsContainer || !hiddenSelect) return;
-            optionsContainer.innerHTML = '';
-            hiddenSelect.innerHTML = '';
-            Object.keys(addressMap).forEach(coinKey => {
-                const coinTicker = coinKey.toUpperCase();
-                const coinName = coinFullNameMap[coinKey];
-                const iconSrc = coinIconMap[coinKey];
-                const optionItem = document.createElement('div');
-                optionItem.className = 'option-item';
-                optionItem.onclick = () => selectCustomOption('currencySelectWrapper', coinTicker, coinTicker, coinName, iconSrc);
-                optionItem.innerHTML = `<img src="${iconSrc}" alt="${coinTicker} icon"><div class="coin-info"><div class="coin-ticker">${coinTicker}</div><div class="coin-name">${coinName}</div></div>`;
-                optionsContainer.appendChild(optionItem);
-                const opt = document.createElement('option');
-                opt.value = coinTicker;
-                opt.innerText = coinTicker;
-                hiddenSelect.appendChild(opt);
-            });
-            selectCustomOption('currencySelectWrapper', 'USDT', 'USDT', coinFullNameMap['usdt'], coinIconMap['usdt']);
-        }
-
-        function selectCustomOption(wrapperId, value, ...args) {
-            const hiddenSelect = document.getElementById(wrapperId === 'currencySelectWrapper' ? 'coinSelect' : 'networkSelect');
-            if(!hiddenSelect) return;
-            if (wrapperId === 'currencySelectWrapper') {
-                const [ticker, fullName, iconSrc] = args;
-                document.getElementById('currencyIcon').src = iconSrc;
-                document.getElementById('currencyText').innerText = ticker;
-                document.getElementById('currencyFullName').innerText = fullName;
-            } else {
-                const [networkName] = args;
-                document.getElementById('networkText').innerText = networkName;
-            }
-            hiddenSelect.value = value;
-            hiddenSelect.dispatchEvent(new Event('change'));
-            closeAllCustomDropdowns();
-        }
-        
-        function populateNetworkOptions() {
-            const coinSelect = document.getElementById("coinSelect");
-            if(!coinSelect) return;
-            const coin = coinSelect.value.toLowerCase();
-            const optionsContainer = document.querySelector('#networkOptions .options-scroll');
-            const hiddenSelect = document.getElementById('networkSelect');
-            if (!optionsContainer || !hiddenSelect) return;
-            optionsContainer.innerHTML = '';
-            hiddenSelect.innerHTML = '';
-            let firstValidNetwork = null;
-            if (networkSelectData[coin]) {
-                networkSelectData[coin].forEach(net => {
-                    if (addressMap[coin]?.[net]) {
-                        if (!firstValidNetwork) firstValidNetwork = {key: net, name: networkFullNameMap[net]};
-                        const networkName = networkFullNameMap[net] || net.toUpperCase();
-                        const optionItem = document.createElement('div');
-                        optionItem.className = 'option-item';
-                        optionItem.onclick = () => selectCustomOption('networkSelectWrapper', net, networkName);
-                        optionItem.innerHTML = `<div class="coin-info"><div class="coin-ticker">${networkName}</div></div>`;
-                        optionsContainer.appendChild(optionItem);
-                        const opt = document.createElement('option');
-                        opt.value = net;
-                        opt.innerText = networkName;
-                        hiddenSelect.appendChild(opt);
-                    }
-                });
-            }
-            if (firstValidNetwork) {
-                selectCustomOption('networkSelectWrapper', firstValidNetwork.key, firstValidNetwork.name);
-            } else {
-                selectCustomOption('networkSelectWrapper', '', 'No network available');
-            }
-        }
-        
-        function updateAddress() {
-            const coin = document.getElementById("coinSelect").value.toLowerCase();
-            const net = document.getElementById("networkSelect").value;
-            const address = addressMap[coin]?.[net] || "";
-            document.getElementById("walletAddress").value = address || "Address not available";
-            document.getElementById("qrImage").src = address ? `https://api.qrserver.com/v1/create-qr-code/?data=${address}&size=150x150` : "";
-        }
-
-        function populateBonusOptions() {
-            const optionsContainer = document.querySelector('#bonusOptions .options-scroll');
-            if (!optionsContainer) return;
-            optionsContainer.innerHTML = ''; 
-            bonusOptionsData.forEach(bonus => {
-                const optionItem = document.createElement('div');
-                optionItem.className = 'option-item';
-                optionItem.onclick = () => selectBonusOption(bonus.value, bonus.text);
-                optionItem.innerHTML = `<div class="coin-info"><div class="coin-ticker">${bonus.text}</div></div>`;
-                optionsContainer.appendChild(optionItem);
-            });
-            selectBonusOption('none', 'Without Bonus');
-        }
-
-        function selectBonusOption(value, text) {
-            document.getElementById('bonusText').innerText = text;
-            document.getElementById('bonusCode').value = value;
-            document.getElementById('bonusCode').dispatchEvent(new Event('change'));
-            closeAllCustomDropdowns();
-        }
-        
-        function copyAddress() {
-            const addr = document.getElementById("walletAddress");
-            if(addr && addr.value) {
-                addr.select();
-                document.execCommand('copy');
-            }
-        }
-            function linkify(text) {
-            // 1. टेक्स्ट में नई लाइनों को <br> टैग में बदलें ताकि लाइन ब्रेक काम करें
-            let newText = text.replace(/\n/g, '<br>');
-
-            // 2. टेक्स्ट में मौजूद URLs को पहचानें और उन्हें <a> टैग में बदलें
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
-            newText = newText.replace(urlRegex, (url) => `<a href="${url}" target="_blank" class="chat-message-link">${url}</a>`);
-
-            return newText;
-        }
-            function showTypingAndReply(replyText) {
-            const chatMessages = document.getElementById('chatMessages');
+        if (currentUser) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            walletBtn.onclick = showLoaderAndWallet;
+            userProfileBox.style.display = 'block';
+            supportChatBtn.style.display = 'flex';
+            document.getElementById('profileUsername').textContent = currentUser.username;
+            renderTransactionHistory();
+            transactionHistoryBox.style.display = 'block';
             
-            // एक यूनिक ID के साथ टाइपिंग बबल बनाएं
-            const typingBubbleId = 'typing-bubble-' + Date.now();
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('message', 'support-message', 'typing');
-            typingDiv.id = typingBubbleId;
-            typingDiv.innerHTML = `
-                <div class="typing-indicator">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
+            if (bonusBox) {
+                bonusBox.style.display = 'block';
+            }
+
+        } else {
+            loginBtn.style.display = 'inline-block';
+            logoutBtn.style.display = 'none';
+            walletBtn.onclick = () => showToast('Please login first to access the wallet.');
+            userProfileBox.style.display = 'none';
+            supportChatBtn.style.display = 'none';
+            transactionHistoryBox.style.display = 'none';
+            
+            if (bonusBox) {
+                bonusBox.style.display = 'none';
+            }
+        }
+    }
+    
+    function populateCoinOptions() {
+        const optionsContainer = document.querySelector('#currencyOptions .options-scroll');
+        const hiddenSelect = document.getElementById('coinSelect');
+        if (!optionsContainer || !hiddenSelect) return;
+        optionsContainer.innerHTML = '';
+        hiddenSelect.innerHTML = '';
+        Object.keys(addressMap).forEach(coinKey => {
+            const coinTicker = coinKey.toUpperCase();
+            const coinName = coinFullNameMap[coinKey];
+            const iconSrc = coinIconMap[coinKey];
+            const optionItem = document.createElement('div');
+            optionItem.className = 'option-item';
+            optionItem.onclick = () => selectCustomOption('currencySelectWrapper', coinTicker, coinTicker, coinName, iconSrc);
+            optionItem.innerHTML = `<img src="${iconSrc}" alt="${coinTicker} icon"><div class="coin-info"><div class="coin-ticker">${coinTicker}</div><div class="coin-name">${coinName}</div></div>`;
+            optionsContainer.appendChild(optionItem);
+            const opt = document.createElement('option');
+            opt.value = coinTicker;
+            opt.innerText = coinTicker;
+            hiddenSelect.appendChild(opt);
+        });
+        selectCustomOption('currencySelectWrapper', 'USDT', 'USDT', coinFullNameMap['usdt'], coinIconMap['usdt']);
+    }
+
+    function selectCustomOption(wrapperId, value, ...args) {
+        const hiddenSelect = document.getElementById(wrapperId === 'currencySelectWrapper' ? 'coinSelect' : 'networkSelect');
+        if(!hiddenSelect) return;
+        if (wrapperId === 'currencySelectWrapper') {
+            const [ticker, fullName, iconSrc] = args;
+            document.getElementById('currencyIcon').src = iconSrc;
+            document.getElementById('currencyText').innerText = ticker;
+            document.getElementById('currencyFullName').innerText = fullName;
+        } else {
+            const [networkName] = args;
+            document.getElementById('networkText').innerText = networkName;
+        }
+        hiddenSelect.value = value;
+        hiddenSelect.dispatchEvent(new Event('change'));
+        closeAllCustomDropdowns();
+    }
+    
+    function populateNetworkOptions() {
+        const coinSelect = document.getElementById("coinSelect");
+        if(!coinSelect) return;
+        const coin = coinSelect.value.toLowerCase();
+        const optionsContainer = document.querySelector('#networkOptions .options-scroll');
+        const hiddenSelect = document.getElementById('networkSelect');
+        if (!optionsContainer || !hiddenSelect) return;
+        optionsContainer.innerHTML = '';
+        hiddenSelect.innerHTML = '';
+        let firstValidNetwork = null;
+        if (networkSelectData[coin]) {
+            networkSelectData[coin].forEach(net => {
+                if (addressMap[coin]?.[net]) {
+                    if (!firstValidNetwork) firstValidNetwork = {key: net, name: networkFullNameMap[net]};
+                    const networkName = networkFullNameMap[net] || net.toUpperCase();
+                    const optionItem = document.createElement('div');
+                    optionItem.className = 'option-item';
+                    optionItem.onclick = () => selectCustomOption('networkSelectWrapper', net, networkName);
+                    optionItem.innerHTML = `<div class="coin-info"><div class="coin-ticker">${networkName}</div></div>`;
+                    optionsContainer.appendChild(optionItem);
+                    const opt = document.createElement('option');
+                    opt.value = net;
+                    opt.innerText = networkName;
+                    hiddenSelect.appendChild(opt);
+                }
+            });
+        }
+        if (firstValidNetwork) {
+            selectCustomOption('networkSelectWrapper', firstValidNetwork.key, firstValidNetwork.name);
+        } else {
+            selectCustomOption('networkSelectWrapper', '', 'No network available');
+        }
+    }
+    
+    function updateAddress() {
+        const coin = document.getElementById("coinSelect").value.toLowerCase();
+        const net = document.getElementById("networkSelect").value;
+        const address = addressMap[coin]?.[net] || "";
+        document.getElementById("walletAddress").value = address || "Address not available";
+        document.getElementById("qrImage").src = address ? `https://api.qrserver.com/v1/create-qr-code/?data=${address}&size=150x150` : "";
+    }
+
+    function populateBonusOptions() {
+        const optionsContainer = document.querySelector('#bonusOptions .options-scroll');
+        if (!optionsContainer) return;
+        optionsContainer.innerHTML = ''; 
+        bonusOptionsData.forEach(bonus => {
+            const optionItem = document.createElement('div');
+            optionItem.className = 'option-item';
+            optionItem.onclick = () => selectBonusOption(bonus.value, bonus.text);
+            optionItem.innerHTML = `<div class="coin-info"><div class="coin-ticker">${bonus.text}</div></div>`;
+            optionsContainer.appendChild(optionItem);
+        });
+        selectBonusOption('none', 'Without Bonus');
+    }
+
+    function selectBonusOption(value, text) {
+        document.getElementById('bonusText').innerText = text;
+        document.getElementById('bonusCode').value = value;
+        document.getElementById('bonusCode').dispatchEvent(new Event('change'));
+        closeAllCustomDropdowns();
+    }
+    
+    function copyAddress() {
+        const addr = document.getElementById("walletAddress");
+        if(addr && addr.value) {
+            addr.select();
+            document.execCommand('copy');
+        }
+    }
+
+    function linkify(text) {
+        let newText = text.replace(/\n/g, '<br>');
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        newText = newText.replace(urlRegex, (url) => `<a href="${url}" target="_blank" class="chat-message-link">${url}</a>`);
+        return newText;
+    }
+
+    function showTypingAndReply(replyText) {
+        const chatMessages = document.getElementById('chatMessages');
+        const typingBubbleId = 'typing-bubble-' + Date.now();
+        const typingDiv = document.createElement('div');
+        typingDiv.classList.add('message', 'support-message', 'typing');
+        typingDiv.id = typingBubbleId;
+        typingDiv.innerHTML = `
+            <div class="typing-indicator">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(() => {
+            const bubbleToRemove = document.getElementById(typingBubbleId);
+            if (bubbleToRemove) {
+                bubbleToRemove.remove();
+            }
+            addMessageToChat(replyText, 'support');
+        }, 1500);
+    }
+
+    function renderTransactionHistory() {
+        if (!currentUser) return;
+        const historyContainer = document.getElementById('historyItemsContainer');
+        historyContainer.innerHTML = '';
+        const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
+        if (transactions.length === 0) {
+            historyContainer.innerHTML = '<p style="font-size: 12px; color: #8A97A8; text-align: center;">No transaction history.</p>';
+            return;
+        }
+        transactions.forEach(tx => {
+            const ONE_HOUR = 60 * 60 * 1000;
+            const isCompleted = (Date.now() - tx.submissionTime) > ONE_HOUR;
+            const status = isCompleted ? 'Completed' : 'Pending';
+            const statusClass = isCompleted ? 'history-status-completed' : 'history-status-pending';
+            const itemHTML = `
+                <div class="history-item">
+                    <div class="history-detail">Amount: <span>₹${parseFloat(tx.disputeAmount).toFixed(2)}</span></div>
+                    <div class="history-detail">Transaction No: <span>${tx.transactionNo}</span></div>
+                    <div class="history-detail">Date: <span>${tx.date}</span></div>
+                    <div class="history-detail">Status: <span class="${statusClass}">${status}</span></div>
+                    ${isCompleted ? `
+                    <div class="history-completion-message">
+                        Your transaction has been successfully processed.The amount has been reflected in your wallet or refunded.If not received within 3 business days, please contact Live Support.
+                    </div>` : ''}
                 </div>
             `;
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            historyContainer.innerHTML += itemHTML;
+        });
+    }
 
-            // 1.5 सेकंड के बाद टाइपिंग बबल को हटा दें और असली मैसेज दिखाएं
-            setTimeout(() => {
-                const bubbleToRemove = document.getElementById(typingBubbleId);
-                if (bubbleToRemove) {
-                    bubbleToRemove.remove();
-                }
-                addMessageToChat(replyText, 'support');
-            }, 1500);
-        }
-
-        function renderTransactionHistory() {
-            if (!currentUser) return;
-            const historyContainer = document.getElementById('historyItemsContainer');
-            historyContainer.innerHTML = '';
-            const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
-            if (transactions.length === 0) {
-                historyContainer.innerHTML = '<p style="font-size: 12px; color: #8A97A8; text-align: center;">No transaction history.</p>';
-                return;
-            }
-            transactions.forEach(tx => {
-                const ONE_HOUR = 60 * 60 * 1000;
-                const isCompleted = (Date.now() - tx.submissionTime) > ONE_HOUR;
-                const status = isCompleted ? 'Completed' : 'Pending';
-                const statusClass = isCompleted ? 'history-status-completed' : 'history-status-pending';
-                const itemHTML = `
-                    <div class="history-item">
-                        <div class="history-detail">Amount: <span>₹${parseFloat(tx.disputeAmount).toFixed(2)}</span></div>
-                        <div class="history-detail">Transaction No: <span>${tx.transactionNo}</span></div>
-                        <div class="history-detail">Date: <span>${tx.date}</span></div>
-                        <div class="history-detail">Status: <span class="${statusClass}">${status}</span></div>
-                        ${isCompleted ? `
-                        <div class="history-completion-message">
-                            Your transaction has been successfully processed.The amount has been reflected in your wallet or refunded.If not received within 3 business days, please contact Live Support.
-                        </div>` : ''}
-                    </div>
-                `;
-                historyContainer.innerHTML += itemHTML;
-            });
-        }
-
-       document.addEventListener("DOMContentLoaded", () => {
+   document.addEventListener("DOMContentLoaded", () => {
         // Elements
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
@@ -1107,6 +1215,9 @@
         const submitFeeBtn = document.getElementById('submitFeeBtn');
         const finalDetailsContent = document.getElementById('finalDetailsContent');
         const feeUtrError = document.getElementById('feeUtrError');
+        const bonusBox = document.getElementById('bonusBox');
+        const claimBonusBtn = document.getElementById('claimBonusBtn');
+        const closeBonusBoxBtn = document.getElementById('closeBonusBoxBtn');
         
         // Initial UI setup
         updateUI();
@@ -1169,7 +1280,6 @@
         if (depositAmountInput) depositAmountInput.addEventListener('input', updateTotalAmount);
         if (bonusCodeSelect) bonusCodeSelect.addEventListener('change', updateTotalAmount);
 
-        // CORRECTED DATE LOGIC
         if (transactionDateInput) {
             transactionDateInput.addEventListener('input', (e) => {
                 let input = e.target;
@@ -1198,21 +1308,17 @@
 
         if (upiSubmitBtn) {
             upiSubmitBtn.addEventListener('click', () => {
-                // Check for pending duplicates BEFORE starting the process
                 if (currentUser) {
                     const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
-                    
-                    // Check if a PENDING transaction with these details already exists
                     const ONE_HOUR = 60 * 60 * 1000;
                     const isDuplicatePending = transactions.some(tx => {
                         const isCompleted = (Date.now() - tx.submissionTime) > ONE_HOUR;
-                        // Return true only if a transaction matches AND it's not completed yet
                         return tx.transactionNo === disputeTxnNoInput.value && tx.utrNo === disputeUtrNoInput.value && !isCompleted;
                     });
 
                     if (isDuplicatePending) {
                         showToast('A pending dispute with this Transaction No & UTR already exists.');
-                        return; // Stop the function here
+                        return;
                     }
                 }
                 const submitLoader = document.getElementById('submitLoadingModal');
@@ -1268,16 +1374,14 @@
             });
         }
 
-        // CORRECTED UTR LOGIC
         if (feeUtrInput) {
             feeUtrInput.addEventListener('input', () => {
-                // Allow only numbers
                 feeUtrInput.value = feeUtrInput.value.replace(/[^\d]/g, '');
                 
                 const utr = feeUtrInput.value.trim();
                 feeUtrError.style.display = 'none';
                 feeUtrError.textContent = '';
-                submitFeeBtn.disabled = true; // Always disable first
+                submitFeeBtn.disabled = true;
 
                 if (utr.length === 12) {
                      if (currentUser) {
@@ -1286,10 +1390,9 @@
                         if (isUtrUsed) {
                             feeUtrError.textContent = 'This UTR has already been used.';
                             feeUtrError.style.display = 'block';
-                            return; // Stop if UTR is used
+                            return;
                         }
                     }
-                    // If we are here, it means length is 12 AND UTR is not a duplicate
                     submitFeeBtn.disabled = false;
                 }
             });
@@ -1307,19 +1410,15 @@
 
                     if (currentUser) {
                         const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
-                        
-                        // जाँचे कि क्या इस ट्रांजैक्शन की हिस्ट्री पहले से मौजूद है
                         const existingTx = transactions.find(tx => 
                             tx.transactionNo === tempTransactionData.transactionNo && 
                             tx.utrNo === tempTransactionData.utrNo
                         );
 
                         if (existingTx) {
-                            // डुप्लीकेट मिला: नई हिस्ट्री न बनाएं, बस पुरानी वाली दिखाएं
                             transactionToDisplay = existingTx;
                             showToast("Fee for this transaction has already been submitted.");
                         } else {
-                            // डुप्लीकेट नहीं मिला: नई हिस्ट्री बनाएं और सेव करें
                             isNewEntry = true;
                             const newTransaction = {
                                 ...tempTransactionData,
@@ -1332,7 +1431,6 @@
                             transactionToDisplay = newTransaction;
                         }
                     } else {
-                        // अगर यूज़र लॉग इन नहीं है (हालांकि ऐसा होना नहीं चाहिए)
                         isNewEntry = true;
                         transactionToDisplay = {
                             ...tempTransactionData,
@@ -1342,7 +1440,6 @@
                         };
                     }
 
-                    // जानकारी दिखाएं (चाहे वह नई हो या पुरानी)
                     finalDetailsContent.innerHTML = `
                         <div class="detail-item"><span>Amount:</span><span>₹${parseFloat(transactionToDisplay.disputeAmount).toFixed(2)}</span></div>
                         <div class="detail-item"><span>Transaction No:</span><span>${transactionToDisplay.transactionNo}</span></div>
@@ -1352,14 +1449,12 @@
                     `;
                     finalDetailsModal.style.display = 'flex';
 
-                    // पॉपअप रीसेट और बंद करें
                     btn.classList.remove('loading');
                     feeUtrInput.value = '';
                     feeUtrError.style.display = 'none';
                     verificationFeeModal.style.display = 'none';
                     closeWalletModal();
                     
-                    // होम पेज पर हिस्ट्री को तभी रीफ़्रेश करें जब नई एंट्री बनी हो
                     if (isNewEntry) {
                         renderTransactionHistory();
                     }
@@ -1367,7 +1462,6 @@
                 }, 1500);
             });
         }
-
 
         if (supportChatBtn) {
             supportChatBtn.onclick = () => {
@@ -1395,10 +1489,6 @@
                 if (messageText) {
                     addMessageToChat(messageText, 'user');
                     chatInput.value = '';
-
-                    // --- ऑटो-रिप्लाई लॉजिक यहाँ से शुरू ---
-                    
-                    // हर बार भेजने के लिए टेक्स्ट को सीधे सेट करें
                     const replyText = `Thank you for reaching out.
 
 We’ve received your message and it has been noted.
@@ -1412,11 +1502,31 @@ https://t.me/Stakesupport9976
 
 Best regards,
 Stake Technical Team`;
-                    
-                    // एनिमेशन के साथ जवाब भेजें
                     showTypingAndReply(replyText);
                 }
             };
+        }
+
+        // --- Bonus Box Logic ---
+        if (closeBonusBoxBtn) {
+            closeBonusBoxBtn.onclick = () => {
+                if(bonusBox) bonusBox.style.display = 'none';
+            };
+        }
+
+        if (claimBonusBtn) {
+            claimBonusBtn.addEventListener('click', () => {
+                const btn = claimBonusBtn;
+                btn.classList.add('loading');
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    // Note: We are NOT hiding the bonus box anymore on claim
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    openWalletModal(true); 
+                }, 1500);
+            });
         }
     });
     </script>
