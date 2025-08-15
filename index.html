@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Wallet - Wallet UI</title>
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&amp;display=swap" rel="stylesheet">
@@ -144,12 +146,12 @@
             display: flex; 
             align-items: center; 
             gap: 10px;
-            font-weight: 700;
+            font-weight: 550;
             color: #ffffff;
         }
         .header-bottom {
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 550;
             color: #ffffff;
             display: none; 
             align-items: center;
@@ -182,7 +184,7 @@
             color: #9eabbb;
             cursor: pointer; 
             font-family: 'Inter', sans-serif; 
-            font-weight: 700;
+            font-weight: 550;
             font-size: 15px;
             transition: all 0.3s;
         }
@@ -214,7 +216,7 @@
         .select-display:hover { border-color: #5a7690; }
         .select-display img { width: 32px; height: 32px; }
         .select-display .coin-info { flex-grow: 1; text-align: left; }
-        .select-display .coin-info .coin-ticker { font-weight: 700; font-size: 16px; }
+        .select-display .coin-info .coin-ticker { font-weight: 550; font-size: 16px; }
         .select-display .coin-info .coin-name { font-weight: 500; font-size: 12px; color: #8A97A8; }
         .arrow-icon { transform: rotate(0deg); transition: transform 0.3s; fill: #ffffff;  }
         .custom-select-wrapper.open .arrow-icon { transform: rotate(180deg); }
@@ -253,7 +255,7 @@
         .options-scroll::-webkit-scrollbar { display: none; }
         .option-item { padding: 12px 15px; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background-color 0.2s; }
         .option-item:hover { background-color: #4a6075; }
-        .option-item img { width: 32px; height: 32px; }
+        .option-item img { width: 26px; height: 26px; }
         .wallet-address .address-box { display: flex; background-color: #2f4553; padding: 10px; border-radius: 4px; border: none; align-items: center; justify-content: space-between; }
         .wallet-address input { background: transparent; border: none; color: #ffffff; width: 90%; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14px; }
         .wallet-qr { text-align: center; margin-top: 20px; }
@@ -263,27 +265,27 @@
         .icon-copy { width: 16px; height: 16px; fill: #ffffff; cursor: pointer;}
         .two-factor-prompt { margin-top: 24px; padding: 16px; background-color: #2f4553; border: none; border-radius: 4px; text-align: center; }
         .two-factor-prompt p { color: #9eabbb; font-size: 14px; margin-bottom: 12px; }
-        .two-factor-button { width: 100%; padding: 12px; background-color: #2583FF; border: none; border-radius: 4px; color: #ffffff; font-weight: 700; font-size: 15px; cursor: pointer; }
+        .two-factor-button { width: 100%; padding: 12px; background-color: #2583FF; border: none; border-radius: 4px; color: #ffffff; font-weight: 550; font-size: 15px; cursor: pointer; }
         #logoutBtn { background-color: #e9113c; }
         .login-content { background-color: #1a2c38; width: 688px; min-height: 450px; border-radius: 8px; position: relative; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
         .login-header { display: flex; justify-content: space-between; align-items: center; background-color: #2f4553; padding: 15px 30px; margin-bottom: 0; }
         #loginForm { display: flex; flex-direction: column; flex-grow: 1; padding: 10px 30px 30px 30px; }
         .form-fields { flex-grow: 1; }
-        .login-header h3 { font-size: 20px; font-weight: 700; }
+        .login-header h3 { font-size: 20px; font-weight: 550; }
         .login-content .close-btn { color: #ffffff; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: #8A97A8; }
         .form-group input { width: 100%; background-color: #0F212E; border: 1px solid #2f4553; border-radius: 4px; padding: 10px 10px; color: #fff; font-size: 15px; transition: border-color 0.2s; }
         .password-wrapper { position: relative; }
         .password-wrapper .eye-icon { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); cursor: pointer; fill: #8A97A8; width: 20px; height: 20px; }
-        .signin-btn { width: 100%; background-color: #2583ff; border: none; padding: 18px; border-radius: 4px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; }
+        .signin-btn { width: 100%; background-color: #2583ff; border: none; padding: 18px; border-radius: 4px; color: #fff; font-size: 16px; font-weight: 550; cursor: pointer; margin-top: 24px; }
         .profile-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 400px; margin: 20px auto; }
         .profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .profile-username { font-size: 18px; font-weight: 700; }
+        .profile-username { font-size: 18px; font-weight: 550; }
         .profile-info { font-size: 14px; color: #8A97A8; margin-bottom: 8px; }
         .profile-info span { color: #fff; font-weight: 500; }
         .history-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 400px; margin: 0 auto 20px auto; }
-        .history-header { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #2f4553; }
+        .history-header { font-size: 18px; font-weight: 550; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #2f4553; }
         .history-item { border: 1px solid #2f4553; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
         .history-item:last-child { margin-bottom: 0; }
         .history-detail { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: #8A97A8; }
@@ -304,7 +306,7 @@
         .support-chat-btn svg { color: #ffffff; width: 28px; height: 28px; }
         .support-chat-popup { position: fixed; bottom: 10px; right: 20px; width: 400px; height: 700px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 9999; }
         .chat-header { background-color: #f1f1f1; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0; }
-        .chat-header span { font-weight: 700; color: #333; font-size: 16px; }
+        .chat-header span { font-weight: 550; color: #333; font-size: 16px; }
         .close-chat-btn { font-size: 24px; color: #888; cursor: pointer; font-weight: 300; }
         .chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; background-color: #ffffff; display: flex; flex-direction: column; }
         .message { max-width: 80%; padding: 10px 15px; border-radius: 18px; margin-bottom: 10px; word-wrap: break-word; }
@@ -322,12 +324,12 @@
         .chat-form .send-btn svg { color: white; }
         .local-currency-wallet-box { background-color: #2f4553; border-radius: 5px; padding: 8px; display: flex; align-items: center; gap: 15px; }
         .local-currency-wallet-box .currency-symbol { font-size: 24px; font-weight: bold; color: #FFC107; background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
-        .local-currency-wallet-box .currency-info span { font-weight: 700; font-size: 16px; display: block; }
+        .local-currency-wallet-box .currency-info span { font-weight: 550; font-size: 16px; display: block; }
         .local-currency-wallet-box .currency-info small { font-size: 12px; color: #8A97A8; }
-        .local-deposit-btn { position: relative; transition: all 0.3s ease; width: 100%; background-color: #2583ff; color: white; border: none; padding: 12px; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 24px; }
+        .local-deposit-btn { position: relative; transition: all 0.3s ease; width: 100%; background-color: #2583ff; color: white; border: none; padding: 12px; border-radius: 4px; font-size: 16px; font-weight: 550; cursor: pointer; margin-top: 24px; }
         .upi-selection-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
         .upi-options { display: flex; flex-direction: column; gap: 16px; }
-        .upi-payment-method { background: none; border: none; color: #8A97A8; padding: 0; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+        .upi-payment-method { background: none; border: none; color: #8A97A8; padding: 0; font-weight: 550; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; }
         .upi-payment-method::before { content: ''; width: 5px; height: 5px; border-radius: 50%; border: 1px solid #8A97A8; background-color: transparent; }
         .upi-payment-method.active { color: #ffffff; }
         .upi-payment-method.active::before { border-color: #ffffff; background-color: #ffffff; box-shadow: 0 0 0 2px #1a2c38, 0 0 0 6px #000000; }
@@ -337,15 +339,15 @@
         .deposit-form-group input, .deposit-form-group select { width: 100%; background-color: #0F212E; border: 1px solid #2f4553; border-radius: 4px; padding: 16px 12px; color: #fff; font-size: 15px; }
         .min-max-info { text-align: center; font-size: 12px; color: #8A97A8; margin-top: 16px; }
         .total-amount-display { display: flex; justify-content: space-between; padding: 16px 0; border-top: 1px solid #2f4553; margin-top: 24px; }
-        .total-amount-display span { font-weight: 700; }
-        .final-deposit-btn { position: relative; width: 100%; background-color: #3e19f1; color: white; border: none; padding: 14px; border-radius: 4px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+        .total-amount-display span { font-weight: 550; }
+        .final-deposit-btn { position: relative; width: 100%; background-color: #3e19f1; color: white; border: none; padding: 14px; border-radius: 4px; font-size: 16px; font-weight: 550; cursor: pointer; margin-top: 8px; }
         .submit-btn-green { background-color: #28a745; margin-top: 16px; }
         .submit-btn-green:hover { background-color: #218838; }
         .submit-btn-green:disabled { background-color: #5a6268; cursor: not-allowed; opacity: 0.65; }
         .detail-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2f4553; font-size: 14px; color: #ffffff; }
         .detail-item:last-child { border-bottom: none; }
         .detail-item span:first-child { color: #8A97A8; }
-        .detail-item span:last-child { font-weight: 700; }
+        .detail-item span:last-child { font-weight: 550; }
         .btn-loader { display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); gap: 5px; }
         .btn-loader .dot { width: 8px; height: 8px; background-color: white; border-radius: 50%; animation: dot-pulse 1.4s infinite ease-in-out both; }
         .btn-loader .dot:nth-child(2) { animation-delay: 0.2s; }
@@ -433,7 +435,7 @@
         }
         .withdraw-only-header h4 {
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 550;
             margin: 0;
         }
         .withdraw-only-icon svg {
@@ -557,6 +559,16 @@
             overflow-y: auto; 
             -ms-overflow-style: none; 
             scrollbar-width: none; 
+        }
+        .option-item .coin-info .coin-ticker {
+            font-size: 13px; /* पहले यह लगभग 16px था */
+            font-weight: 400;
+        }
+
+        .option-item .coin-info .coin-name {
+            font-size: 11px; /* पहले यह 12px था */
+            color: #b1bad3;
+            font-weight: 70;
         }
         
     </style>
