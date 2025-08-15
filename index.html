@@ -59,12 +59,12 @@
             text-decoration: underline;
         }
         .loading-content {
-    background-color: #1a2c38;
-    border-radius: 8px;
-    padding: 50px 70px; /* ऊपर-नीचे 50px, दाएं-बाएं 70px */
-    width: 380px;
-    text-align: center;
-}
+            background-color: #1a2c38;
+            border-radius: 8px;
+            padding: 50px 70px;
+            width: 380px;
+            text-align: center;
+        }
         .loading-content-small {
             width: 400px;
             padding: 80px 40px;
@@ -121,8 +121,10 @@
         }
         .wallet-content { 
             background-color: #1a2c38;
-            width: 500px; 
-            border-radius: 8px; 
+            width: 436px;
+            max-width: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             color: #ffffff;
             padding: 0;
             overflow: hidden;
@@ -163,10 +165,6 @@
             cursor: pointer; 
             color: #8A97A8;
             font-weight: 300;
-        }
-        .wallet-body {
-            padding: 20px;
-            padding-top: 0;
         }
         .wallet-toggle { 
             display: flex; 
@@ -213,20 +211,6 @@
             width: 100%;
             margin-bottom: 20px;
         }
-        .select-display {
-            width: 100%;
-            margin: 0 auto;
-            background-color: #2f4553;
-            padding: 12px; 
-            border-radius: 4px; 
-            border: none;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            gap: 12px;
-            transition: border-color 0.2s;
-        }
         .select-display:hover { border-color: #5a7690; }
         .select-display img { width: 32px; height: 32px; }
         .select-display .coin-info { flex-grow: 1; text-align: left; }
@@ -234,20 +218,6 @@
         .select-display .coin-info .coin-name { font-weight: 500; font-size: 12px; color: #8A97A8; }
         .arrow-icon { transform: rotate(0deg); transition: transform 0.3s; fill: #ffffff;  }
         .custom-select-wrapper.open .arrow-icon { transform: rotate(180deg); }
-        .options-list {
-            position: absolute;
-            top: calc(100% + 10px);
-            width: 98%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #2f4553;
-            border-radius: 8px;
-            overflow: visible;
-            z-index: 100;
-            display: none;
-            border: none;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-        }
         .search-bar { padding: 15px; }
         .search-bar input {
             width: 100%;
@@ -280,7 +250,6 @@
         }
         .search-container { position: relative; }
         .search-icon { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); width: 16px; height: 16px; fill: #8A97A8; }
-        .options-scroll { max-height: 220px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
         .options-scroll::-webkit-scrollbar { display: none; }
         .option-item { padding: 12px 15px; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background-color 0.2s; }
         .option-item:hover { background-color: #4a6075; }
@@ -413,91 +382,77 @@
             margin: 0 auto;
         }
         .modal-message-box {
-    background-color: #0F212E; /* बॉक्स का बैकग्राउंड कलर */
-    padding: 16px;
-    margin-bottom: 24px; /* बटन से दूरी बनाने के लिए */
-    position: relative;
-    border-radius: 8px;
-    border: none;
-}
-
-.modal-message-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 2px dashed #8A97A8; /* डैश वाला बॉर्डर */
-    border-radius: inherit; 
-    pointer-events: none;
-}
-
-.modal-message-box p {
-    font-size: 14px;
-    color: #e1e8f0;
-    line-height: 1.6;
-    margin: 0; 
-}
-
-        /* --- Withdraw Only Box Styling --- */
-       .withdraw-only-box {
-    background-color: #1b2a38;
-    padding: 16px;
-    margin-top: 16px;
-    position: relative; /* यह ज़रूरी है */
-    
-    /* बॉक्स के कोनों को गोल करने के लिए */
-    border-radius: 3px; 
-    
-    /* पुरानी सभी border और border-image की लाइनें हटा दें */
-    border: none;
-}
-.withdraw-only-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    
-    /* बॉर्डर की मोटाई और स्टाइल यहाँ दें */
-    border: 2px dashed #8A97A8; 
-    
-    /* यह लाइन बॉर्डर को भी बॉक्स के साथ गोल कर देगी */
-    border-radius: inherit;
-    pointer-events: none; 
-}
-.withdraw-only-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-}
-
-.withdraw-only-header h4 {
-    font-size: 13px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.withdraw-only-icon svg {
-    width: 18px;
-    height: 18px;
-    color: #8A97A8;
-    flex-shrink: 0;
-    position: relative;
-    top: 3px; /* सटीक अलाइनमेंट के लिए */
-}
-.withdraw-only-box > p,
-.reactivate-btn {
-    margin-left: 30px;
-}
+            background-color: #0F212E;
+            padding: 16px;
+            margin-bottom: 24px;
+            position: relative;
+            border-radius: 8px;
+            border: none;
+        }
+        .modal-message-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px dashed #8A97A8;
+            border-radius: inherit; 
+            pointer-events: none;
+        }
+        .modal-message-box p {
+            font-size: 14px;
+            color: #e1e8f0;
+            line-height: 1.6;
+            margin: 0; 
+        }
+        .withdraw-only-box {
+            background-color: #1b2a38;
+            padding: 16px;
+            margin-top: 16px;
+            position: relative;
+            border-radius: 3px; 
+            border: none;
+        }
+        .withdraw-only-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px dashed #8A97A8; 
+            border-radius: inherit;
+            pointer-events: none; 
+        }
+        .withdraw-only-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .withdraw-only-header h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin: 0;
+        }
+        .withdraw-only-icon svg {
+            width: 18px;
+            height: 18px;
+            color: #8A97A8;
+            flex-shrink: 0;
+            position: relative;
+            top: 3px;
+        }
+        .withdraw-only-box > p,
+        .reactivate-btn {
+            margin-left: 30px;
+        }
         .withdraw-only-message {
             font-size: 13px;
             color: #e1e8f0;
             line-height: 1.5;
-            margin: 0 0 16px 0; /* बटन से दूरी बनाने के लिए */
+            margin: 0 0 16px 0;
         }
         .reactivate-btn {
             background-color: #394d63;
@@ -509,6 +464,99 @@
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             display: block; 
+        }
+
+        /* ============================================= */
+        /* --- यहाँ से अपडेट किया गया CSS कोड शुरू --- */
+        /* ============================================= */
+
+        .wallet-body {
+            position: relative;
+            overflow: hidden; /* यह सुनिश्चित करेगा कि बाहर जाने वाला व्यू दिखाई न दे */
+            padding: 20px;
+            padding-top: 0;
+            height: 680px;
+        }
+
+        /* --- Drawer Animation Ke Liye --- */
+        #mainWalletView, #localDepositView {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a2c38; /* आपके वॉलेट का बैकग्राउंड कलर */
+            transition: transform .4s cubic-bezier(.25,1,.5,1);
+            padding: 20px;
+            padding-top: 0;
+        }
+
+        /* --- Views Ki Shuruaati Position --- */
+        #mainWalletView {
+            transform: translateX(0);
+            visibility: visible;
+        }
+
+        #localDepositView {
+            transform: translateX(100%);
+            visibility: hidden; /* शुरू में छिपा हुआ */
+        }
+
+        /* --- Jab Drawer Khulega Tab Ki Position --- */
+        .wallet-content.local-deposit-is-active #mainWalletView {
+            transform: translateX(-100%); /* मुख्य व्यू बाईं ओर स्लाइड हो जाएगा */
+            visibility: hidden;
+        }
+
+        .wallet-content.local-deposit-is-active #localDepositView {
+            transform: translateX(0); /* डिपॉजिट व्यू बीच में आ जाएगा */
+            visibility: visible;
+        }
+
+
+        /* --- Animated Dropdown Ke Liye --- */
+        .select-display {
+            width: 100%;
+            margin: 0 auto;
+            background-color: #2f4553;
+            padding: 12px 16px; 
+            border-radius: 4px; 
+            border: none;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 12px;
+            transition: border-color 0.2s;
+        }
+        
+        .options-list {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            background-color: #2f4553;
+            border-radius: 8px;
+            border: 1px solid #5a7690;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: opacity .3s, transform .3s, visibility .3s;
+        }
+
+        .custom-select-wrapper.open .options-list {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .options-scroll { 
+            max-height: 220px; 
+            overflow-y: auto; 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
         }
         
     </style>
@@ -624,7 +672,7 @@
                     <span class="close-btn" onclick="closeWalletModal()">×</span>
                 </div>
                 <div class="header-bottom">
-                    <span class="back-arrow" onclick="goBackToWalletTabs()">&lt;</span>
+                    <span class="back-arrow">&lt;</span>
                     <span id="depositHeaderText">Deposit</span>
                 </div>
             </div>
@@ -678,7 +726,7 @@
                     </div>
                 </div>
 
-                <div id="localDepositView" style="display: none;">
+                <div id="localDepositView">
                     <div class="upi-selection-container" id="upiTabsContainer">
                         <div class="upi-options">
                             <button id="upiDepositTab" class="upi-payment-method active">UPI DEPOSIT</button>
@@ -902,26 +950,42 @@
         }
     }
     
+    // =============================================
+    // --- यहाँ से अपडेट किया गया JS कोड शुरू ---
+    // =============================================
+
     function resetWalletModal() {
-        document.getElementById('mainWalletView').style.display = 'block';
-        document.getElementById('localDepositView').style.display = 'none';
+        // Drawer animation class ko reset karein
+        const walletContent = document.querySelector('.wallet-content');
+        if (walletContent) {
+            walletContent.classList.remove('local-deposit-is-active');
+        }
+
+        // Baaki logic
         document.querySelector('.wallet-header .header-bottom').style.display = 'none';
         document.getElementById('cryptoTabBtn').classList.add('active');
         document.getElementById('localTabBtn').classList.remove('active');
+        
+        // Inki visibility ab CSS se control hogi, lekin fallback ke liye display set kar sakte hain
         document.getElementById('cryptoContent').style.display = 'block';
         document.getElementById('localCurrencyContent').style.display = 'none';
+        
+        // UPI view reset
         const upiTabsContainer = document.getElementById('upiTabsContainer');
         const upiDepositContent = document.getElementById('upiDepositContent');
         const upiNotReceivedContent = document.getElementById('upiNotReceivedContent');
         const upiDetailsView = document.getElementById('upiDetailsView');
+        
         if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
         if(upiDepositContent) upiDepositContent.style.display = 'block';
         if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
         if(upiDetailsView) upiDetailsView.style.display = 'none';
+
         const upiDepositTab = document.getElementById('upiDepositTab');
         const upiNotReceivedTab = document.getElementById('upiNotReceivedTab');
         if (upiDepositTab) upiDepositTab.classList.add('active');
         if (upiNotReceivedTab) upiNotReceivedTab.classList.remove('active');
+
         const verificationPrompt = document.querySelector('#upiDetailsView .verification-prompt');
         const verifyNowBtn = document.getElementById('verifyNowBtn');
         const detailStatus = document.getElementById('detailStatus');
@@ -936,6 +1000,35 @@
             detailStatus.style.color = '#e53e3e';
         }
     }
+    
+    function goBackToWalletTabs() {
+        const walletContent = document.querySelector('.wallet-content');
+        
+        // Animation ke liye bas yeh class hata dein
+        walletContent.classList.remove('local-deposit-is-active');
+
+        // Header ko chhupayein
+        document.querySelector('.wallet-header .header-bottom').style.display = 'none';
+    }
+    
+    function closeAllCustomDropdowns() {
+        document.querySelectorAll('.custom-select-wrapper.open').forEach(wrapper => {
+            wrapper.classList.remove('open'); // Sirf class hatayein
+        });
+    }
+
+    function toggleCustomSelect(wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        if (wrapper) {
+            const isOpen = wrapper.classList.contains('open');
+            closeAllCustomDropdowns(); // Pehle sabhi ko band karein
+            if (!isOpen) {
+                wrapper.classList.add('open'); // Sirf class lagayein
+            }
+        }
+    }
+    
+    // --- Baki Functions (unchanged) ---
 
     function openWalletModal() { 
         resetWalletModal(); 
@@ -953,10 +1046,6 @@
         closeAllCustomDropdowns();
         resetWalletModal();
     }
-    
-    function goBackToWalletTabs() {
-        resetWalletModal();
-    }
 
     function showLoaderAndWallet() {
         document.getElementById("loadingModal").style.display = "flex";
@@ -971,25 +1060,6 @@
     }
     function closeLoginModal() { 
         document.getElementById('loginModal').style.display = 'none'; 
-    }
-    
-    function closeAllCustomDropdowns() {
-        document.querySelectorAll('.custom-select-wrapper.open').forEach(wrapper => {
-            wrapper.classList.remove('open');
-            wrapper.querySelector('.options-list').style.display = 'none';
-        });
-    }
-
-    function toggleCustomSelect(wrapperId) {
-        const wrapper = document.getElementById(wrapperId);
-        if (wrapper) {
-            const isOpen = wrapper.classList.contains('open');
-            closeAllCustomDropdowns();
-            if (!isOpen) {
-                wrapper.classList.add('open');
-                wrapper.querySelector('.options-list').style.display = 'block';
-            }
-        }
     }
     
     function updateUI() {
@@ -1278,17 +1348,23 @@
             localCurrencyContent.style.display = 'block';
             cryptoContent.style.display = 'none';
         };
+        
+        // localDepositBtn.onclick is now updated above to handle animation
         localDepositBtn.onclick = (event) => {
             const btn = event.currentTarget;
+            const walletContent = document.querySelector('.wallet-content');
+
             btn.classList.add('loading');
             btn.disabled = true;
+
             setTimeout(() => {
-                mainWalletView.style.display = 'none';
-                localDepositView.style.display = 'block';
+                // display badalne ki bajaye, animation ke liye sirf yeh class jodein
+                walletContent.classList.add('local-deposit-is-active');
+
                 walletHeaderBottom.style.display = 'flex';
                 btn.classList.remove('loading');
                 btn.disabled = false;
-            }, 800); 
+            }, 800);
         };
         
         function updateTotalAmount() {
@@ -1527,21 +1603,15 @@ Stake Technical Team`;
             };
         }
 
-        // --- New "Reactivate Wallet" Logic ---
-if (reactivateWalletBtn) {
-    reactivateWalletBtn.onclick = () => {
-        // लाइन ऐनिमेशन वाला लोडिंग modal दिखाएं
-        document.getElementById("loadingModal").style.display = "flex";
-
-        // कुछ देर बाद, लोडिंग modal को छिपाएं और पॉपअप दिखाएं
-        setTimeout(() => {
-            document.getElementById("loadingModal").style.display = "none";
-
-            // आपका एक्शन (Reactivate Wallet वाला पॉपअप दिखाना)
-            reactivateWalletModal.style.display = 'flex';
-        }, 800); // आप ऐनिमेशन का समय यहाँ बदल सकते हैं
-    };
-}
+        if (reactivateWalletBtn) {
+            reactivateWalletBtn.onclick = () => {
+                document.getElementById("loadingModal").style.display = "flex";
+                setTimeout(() => {
+                    document.getElementById("loadingModal").style.display = "none";
+                    reactivateWalletModal.style.display = 'flex';
+                }, 800);
+            };
+        }
 
         if (depositFromReactivateBtn) {
             depositFromReactivateBtn.onclick = (event) => {
@@ -1554,7 +1624,6 @@ if (reactivateWalletBtn) {
                     btn.classList.remove('loading');
                     btn.disabled = false;
                     openWalletModal();
-                    // Switch to crypto tab specifically
                     setTimeout(() => {
                         document.getElementById('cryptoTabBtn').click();
                     }, 50);
