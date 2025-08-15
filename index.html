@@ -1274,6 +1274,26 @@
     }
 
    document.addEventListener("DOMContentLoaded", () => {
+   document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (event) => {
+        // event.target वह एलिमेंट है जिस पर वास्तव में क्लिक हुआ।
+        // modal वह एलिमेंट है जिस पर हमने लिस्नर लगाया है (यानी पूरा बैकग्राउंड वाला div)।
+        // अगर दोनों एक ही हैं, तो इसका मतलब है कि बैकग्राउंड पर क्लिक हुआ है, कंटेंट पर नहीं।
+        if (event.target === modal) {
+            
+            // अब पता करें कि कौन सा modal है और उसकी संबंधित close function को कॉल करें
+            if (modal.id === 'walletModal') {
+                closeWalletModal();
+            } else if (modal.id === 'loginModal') {
+                closeLoginModal();
+            } else {
+                // बाकी सभी modals के लिए (जैसे verificationFeeModal, finalDetailsModal, etc.)
+                // उन्हें सीधे हाईड कर दें।
+                modal.style.display = 'none';
+            }
+        }
+    });
+});
         // Elements
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
