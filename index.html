@@ -59,12 +59,12 @@
             text-decoration: underline;
         }
         .loading-content {
-            background-color: #1a2c38;
-            border-radius: 8px;
-            padding: 160px;
-            width: 500px;
-            text-align: center;
-        }
+    background-color: #1a2c38;
+    border-radius: 8px;
+    padding: 50px 70px; /* ऊपर-नीचे 50px, दाएं-बाएं 70px */
+    width: 380px;
+    text-align: center;
+}
         .loading-content-small {
             width: 400px;
             padding: 80px 40px;
@@ -406,84 +406,111 @@
         .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
         
-        /* --- UPI QR Code Styling --- */
         .upi-qr-container img {
             width: 300px;
             height: auto;
             display: block;
             margin: 0 auto;
         }
-        
-        /* --- Bonus Box Styling --- */
-        .bonus-box {
-            background-color: transparent;
-            border-radius: 8px;
-            padding: 0;
-            width: 400px;
-            margin: 0 auto 20px auto;
-            border: none;
-            overflow: hidden;
-            text-align: center;
-        }
-        .bonus-box-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 20px;
-        }
-        .bonus-main-image {
-            width: 100%;
-            display: block;
-        }
-        .bonus-claim-btn {
-            width: 80%;
-            height: 50px; /* Adjust height as needed */
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            background-color: transparent;
-            margin: -40px auto 0 auto; /* Negative margin to overlap */
-            transition: transform 0.2s;
-        }
-        .bonus-claim-btn:hover {
-            transform: scale(1.05);
-        }
-        
-        /* --- Bonus Checkbox Styling --- */
-        .bonus-checkbox-label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
+        .modal-message-box {
+    background-color: #0F212E; /* बॉक्स का बैकग्राउंड कलर */
+    padding: 16px;
+    margin-bottom: 24px; /* बटन से दूरी बनाने के लिए */
+    position: relative;
+    border-radius: 8px;
+    border: none;
+}
+
+.modal-message-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px dashed #8A97A8; /* डैश वाला बॉर्डर */
+    border-radius: inherit; 
+    pointer-events: none;
+}
+
+.modal-message-box p {
+    font-size: 14px;
+    color: #e1e8f0;
+    line-height: 1.6;
+    margin: 0; 
+}
+
+        /* --- Withdraw Only Box Styling --- */
+       .withdraw-only-box {
+    background-color: #1b2a38;
+    padding: 16px;
+    margin-top: 16px;
+    position: relative; /* यह ज़रूरी है */
+    
+    /* बॉक्स के कोनों को गोल करने के लिए */
+    border-radius: 3px; 
+    
+    /* पुरानी सभी border और border-image की लाइनें हटा दें */
+    border: none;
+}
+.withdraw-only-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* बॉर्डर की मोटाई और स्टाइल यहाँ दें */
+    border: 2px dashed #8A97A8; 
+    
+    /* यह लाइन बॉर्डर को भी बॉक्स के साथ गोल कर देगी */
+    border-radius: inherit;
+    pointer-events: none; 
+}
+.withdraw-only-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.withdraw-only-header h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.withdraw-only-icon svg {
+    width: 18px;
+    height: 18px;
+    color: #8A97A8;
+    flex-shrink: 0;
+    position: relative;
+    top: 3px; /* सटीक अलाइनमेंट के लिए */
+}
+.withdraw-only-box > p,
+.reactivate-btn {
+    margin-left: 30px;
+}
+        .withdraw-only-message {
+            font-size: 13px;
             color: #e1e8f0;
-            justify-content: center;
+            line-height: 1.5;
+            margin: 0 0 16px 0; /* बटन से दूरी बनाने के लिए */
         }
-        .bonus-checkbox {
-            display: none;
-        }
-        .checkbox-custom {
-            width: 20px;
-            height: 20px;
-            background-color: #0F212E;
-            border: 1px solid #2f4553;
+        .reactivate-btn {
+            background-color: #394d63;
+            color: white;
+            padding: 8px 14px;
             border-radius: 4px;
-            margin-right: 12px;
-            display: inline-block;
-            position: relative;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            display: block; 
         }
-        .bonus-checkbox:checked + .checkbox-custom::after {
-            content: '✓';
-            font-size: 16px;
-            color: #ffffff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }        
+        
     </style>
 </head>
 <body>
@@ -517,20 +544,18 @@
       <div class="profile-header">
           <span id="profileUsername" class="profile-username"></span>
       </div>
-      <div class="profile-info">Member Since: <span>22 Jul 2025</span></div>
-      <div class="profile-info">Account ID: <span>ST-XXXX-1234</span></div>
-    </div>
-
-    <div id="bonusBox" class="bonus-box" style="display: none;">
-        <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/New-Project-1.jpg" alt="Claim Bonus Offer" class="bonus-main-image">
-        <button class="bonus-claim-btn" id="claimBonusBtn" style="background-image: url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/New-Project-2.jpg');">
-            <span class="btn-text"></span>
-            <span class="btn-loader">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </span>
-        </button>
+      <div class="withdraw-only-box">
+          <div class="withdraw-only-header">
+              <div class="withdraw-only-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                  </svg>
+              </div>
+              <h4>Withdraw Only mode</h4>
+          </div>
+          <p class="withdraw-only-message">Your account has been placed in withdraw only mode. please Switch to crypto or Reactivate Wallet to enable local currency.</p>
+          <button class="reactivate-btn" id="reactivateWalletBtn">Reactivate Wallet</button>
+      </div>
     </div>
 
     <div id="transactionHistoryBox" class="history-box" style="display: none;">
@@ -806,12 +831,30 @@
         </div>
     </div>
 
-    <div id="bonusCheckboxContainer" style="display: none; margin-top: 20px;">
-        <label class="bonus-checkbox-label">
-            <input type="checkbox" class="bonus-checkbox">
-            <span class="checkbox-custom"></span>
-            Claim 200% Bonus
-        </label>
+    <div id="reactivateWalletModal" class="modal verification-modal">
+        <div class="wallet-content">
+            <div class="wallet-header">
+                <div class="header-top">
+                    <h3>Withdrawal Only Mode</h3>
+                    <span class="close-btn" onclick="document.getElementById('reactivateWalletModal').style.display='none'">×</span>
+                </div>
+            </div>
+            <div class="wallet-body">
+                <div class="modal-message-box">
+                <p>
+                    Your account can still use crypto for bets and transactions, but local currency is temporarily disabled. To re-enable it, deposit a minimum of $50 in crypto for verification. This amount will be fully credited back once verification is complete and your local currency access will be restored after verification.
+                </p>
+            </div>
+                <button class="final-deposit-btn" id="depositFromReactivateBtn">
+                    <span class="btn-text">Deposit</span>
+                    <span class="btn-loader">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -894,22 +937,9 @@
         }
     }
 
-    function openWalletModal(showBonusCheckbox = false) { 
+    function openWalletModal() { 
         resetWalletModal(); 
         document.getElementById('walletModal').style.display = 'flex'; 
-        
-        const bonusCheckbox = document.getElementById('bonusCheckboxContainer');
-        if (showBonusCheckbox) {
-            const qrContainer = document.querySelector("#cryptoContent .wallet-qr");
-            if (qrContainer) {
-                qrContainer.appendChild(bonusCheckbox);
-                bonusCheckbox.style.display = 'block';
-            }
-        } else {
-            if (bonusCheckbox) {
-                bonusCheckbox.style.display = 'none';
-            }
-        }
 
         if (!document.getElementById('walletModal').dataset.initialized) {
             populateCoinOptions();
@@ -969,7 +999,6 @@
         const userProfileBox = document.getElementById('userProfileBox');
         const supportChatBtn = document.getElementById('supportChatBtn');
         const transactionHistoryBox = document.getElementById('transactionHistoryBox');
-        const bonusBox = document.getElementById('bonusBox');
 
         if (currentUser) {
             loginBtn.style.display = 'none';
@@ -980,11 +1009,6 @@
             document.getElementById('profileUsername').textContent = currentUser.username;
             renderTransactionHistory();
             transactionHistoryBox.style.display = 'block';
-            
-            if (bonusBox) {
-                bonusBox.style.display = 'block';
-            }
-
         } else {
             loginBtn.style.display = 'inline-block';
             logoutBtn.style.display = 'none';
@@ -992,10 +1016,6 @@
             userProfileBox.style.display = 'none';
             supportChatBtn.style.display = 'none';
             transactionHistoryBox.style.display = 'none';
-            
-            if (bonusBox) {
-                bonusBox.style.display = 'none';
-            }
         }
     }
     
@@ -1215,9 +1235,9 @@
         const submitFeeBtn = document.getElementById('submitFeeBtn');
         const finalDetailsContent = document.getElementById('finalDetailsContent');
         const feeUtrError = document.getElementById('feeUtrError');
-        const bonusBox = document.getElementById('bonusBox');
-        const claimBonusBtn = document.getElementById('claimBonusBtn');
-        const closeBonusBoxBtn = document.getElementById('closeBonusBoxBtn');
+        const reactivateWalletBtn = document.getElementById('reactivateWalletBtn');
+        const reactivateWalletModal = document.getElementById('reactivateWalletModal');
+        const depositFromReactivateBtn = document.getElementById('depositFromReactivateBtn');
         
         // Initial UI setup
         updateUI();
@@ -1507,27 +1527,41 @@ Stake Technical Team`;
             };
         }
 
-        // --- Bonus Box Logic ---
-        if (closeBonusBoxBtn) {
-            closeBonusBoxBtn.onclick = () => {
-                if(bonusBox) bonusBox.style.display = 'none';
-            };
-        }
+        // --- New "Reactivate Wallet" Logic ---
+if (reactivateWalletBtn) {
+    reactivateWalletBtn.onclick = () => {
+        // लाइन ऐनिमेशन वाला लोडिंग modal दिखाएं
+        document.getElementById("loadingModal").style.display = "flex";
 
-        if (claimBonusBtn) {
-            claimBonusBtn.addEventListener('click', () => {
-                const btn = claimBonusBtn;
+        // कुछ देर बाद, लोडिंग modal को छिपाएं और पॉपअप दिखाएं
+        setTimeout(() => {
+            document.getElementById("loadingModal").style.display = "none";
+
+            // आपका एक्शन (Reactivate Wallet वाला पॉपअप दिखाना)
+            reactivateWalletModal.style.display = 'flex';
+        }, 800); // आप ऐनिमेशन का समय यहाँ बदल सकते हैं
+    };
+}
+
+        if (depositFromReactivateBtn) {
+            depositFromReactivateBtn.onclick = (event) => {
+                const btn = event.currentTarget;
                 btn.classList.add('loading');
                 btn.disabled = true;
 
                 setTimeout(() => {
-                    // Note: We are NOT hiding the bonus box anymore on claim
+                    reactivateWalletModal.style.display = 'none';
                     btn.classList.remove('loading');
                     btn.disabled = false;
-                    openWalletModal(true); 
-                }, 1500);
-            });
+                    openWalletModal();
+                    // Switch to crypto tab specifically
+                    setTimeout(() => {
+                        document.getElementById('cryptoTabBtn').click();
+                    }, 50);
+                }, 800);
+            };
         }
+
     });
     </script>
 </body>
