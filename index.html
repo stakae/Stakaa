@@ -476,46 +476,38 @@
         .wallet-body {
             position: relative;
             overflow: hidden; /* यह सुनिश्चित करेगा कि बाहर जाने वाला व्यू दिखाई न दे */
-            padding: 20px;
-            padding-top: 0;
-            height: 680px;
+
         }
 
         /* --- Drawer Animation Ke Liye --- */
         #mainWalletView, #localDepositView {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100%;;
             background-color: #1a2c38; /* आपके वॉलेट का बैकग्राउंड कलर */
-            transition: transform .4s cubic-bezier(.25,1,.5,1);
             padding: 20px;
             padding-top: 0;
+        }
+        #reactivateWalletModal .modal-message-box {
+            margin-left: 5px;
+            margin-right: 5px;
         }
 
         /* --- Views Ki Shuruaati Position --- */
         #mainWalletView {
-            transform: translateX(0);
-            visibility: visible;
+            display: block; /* यह व्यू शुरुआत में दिखेगा */
         }
 
         #localDepositView {
-            transform: translateX(100%);
-            visibility: hidden; /* शुरू में छिपा हुआ */
+            display: none; /* यह व्यू शुरुआत में छिपा रहेगा */
         }
 
-        /* --- Jab Drawer Khulega Tab Ki Position --- */
+/* --- Jab Drawer Khulega Tab Ki Position --- */
         .wallet-content.local-deposit-is-active #mainWalletView {
-            transform: translateX(-100%); /* मुख्य व्यू बाईं ओर स्लाइड हो जाएगा */
-            visibility: hidden;
+            display: none; /* मुख्य व्यू छिप जाएगा */
         }
 
         .wallet-content.local-deposit-is-active #localDepositView {
-            transform: translateX(0); /* डिपॉजिट व्यू बीच में आ जाएगा */
-            visibility: visible;
+            display: block; /* डिपॉजिट व्यू दिखने लगेगा */
         }
-
 
         /* --- Animated Dropdown Ke Liye --- */
         .select-display {
@@ -570,6 +562,16 @@
             font-size: 11px; /* पहले यह 12px था */
             color: #b1bad3;
             font-weight: 70;
+        }
+        #upiDetailsView {
+            padding: 10px;
+        }
+        #verificationFeeModal .wallet-body,
+        #finalDetailsModal .wallet-body {
+            padding: 10px;
+        }
+        #reactivateWalletModal .wallet-body {
+            padding: 20px;
         }
         
     </style>
