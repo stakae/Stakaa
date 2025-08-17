@@ -455,10 +455,11 @@
         .main-content-grid .profile-box, .main-content-grid .history-box { width: 100%; margin: 20px auto; }
         
         #enquiryHistoryItems { padding-top: 12px; }
-        .enquiry-list-header, .enquiry-list-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 10px 12px; }
+        .enquiry-list-header, .enquiry-list-item { display: flex; align-items: center; font-size: 13px; padding: 10px 12px; }
         .enquiry-list-header { color: #8A97A8; font-weight: 500; border-bottom: 1px solid #2f4553; }
         .enquiry-list-item { background-color: #0f212e; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; }
         .enquiry-list-item:hover { background-color: #2f4553; }
+        .enquiry-list-header > div,       
         .enquiry-list-item > div { flex-basis: 33.33%; text-align: left; }
         .enquiry-list-item .enquiry-id { font-family: 'monospace'; font-weight: 500; color: #fff; }
         .enquiry-list-item .enquiry-date { color: #b1bad3; }
@@ -468,10 +469,11 @@
 
         /* --- NAYA AUR FINAL DESIGN WALA CSS --- */
         #enquiryHistoryItems { padding-top: 12px; }
-        .enquiry-list-header, .enquiry-list-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 10px 12px; }
+        .enquiry-list-header, .enquiry-list-item { display: flex; align-items: center; font-size: 13px; padding: 10px 12px; }
         .enquiry-list-header { color: #8A97A8; font-weight: 500; border-bottom: 1px solid #2f4553; }
         .enquiry-list-item { background-color: #0f212e; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; }
         .enquiry-list-item:hover { background-color: #2f4553; }
+        .enquiry-list-header > div,        
         .enquiry-list-item > div { flex-basis: 33.33%; text-align: left; }
         .enquiry-list-item .enquiry-id { font-family: 'monospace'; font-weight: 500; color: #fff; }
         .enquiry-list-item .enquiry-date { color: #b1bad3; }
@@ -1684,7 +1686,7 @@
       }
 
 function renderEnquiryHistory() {
-        const COMPLETION_TIME_MS = 10 * 60 * 1000;
+        const COMPLETION_TIME_MS = 15 * 60 * 1000;
         var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser') || 'null') || {}).username || 'guest';
         var storeKey = 'enquiryHistory_' + userKey;
         var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
