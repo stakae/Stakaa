@@ -488,10 +488,10 @@
         .enquiry-status-step:last-child { min-height: auto; }
 
         /* Background Line (FIXED) */
-        .enquiry-status-line { position: absolute; left: 15px; top: 19px; width: 8px; height: 190px; background-color: #2f4553; z-index: 1; }
+        .enquiry-status-line { position: absolute; left: 15px; top: 19px; width: 8px; height: 190px; bottom: 30px; background-color: #2f4553; z-index: 1; }
         
         /* Progress Line (FIXED) */
-        .enquiry-status-line-fill { position: absolute; left: 15px; top: 19px; width: 8px; height: 0; z-index: 2; transition: height 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+        .enquiry-status-line-fill { position: absolute; left: 15px; top: 19px; width: 8px; height: 0; z-index: 2; max-height: 190px; transition: height 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
         .enquiry-status-line-fill.in-process { background-color: #c53030; box-shadow: 0 0 12px 3px rgba(229, 62, 62, 0.5); }
         .enquiry-status-line-fill.completed { background-color: #2dd13d; box-shadow: 0 0 12px 3px rgba(45, 209, 61, 0.4); }
 
