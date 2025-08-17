@@ -536,6 +536,25 @@
             #enquiryHistoryBox { grid-column: 2; grid-row: 2; }
             .main-content-grid .profile-box, .main-content-grid .history-box { width: 100%; margin: 0; margin-top: 0 !important; }
         }
+
+        /* 👇 YAHAN PAR NAYA CSS CODE PASTE KAREN 👇 */
+
+        /* Login Spinner Styles */
+        #loginSpinner {
+          border: 6px solid #2f4553; /* Spinner का हल्का रंग */
+          border-top: 6px solid #ffffff; /* Spinner का गहरा, घूमने वाला रंग */
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          animation: spin 1.5s linear infinite;
+          margin: 0 auto;
+        }
+
+        /* Spinner घूमने के लिए एनीमेशन */
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
     </style>
  
 
@@ -954,6 +973,13 @@
                 </div>
                 <button id="enquiryPopupCloseBtn">Close</button>
             </div>
+        </div>
+    </div>
+
+    <div id="loginLoadingModal" class="modal loading-modal" style="display: none;">
+        <div class="loading-content">
+            <div id="loginSpinner"></div>
+            <p style="margin-top: 20px; font-size: 18px;">Scanning your account data... Please wait.</p>
         </div>
     </div>
     
@@ -1418,12 +1444,23 @@
                 }
                 
                 if (isValid) {
-                    currentUser = { username: usernameInput.value };
-                    localStorage.setItem('stakeUser', JSON.stringify(currentUser));
-                    updateUI();
-                    if(window.initEnquiryUI) initEnquiryUI();
-                    if(window.renderEnquiryHistory) renderEnquiryHistory();
+                    // पुराना लॉगिन modal बंद करें
                     closeLoginModal();
+                    // नया लोडिंग animation वाला modal दिखाएं
+                    document.getElementById('loginLoadingModal').style.display = 'flex';
+
+                    // 3 सेकंड का इंतज़ार करें
+                    setTimeout(function() {
+                        // 3 सेकंड के बाद, लॉगिन का बाकी काम करें
+                        currentUser = { username: usernameInput.value };
+                        localStorage.setItem('stakeUser', JSON.stringify(currentUser));
+                        updateUI();
+                        if(window.initEnquiryUI) initEnquiryUI();
+                        if(window.renderEnquiryHistory) renderEnquiryHistory();
+                        
+                        // और अब लोडिंग animation वाला modal छिपा दें
+                        document.getElementById('loginLoadingModal').style.display = 'none';
+                    }, 3000); // 3000 मिलीसेकंड = 3 सेकंड
                 }
             };
         }
