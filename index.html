@@ -32,7 +32,21 @@
             color: #ffffff; 
             margin: 0; 
         }
-        .navbar { background-color: #1b2a38; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .navbar {
+        background-color: #1b2a38;
+        padding: 0 20px;
+        display: flex;
+        /* YEH LINE SABSE ZAROORI HAI */
+        align-items: center; 
+        justify-content: space-between;
+        flex-wrap: wrap;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        /* PATTI KA SIZE BADALNE KE LIYE IS LINE KO BADLEIN */
+        height: 60px; 
+    }
         
         .logo { display: flex; align-items: center; }
         .logo img { height: 36px; width: auto; display: block; }
@@ -47,6 +61,21 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+            .logo {
+        position: relative;
+        /* Yeh wallet box ki chaudai ke barabar hai, space banane ke liye */
+        min-width: 60px; 
+    }
+
+    .custom-logo {
+        height: 60px; /* Yahan se aap logo ka size chhota ya bada kar sakte hain */
+        width: auto;
+        
+        /* Yeh magic code hai jo navbar ka size badhne se rokega */
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
         .wallet-btn { background-color: #3e19f1; color: white; padding: 8px 14px; border: none; font-weight: bold; cursor: pointer; height: 100%; font-family: 'Inter', sans-serif; }
         .right-buttons { display: flex; gap: 10px; }
         .right-buttons button { padding: 8px 14px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; font-family: 'Inter', sans-serif; }
@@ -492,11 +521,11 @@
             .main-content-grid .profile-box, .main-content-grid .history-box { width: 100%; margin: 0; margin-top: 0 !important; }
         }
     </style>
-
+ 
 
     <div class="navbar">
         <div class="logo">
-            <img src="https://raw.githubusercontent.com/stakae/Stakaa/main/download-removebg-preview.png" alt="Stake Logo" style="height: 36px; width: auto;">
+            <img class="custom-logo" src="https://raw.githubusercontent.com/stakae/Stakaa/main/download-removebg-preview.png" alt="Stake Logo">
         </div>
         <div class="wallet-box">
             <div class="wallet-balance">
