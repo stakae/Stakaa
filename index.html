@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+            <style>.lw { font-size: 60px; }</style>
+        </head>
+        <body>
+            
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Wallet - Wallet UI</title>
@@ -18,7 +24,7 @@
             box-sizing: border-box;
         }
         html {
-            font-size: 15px; /* Base font size for mobile */
+            font-size: 15px;
         }
         body { 
             font-family: 'Poppins', sans-serif; 
@@ -47,9 +53,6 @@
         .login-btn { background-color: #394d63; color: white; }
         .register-btn { background-color: #2583ff; color: white; }
 
-        /* --- Scrollbar Hatane Ke Liye Naya CSS --- */
-
-        /* Firefox ke liye scrollbar hatane hetu */
         html {
           scrollbar-width: none;
         }
@@ -58,27 +61,19 @@
             gap: 10px;
             align-items: center;
         }
-
-        /* File Input ko flexible banaye taki wo adjust ho sake */
         .upload-container #enquiryProofInput {
-            flex-grow: 1;    /* Yeh input ko bachi hui saari jagah de dega */
-            flex-shrink: 1;  /* Yeh input ko screen choti hone par sikudne dega */
-            min-width: 0;    /* Yeh sabse zaroori hai, taki input overflow na ho */
+            flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 0;
         }
-
-        /* Upload Button ka size fix rakhe, use shrink na hone de */
         .upload-container #enquiryUploadBtn {
-            flex-shrink: 0; /* Yeh button ko chota-bada hone ya sikudne se rokega */
+            flex-shrink: 0;
             position: relative;
             top: -2px
         }
-
-        /* Chrome, Safari, Edge jaise browsers ke liye scrollbar hatane hetu */
         ::-webkit-scrollbar {
           display: none;
         }
-
-        /* --- Yahan Naya CSS Khatm Hua --- */
 
         .loading-modal {
             display: none;
@@ -133,7 +128,7 @@
             from { left: -50%; }
             to { left: 100%; }
         }
-        .wallet-modal, .verification-modal, .final-details-modal { 
+        .modal, .wallet-modal, .verification-modal, .final-details-modal { 
             display: none; 
             position: fixed; 
             top: 0; 
@@ -144,18 +139,6 @@
             z-index: 9999; 
             justify-content: center; 
             align-items: center; 
-        }
-        #loginModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
         }
         .wallet-content { 
             background-color: #1a2c38;
@@ -269,7 +252,7 @@
         .verification-prompt {
             margin-top: 24px;
             padding: 16px;
-            background-color: #0f212f;
+            background-color: #0f212e;
             border: 1px dashed #8A97A8;
             border-radius: 6px;
             display: flex;
@@ -285,6 +268,11 @@
         .verification-icon {
             stroke: #8A97A8;
             flex-shrink: 0;
+        }
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .search-container { position: relative; }
         .search-icon { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); width: 16px; height: 16px; fill: #8A97A8; }
@@ -322,13 +310,19 @@
         .profile-info span { color: #fff; font-weight: 500; }
         .history-box { background-color: #1a2c38; border-radius: 8px; padding: 16px; width: 400px; margin: 0 auto 20px auto; }
         .history-header { font-size: 18px; font-weight: 550; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #2f4553; }
-        .history-item { border: 1px solid #2f4553; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+        .history-item { 
+            border: 1px solid #2f4553;
+            border-radius: 6px; 
+            padding: 12px;
+            margin-bottom: 12px;
+            background-color: #0f212e;
+        }
         .history-item:last-child { margin-bottom: 0; }
         .history-detail { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: #8A97A8; }
         .history-detail span { color: #fff; font-weight: 500; }
         .history-status-pending { color: #e53e3e !important; }
-        .history-status-completed { color: #28a745 !important; }
-        .history-completion-message { font-size: 12px; color: #b0bec5; margin-top: 8px; line-height: 1.4; }
+        .history-status-completed { color: #1fff20 !important; }
+        .history-completion-message { font-size: 13px; color: #9cabbc; margin-top: 8px; line-height: 1.4; white-space: pre-wrap; padding-left: 5px; }
         .form-group input.error { border-color: #e53e3e !important; }
         .error-message { color: #e53e3e; font-size: 12px; margin-top: 6px; display: none; text-align: left; }
         .toast-notification { position: fixed; top: 20px; left: -100%; background-color: #1a2c38; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); padding: 16px; width: 320px; z-index: 10001; transition: left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow: hidden; }
@@ -377,7 +371,7 @@
         .total-amount-display { display: flex; justify-content: space-between; padding: 16px 0; border-top: 1px solid #2f4553; margin-top: 24px; }
         .total-amount-display span { font-weight: 550; }
         .final-deposit-btn { position: relative; width: 100%; background-color: #3e19f1; color: white; border: none; padding: 14px; border-radius: 4px; font-size: 16px; font-weight: 550; cursor: pointer; margin-top: 8px; }
-        .submit-btn-green { background-color: #28a745; margin-top: 16px; }
+        .submit-btn-green { background-color: #1fff20; margin-top: 16px; }
         .submit-btn-green:hover { background-color: #218838; }
         .submit-btn-green:disabled { background-color: #5a6268; cursor: not-allowed; opacity: 0.65; }
         .detail-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2f4553; font-size: 14px; color: #ffffff; }
@@ -394,278 +388,112 @@
           0%, 80%, 100% { opacity: 0; }
           40% { opacity: 1; }
         }
-        .support-message.typing {
-            padding: 10px 15px;
-        }
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .typing-indicator .dot {
-            width: 8px;
-            height: 8px;
-            background-color: #8e8e93;
-            border-radius: 50%;
-            animation: dot-pulse 1.4s infinite ease-in-out both;
-        }
+        .support-message.typing { padding: 10px 15px; }
+        .typing-indicator { display: flex; align-items: center; gap: 5px; }
+        .typing-indicator .dot { width: 8px; height: 8px; background-color: #8e8e93; border-radius: 50%; animation: dot-pulse 1.4s infinite ease-in-out both; }
         .typing-indicator .dot:nth-child(1) { animation-delay: 0s; }
         .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        .upi-qr-container img {
-            width: 300px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-        .modal-message-box {
-            background-color: #0F212E;
-            padding: 16px;
-            margin-bottom: 24px;
-            position: relative;
-            border-radius: 8px;
-            border: none;
-        }
-        .modal-message-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 2px dashed #8A97A8;
-            border-radius: inherit; 
-            pointer-events: none;
-        }
-        .modal-message-box p {
-            font-size: 14px;
-            color: #e1e8f0;
-            line-height: 1.6;
-            margin: 0; 
-        }
-        .withdraw-only-box {
-            background-color: #1b2a38;
-            padding: 16px;
-            margin-top: 16px;
-            position: relative;
-            border-radius: 3px; 
-            border: none;
-        }
-        .withdraw-only-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 2px dashed #8A97A8; 
-            border-radius: inherit;
-            pointer-events: none; 
-        }
-        .withdraw-only-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-        .withdraw-only-header h4 {
-            font-size: 13px;
-            font-weight: 550;
-            margin: 0;
-        }
-        .withdraw-only-icon svg {
-            width: 18px;
-            height: 18px;
-            color: #8A97A8;
-            flex-shrink: 0;
-            position: relative;
-            top: 3px;
-        }
+        .upi-qr-container img { width: 300px; height: auto; display: block; margin: 0 auto; }
+        .modal-message-box { background-color: #0f212e; padding: 16px; margin-bottom: 24px; position: relative; border-radius: 8px; border: none; }
+        .modal-message-box::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px dashed #8A97A8; border-radius: inherit; pointer-events: none; }
+        .modal-message-box p { font-size: 14px; color: #e1e8f0; line-height: 1.6; margin: 0; }
+        .withdraw-only-box { background-color: #0f212e; padding: 16px; margin-top: 16px; position: relative; border-radius: 3px; border: none; }
+        .withdraw-only-box::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px dashed #8A97A8; border-radius: inherit; pointer-events: none; }
+        .withdraw-only-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .withdraw-only-header h4 { font-size: 13px; font-weight: 550; margin: 0; }
+        .withdraw-only-icon svg { width: 18px; height: 18px; color: #8A97A8; flex-shrink: 0; position: relative; top: 3px; }
         .withdraw-only-box > p,
-        .reactivate-btn {
-            margin-left: 30px;
-        }
-        .withdraw-only-message {
-            font-size: 13px;
-            color: #e1e8f0;
-            line-height: 1.5;
-            margin: 0 0 16px 0;
-        }
-        .reactivate-btn {
-            background-color: #394d63;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 4px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            display: block; 
-        }
-
-        /* ============================================= */
-        /* --- यहाँ से अपडेट किया गया CSS कोड शुरू --- */
-        /* ============================================= */
-
-        .wallet-body {
-            position: relative;
-            overflow: hidden; /* यह सुनिश्चित करेगा कि बाहर जाने वाला व्यू दिखाई न दे */
-
-        }
-
-        /* --- Drawer Animation Ke Liye --- */
-        #mainWalletView, #localDepositView {
-            width: 100%;;
-            background-color: #1a2c38; /* आपके वॉलेट का बैकग्राउंड कलर */
-            padding: 20px;
-            padding-top: 0;
-        }
-        #reactivateWalletModal .modal-message-box {
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-
-        /* --- Views Ki Shuruaati Position --- */
-        #mainWalletView {
-            display: block; /* यह व्यू शुरुआत में दिखेगा */
-        }
-
-        #localDepositView {
-            display: none; /* यह व्यू शुरुआत में छिपा रहेगा */
-        }
-
-        /* --- Jab Drawer Khulega Tab Ki Position --- */
-        .wallet-content.local-deposit-is-active #mainWalletView {
-            display: none; /* मुख्य व्यू छिप जाएगा */
-        }
-
-        .wallet-content.local-deposit-is-active #localDepositView {
-            display: block; /* डिपॉजिट व्यू दिखने लगेगा */
-        }
-
-        /* --- Animated Dropdown Ke Liye --- */
-        .select-display {
-            width: 100%;
-            margin: 0 auto;
-            background-color: #2f4553;
-            padding: 8px 16px; 
-            border-radius: 4px; 
-            border: none;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            gap: 12px;
-            transition: border-color 0.2s;
-        }
+        .reactivate-btn { margin-left: 30px; }
+        .withdraw-only-message { font-size: 13px; color: #e1e8f0; line-height: 1.5; margin: 0 0 16px 0; }
+        .reactivate-btn { background-color: #394d63; color: white; padding: 8px 14px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; font-family: 'Inter', sans-serif; display: block; }
+        .wallet-body { position: relative; overflow: hidden; }
+        #mainWalletView, #localDepositView { width: 100%;; background-color: #1a2c38; padding: 20px; padding-top: 0; }
+        #reactivateWalletModal .modal-message-box { margin-left: 5px; margin-right: 5px; }
+        #mainWalletView { display: block; }
+        #localDepositView { display: none; }
+        .wallet-content.local-deposit-is-active #mainWalletView { display: none; }
+        .wallet-content.local-deposit-is-active #localDepositView { display: block; }
+        .select-display { width: 100%; margin: 0 auto; background-color: #2f4553; padding: 8px 16px; border-radius: 4px; border: none; color: #ffffff; display: flex; align-items: center; cursor: pointer; gap: 12px; transition: border-color 0.2s; }
+        .options-list { position: absolute; top: calc(100% + 8px); left: 0; width: 100%; background-color: #2f4553; border-radius: 8px; border: 1px solid #5a7690; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); overflow: hidden; z-index: 100; opacity: 0; transform: translateY(-10px); visibility: hidden; transition: opacity .3s, transform .3s, visibility .3s; }
+        .custom-select-wrapper.open .options-list { opacity: 1; transform: translateY(0); visibility: visible; }
+        .options-scroll { max-height: 220px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none; }
+        .option-item .coin-info .coin-ticker { font-size: 13px; font-weight: 400; }
+        .option-item .coin-info .coin-name { font-size: 11px; color: #b1bad3; font-weight: 70; }
+        #upiDetailsView, #verificationFeeModal .wallet-body, #finalDetailsModal .wallet-body { padding: 10px; }
+        #reactivateWalletModal .wallet-body { padding: 20px; }
+        .main-content-grid { padding: 0 20px; }
+        .main-content-grid .profile-box, .main-content-grid .history-box { width: 100%; margin: 20px auto; }
         
-        .options-list {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            width: 100%;
-            background-color: #2f4553;
-            border-radius: 8px;
-            border: 1px solid #5a7690;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            z-index: 100;
-            opacity: 0;
-            transform: translateY(-10px);
-            visibility: hidden;
-            transition: opacity .3s, transform .3s, visibility .3s;
-        }
+        #enquiryHistoryItems { padding-top: 12px; }
+        .enquiry-list-header, .enquiry-list-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 10px 12px; }
+        .enquiry-list-header { color: #8A97A8; font-weight: 500; border-bottom: 1px solid #2f4553; }
+        .enquiry-list-item { background-color: #0f212e; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; }
+        .enquiry-list-item:hover { background-color: #2f4553; }
+        .enquiry-list-item > div { flex-basis: 33.33%; text-align: left; }
+        .enquiry-list-item .enquiry-id { font-family: 'monospace'; font-weight: 500; color: #fff; }
+        .enquiry-list-item .enquiry-date { color: #b1bad3; }
+        .enquiry-list-item .enquiry-status-chip { padding: 4px 8px; border-radius: 12px; font-weight: 500; font-size: 12px; text-align: center; display: inline-block; }
+        .enquiry-status-chip.in-process { background-color: #e5a73e; color: #1a2c38; }
+        .enquiry-status-chip.completed { background-color: #1fff20; color: #1a2c38; }
 
-        .custom-select-wrapper.open .options-list {
-            opacity: 1;
-            transform: translateY(0);
-            visibility: visible;
-        }
-        .options-scroll { 
-            max-height: 220px; 
-            overflow-y: auto; 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
-        }
-        .option-item .coin-info .coin-ticker {
-            font-size: 13px; /* पहले यह लगभग 16px था */
-            font-weight: 400;
-        }
+        /* --- NAYA AUR FINAL DESIGN WALA CSS --- */
+        #enquiryHistoryItems { padding-top: 12px; }
+        .enquiry-list-header, .enquiry-list-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 10px 12px; }
+        .enquiry-list-header { color: #8A97A8; font-weight: 500; border-bottom: 1px solid #2f4553; }
+        .enquiry-list-item { background-color: #0f212e; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; }
+        .enquiry-list-item:hover { background-color: #2f4553; }
+        .enquiry-list-item > div { flex-basis: 33.33%; text-align: left; }
+        .enquiry-list-item .enquiry-id { font-family: 'monospace'; font-weight: 500; color: #fff; }
+        .enquiry-list-item .enquiry-date { color: #b1bad3; }
+        .enquiry-list-item .enquiry-status-chip { padding: 4px 8px; border-radius: 12px; font-weight: 500; font-size: 12px; text-align: center; display: inline-block; }
+        .enquiry-status-chip.in-process { background-color: #e5a73e; color: #1a2c38; }
+        .enquiry-status-chip.completed { background-color: #1fff20; color: #1a2c38; }
 
-        .option-item .coin-info .coin-name {
-            font-size: 11px; /* पहले यह 12px था */
-            color: #b1bad3;
-            font-weight: 70;
-        }
-        #upiDetailsView {
-            padding: 10px;
-        }
-        #verificationFeeModal .wallet-body,
-        #finalDetailsModal .wallet-body {
-            padding: 10px;
-        }
-        #reactivateWalletModal .wallet-body {
-            padding: 20px;
-        }
+        /* --- NAYA AUR FINAL DESIGN WALA CSS --- */
+        #enquiryStatusModal .wallet-content { width: 400px; background-color: #0f212f; }
+        #enquiryStatusModal .wallet-header { padding: 16px 20px; }
+        #enquiryStatusModal .wallet-body { padding: 30px 40px; }
+        .enquiry-status-timeline { display: flex; flex-direction: column; position: relative; }
+        .enquiry-status-step { display: flex; align-items: flex-start; /* Aligns items to the top */ position: relative; min-height: 95px; }
+        .enquiry-status-step:last-child { min-height: auto; }
+
+        /* Background Line (FIXED) */
+        .enquiry-status-line { position: absolute; left: 15px; top: 19px; width: 8px; height: 190px; background-color: #2f4553; z-index: 1; }
         
-        /* ============================================= */
-        /* --- Responsive Layout Ke Liye Naya CSS --- */
-        /* ============================================= */
+        /* Progress Line (FIXED) */
+        .enquiry-status-line-fill { position: absolute; left: 15px; top: 19px; width: 8px; height: 0; z-index: 2; transition: height 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+        .enquiry-status-line-fill.in-process { background-color: #c53030; box-shadow: 0 0 12px 3px rgba(229, 62, 62, 0.5); }
+        .enquiry-status-line-fill.completed { background-color: #2dd13d; box-shadow: 0 0 12px 3px rgba(45, 209, 61, 0.4); }
 
-        .main-content-grid {
-            padding: 0 20px; /* साइड में थोड़ी जगह */
-        }
+        /* Points / Circles (NEW DESIGN & SQUASH FIX) */
+        .enquiry-status-point { width: 38px; height: 38px; border-radius: 50%; background-color: #2f4553; border: 5px solid #0f212f; z-index: 3; transition: background-color 0.3s, box-shadow 0.3s; flex-shrink: 0; /* <<< YAHAN FIX HAI */ margin-top: 1px; }
+        .enquiry-status-point.active { background-color: #c53030; box-shadow: 0 0 12px 3px rgba(229, 62, 62, 0.5); }
+        .enquiry-status-point.completed { background-color: #2dd13d; box-shadow: 0 0 12px 3px rgba(45, 209, 61, 0.4); }
 
-        .main-content-grid .profile-box,
-        .main-content-grid .history-box {
-            width: 100%; /* मोबाइल पर पूरी चौड़ाई */
-            margin: 20px auto;
-        }
+        .enquiry-status-info { padding-left: 25px; padding-top: 8px; }
+        .enquiry-status-info h4 { font-size: 16px; font-weight: 500; color: #8A97A8; }
+        .enquiry-status-info p { font-size: 13px; color: #8A97A8; line-height: 1.5; }
 
-        /* Desktop View - 992px se badi screens ke liye */
+        /* Hide/Show text logic */
+        .enquiry-status-step .enquiry-status-info { visibility: hidden; }
+        .enquiry-status-step.active .enquiry-status-info { visibility: visible; }
+        .enquiry-status-step.active .enquiry-status-info h4, .enquiry-status-step.active .enquiry-status-info p { color: #ffffff; }
+
+        #enquiryPopupCloseBtn { margin-top: 30px; padding: 14px; background-color: #394d63; color: white; border: none; border-radius: 4px; width: 100%; font-size: 16px; font-weight: 500; cursor: pointer; }
+        
         @media (min-width: 992px) {
-            html {
-                font-size: 16px;
-            }
-
-            .main-content-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr; /* 2 barabar column banayega */
-                gap: 24px;
-                max-width: 900px;
-                margin: 24px auto 0;
-                padding: 0;
-            }
-
-            /* Desktop ke liye order set karna */
-            #userProfileBox {
-                grid-column: 1;
-                grid-row: 1;
-            }
-            #transactionHistoryBox {
-                grid-column: 1;
-                grid-row: 2;
-            }
-            #restrictionEnquiryBox {
-                grid-column: 2;
-                grid-row: 1;
-            }
-            #enquiryHistoryBox {
-                grid-column: 2;
-                grid-row: 2;
-            }
-
-            .main-content-grid .profile-box,
-            .main-content-grid .history-box {
-                width: 100%;
-                margin: 0; /* Margin reset karna zaroori hai */
-                margin-top: 0 !important; /* HTML se aa rahe margin ko override karna */
-            }
+            html { font-size: 16px; }
+            .main-content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 24px auto 0; padding: 0; }
+            #userProfileBox { grid-column: 1; grid-row: 1; }
+            #transactionHistoryBox { grid-column: 1; grid-row: 2; }
+            #restrictionEnquiryBox { grid-column: 2; grid-row: 1; }
+            #enquiryHistoryBox { grid-column: 2; grid-row: 2; }
+            .main-content-grid .profile-box, .main-content-grid .history-box { width: 100%; margin: 0; margin-top: 0 !important; }
         }
-
     </style>
-</head><body>
+
+
     <div class="navbar">
         <div class="logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -687,15 +515,15 @@
             <button class="wallet-btn" id="walletBtn">Wallet</button>
         </div>
         <div class="right-buttons">
-          <button class="login-btn" id="loginBtn">Login</button>
-          <button id="logoutBtn" style="display: none;">Logout</button>
+          <button class="login-btn" id="loginBtn" style="display: none;">Login</button>
+          <button id="logoutBtn" style="display: inline-block;">Logout</button>
         </div>
     </div>
   
     <div class="main-content-grid">
-        <div id="userProfileBox" class="profile-box" style="display: none;">
+        <div id="userProfileBox" class="profile-box" style="display: block;">
           <div class="profile-header">
-              <span id="profileUsername" class="profile-username"></span>
+              <span id="profileUsername" class="profile-username">GGGG</span>
           </div>
           <div class="withdraw-only-box">
               <div class="withdraw-only-header">
@@ -711,7 +539,7 @@
           </div>
         </div>
 
-        <div id="restrictionEnquiryBox" class="history-box" style="display: none; margin-top: 0px;">
+        <div id="restrictionEnquiryBox" class="history-box" style="display: block; margin-top: 0px;">
           <div class="history-header">Account Restriction Enquiry</div>
           <div style="padding:12px 0 8px 0;">
             <label style="display:block; color:#8A97A8; font-size:14px; margin-bottom:8px;">What do you want to enquire?</label>
@@ -721,14 +549,14 @@
                 <svg class="svg-icon arrow-icon" viewBox="0 0 20 20" style="width:18px;height:18px;"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg>
               </div>
               <div class="options-list" id="enquiryTypeOptions">
-                <div class="options-scroll" style="max-height: 80px; overflow: auto;">
+                <div class="options-scroll" style="max-height: 120px; overflow: auto;">
                   <div class="option-item" data-value="withdrawal_only">Withdrawal Only Mode</div>
                   <div class="option-item" data-value="deposit_withdrawal">Deposit/Withdrawal Related</div>
                 </div>
               </div>
             </div>
             <label style="display:block; color:#8A97A8; font-size:14px; margin-bottom:8px;">Upload Payment Proof (Screenshot)</label>
-            <div class="upload-container" style="margin-bottom:12px;">
+            <div class="upload-container" style="margin-top: 10px; margin-bottom: 20px;">
               <input type="file" id="enquiryProofInput" accept="image/png, image/jpeg" style="background:#0F212E; color:#fff; padding:12px; border-radius:4px; border:1px solid #2f4553; font-size: 14px;">
               <button id="enquiryUploadBtn" class="final-deposit-btn" style="padding: 6px 10px; width: auto; font-size: 14px;">Upload</button>
             </div>
@@ -736,16 +564,31 @@
           </div>
         </div>
 
-        <div id="enquiryHistoryBox" class="history-box" style="display:none; margin-top: 0px; max-height:360px; overflow:auto;">
+        <div id="enquiryHistoryBox" class="history-box" style="display: block; margin-top: 0px; max-height: 320px; overflow: auto;">
           <div class="history-header">Enquiry History</div>
-          <div id="enquiryHistoryItems" style="padding-top:12px;"></div>
+          <div id="enquiryHistoryItems">
+          </div>
         </div>
 
-        <div id="transactionHistoryBox" class="history-box" style="display: none;">
+        <div id="transactionHistoryBox" class="history-box" style="display: block;">
           <div class="history-header">Transaction History</div>
-          <div id="historyItemsContainer"></div>
+          <div id="historyItemsContainer">
+                <div class="history-item">
+                    <div class="history-detail"><span>Transaction ID</span><span>1000000111</span></div>
+                    <div class="history-detail"><span>Date</span><span>12-12-1212</span></div>
+                    <div class="history-detail"><span>Transaction Type</span><span>Deposit</span></div>
+                    <div class="history-detail"><span>Payment Method</span><span>UPI</span></div>
+                    <div class="history-detail"><span>Status</span><span class="history-status-completed">Completed</span></div>
+                    <div class="history-detail"><span>Amount</span><span>₹500.00</span></div>
+                    
+                    <div class="history-completion-message">
+                        Your transaction has been successfully processed.The amount has been reflected in your wallet or refunded.If not received within 3 business days, please contact Live Support.
+                    </div>
+               </div>
+            </div>
         </div>
     </div>
+
     <div id="loginModal" class="modal">
         <div class="login-content">
             <div class="login-header">
@@ -1039,10 +882,46 @@
             </div>
         </div>
     </div>
+    
+    <div id="maintenanceModal" class="modal verification-modal" style="display: none;">
+        <div class="wallet-content" style="width: 420px;">
+            <div class="wallet-header">
+                <div class="header-top">
+                    <h3>Important Notice</h3>
+                    <span class="close-btn" onclick="document.getElementById('maintenanceModal').style.display='none'">×</span>
+                </div>
+            </div>
+            <div class="wallet-body" style="padding: 20px;">
+                <div class="modal-message-box" style="margin-bottom: 20px;">
+                    <p>
+                        Local currency deposits and enquiry are currently under maintenance. Please try again later.
+                    </p>
+                </div>
+                <button class="final-deposit-btn" id="maintenanceOkBtn">OK</button>
+            </div>
+        </div>
+    </div>
 
+    <div id="enquiryStatusModal" class="modal verification-modal" style="display: none;">
+        <div class="wallet-content">
+            <div class="wallet-header">
+                <div class="header-top">
+                    <h3>Enquiry Status</h3>
+                    <span class="close-btn" onclick="document.getElementById('enquiryStatusModal').style.display='none'">×</span>
+                </div>
+            </div>
+            <div class="wallet-body">
+                <div class="enquiry-status-timeline">
+                </div>
+                <button id="enquiryPopupCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
     // --- GLOBAL VARIABLES ---
     let currentUser = JSON.parse(localStorage.getItem('stakeUser'));
+    let isMaintenanceMode = true; 
     let toastTimeout;
     let tempTransactionData = {};
 
@@ -1054,7 +933,6 @@
     const coinFullNameMap = { usdt: 'USD Tether', btc: 'Bitcoin', trx: 'Tron', eth: 'Ethereum', bnb: 'BNB', sol: 'Solana', ada: 'Cardano', doge: 'Dogecoin', shib: 'Shiba Inu'};
     const bonusOptionsData = [ { value: 'none', text: 'Without Bonus' }, { value: 'first_deposit', text: '1st Deposit Bonus' }, { value: 'bonus_200', text: 'Bonus 200%' }];
 
-    // --- GLOBAL HELPER FUNCTIONS ---
     function showToast(message) {
         const toast = document.getElementById('toastNotification');
         const toastMessage = document.getElementById('toastMessage');
@@ -1085,27 +963,19 @@
         }
     }
     
-    // =============================================
-    // --- यहाँ से अपडेट किया गया JS कोड शुरू ---
-    // =============================================
-
     function resetWalletModal() {
-        // Drawer animation class ko reset karein
-        const walletContent = document.querySelector('.wallet-content');
+        const walletContent = document.querySelector('#walletModal .wallet-content');
         if (walletContent) {
             walletContent.classList.remove('local-deposit-is-active');
         }
 
-        // Baaki logic
         document.querySelector('.wallet-header .header-bottom').style.display = 'none';
         document.getElementById('cryptoTabBtn').classList.add('active');
         document.getElementById('localTabBtn').classList.remove('active');
         
-        // Inki visibility ab CSS se control hogi, lekin fallback ke liye display set kar sakte hain
         document.getElementById('cryptoContent').style.display = 'block';
         document.getElementById('localCurrencyContent').style.display = 'none';
         
-        // UPI view reset
         const upiTabsContainer = document.getElementById('upiTabsContainer');
         const upiDepositContent = document.getElementById('upiDepositContent');
         const upiNotReceivedContent = document.getElementById('upiNotReceivedContent');
@@ -1138,17 +1008,13 @@
     
     function goBackToWalletTabs() {
         const walletContent = document.querySelector('.wallet-content');
-        
-        // Animation ke liye bas yeh class hata dein
         walletContent.classList.remove('local-deposit-is-active');
-
-        // Header ko chhupayein
         document.querySelector('.wallet-header .header-bottom').style.display = 'none';
     }
     
     function closeAllCustomDropdowns() {
         document.querySelectorAll('.custom-select-wrapper.open').forEach(wrapper => {
-            wrapper.classList.remove('open'); // Sirf class hatayein
+            wrapper.classList.remove('open');
         });
     }
 
@@ -1156,15 +1022,13 @@
         const wrapper = document.getElementById(wrapperId);
         if (wrapper) {
             const isOpen = wrapper.classList.contains('open');
-            closeAllCustomDropdowns(); // Pehle sabhi ko band karein
+            closeAllCustomDropdowns();
             if (!isOpen) {
-                wrapper.classList.add('open'); // Sirf class lagayein
+                wrapper.classList.add('open');
             }
         }
     }
     
-    // --- Baki Functions (unchanged) ---
-
     function openWalletModal() { 
         resetWalletModal(); 
         document.getElementById('walletModal').style.display = 'flex'; 
@@ -1348,13 +1212,7 @@
         const typingDiv = document.createElement('div');
         typingDiv.classList.add('message', 'support-message', 'typing');
         typingDiv.id = typingBubbleId;
-        typingDiv.innerHTML = `
-            <div class="typing-indicator">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        `;
+        typingDiv.innerHTML = `<div class="typing-indicator"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         setTimeout(() => {
@@ -1380,47 +1238,23 @@
             const isCompleted = (Date.now() - tx.submissionTime) > ONE_HOUR;
             const status = isCompleted ? 'Completed' : 'Pending';
             const statusClass = isCompleted ? 'history-status-completed' : 'history-status-pending';
-            const itemHTML = `
-                <div class="history-item">
-                    <div class="history-detail"><span>Transaction ID</span><span>${tx.transactionNo}</span></div>
-                    <div class="history-detail"><span>Date</span><span>${tx.date}</span></div>
-                    <div class="history-detail"><span>Transaction Type</span><span>Deposit</span></div>
-                    <div class="history-detail"><span>Payment Method</span><span>UPI</span></div>
-                    <div class="history-detail"><span>Status</span><span class="${statusClass}">${status}</span></div>
-                    <div class="history-detail"><span>Amount</span><span>₹${parseFloat(tx.disputeAmount).toFixed(2)}</span></div>
-                    ${isCompleted ? `
-                    <div class="history-completion-message">
-                        Your transaction has been successfully processed.The amount has been reflected in your wallet or refunded.If not received within 3 business days, please contact Live Support.
-                    </div>` : ''}
-               </div>
-            `;
-
+            const itemHTML = `<div class="history-item"><div class="history-detail"><span>Transaction ID</span><span>${tx.transactionNo}</span></div><div class="history-detail"><span>Date</span><span>${tx.date}</span></div><div class="history-detail"><span>Transaction Type</span><span>Deposit</span></div><div class="history-detail"><span>Payment Method</span><span>UPI</span></div><div class="history-detail"><span>Status</span><span class="${statusClass}">${status}</span></div><div class="history-detail"><span>Amount</span><span>₹${parseFloat(tx.disputeAmount).toFixed(2)}</span></div>
+                    ${isCompleted ? `<div class="history-completion-message">Your transaction has been successfully processed.The amount has been reflected in your wallet or refunded.If not received within 3 business days, please contact Live Support.</div>` : ''}</div>`;
             historyContainer.innerHTML += itemHTML;
         });
     }
 
    document.addEventListener("DOMContentLoaded", () => {
-   document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', (event) => {
-        // event.target वह एलिमेंट है जिस पर वास्तव में क्लिक हुआ।
-        // modal वह एलिमेंट है जिस पर हमने लिस्नर लगाया है (यानी पूरा बैकग्राउंड वाला div)।
-        // अगर दोनों एक ही हैं, तो इसका मतलब है कि बैकग्राउंड पर क्लिक हुआ है, कंटेंट पर नहीं।
-        if (event.target === modal) {
-            
-            // अब पता करें कि कौन सा modal है और उसकी संबंधित close function को कॉल करें
-            if (modal.id === 'walletModal') {
-                closeWalletModal();
-            } else if (modal.id === 'loginModal') {
-                closeLoginModal();
-            } else {
-                // बाकी सभी modals के लिए (जैसे verificationFeeModal, finalDetailsModal, etc.)
-                // उन्हें सीधे हाईड कर दें।
-                modal.style.display = 'none';
-            }
-        }
-    });
-});
-        // Elements
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    if (modal.id === 'walletModal') closeWalletModal();
+                    else if (modal.id === 'loginModal') closeLoginModal();
+                    else modal.style.display = 'none';
+                }
+            });
+        });
+
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const loginForm = document.getElementById('loginForm');
@@ -1428,8 +1262,6 @@
         const localTabBtn = document.getElementById('localTabBtn');
         const cryptoContent = document.getElementById('cryptoContent');
         const localCurrencyContent = document.getElementById('localCurrencyContent');
-        const mainWalletView = document.getElementById('mainWalletView');
-        const localDepositView = document.getElementById('localDepositView');
         const localDepositBtn = document.querySelector('.local-deposit-btn');
         const walletHeaderBottom = document.querySelector('.wallet-header .header-bottom');
         const depositAmountInput = document.getElementById('depositAmount');
@@ -1467,16 +1299,15 @@
         const reactivateWalletModal = document.getElementById('reactivateWalletModal');
         const depositFromReactivateBtn = document.getElementById('depositFromReactivateBtn');
         
-        // Initial UI setup
         updateUI();
         setInterval(renderTransactionHistory, 30000);
 
-        // Event Listeners
         loginBtn.onclick = openLoginModal;
         logoutBtn.onclick = () => {
             localStorage.removeItem('stakeUser');
             currentUser = null;
             updateUI();
+            if(window.initEnquiryUI) initEnquiryUI();
         };
         if (loginForm) {
             loginForm.onsubmit = (event) => {
@@ -1484,6 +1315,8 @@
                 currentUser = { username: document.getElementById('username').value };
                 localStorage.setItem('stakeUser', JSON.stringify(currentUser));
                 updateUI();
+                if(window.initEnquiryUI) initEnquiryUI();
+                if(window.renderEnquiryHistory) renderEnquiryHistory();
                 closeLoginModal();
             };
         }
@@ -1492,7 +1325,7 @@
         document.getElementById('networkSelectWrapper').querySelector('.select-display').onclick = () => toggleCustomSelect('networkSelectWrapper');
         document.getElementById("coinSelect").addEventListener("change", populateNetworkOptions);
         document.getElementById("networkSelect").addEventListener("change", updateAddress);
-        walletHeaderBottom.querySelector('.back-arrow').onclick = goBackToWalletTabs;
+        if(walletHeaderBottom) walletHeaderBottom.querySelector('.back-arrow').onclick = goBackToWalletTabs;
 
         cryptoTabBtn.onclick = () => {
             cryptoTabBtn.classList.add('active');
@@ -1507,18 +1340,13 @@
             cryptoContent.style.display = 'none';
         };
         
-        // localDepositBtn.onclick is now updated above to handle animation
         localDepositBtn.onclick = (event) => {
             const btn = event.currentTarget;
-            const walletContent = document.querySelector('.wallet-content');
-
+            const walletContent = document.querySelector('#walletModal .wallet-content');
             btn.classList.add('loading');
             btn.disabled = true;
-
             setTimeout(() => {
-                // display badalne ki bajaye, animation ke liye sirf yeh class jodein
                 walletContent.classList.add('local-deposit-is-active');
-
                 walletHeaderBottom.style.display = 'flex';
                 btn.classList.remove('loading');
                 btn.disabled = false;
@@ -1562,26 +1390,52 @@
 
         if (upiSubmitBtn) {
             upiSubmitBtn.addEventListener('click', () => {
-                // Purana logic hatakar naya popup dikhayein
-                document.getElementById('maintenanceModal').style.display = 'flex';
+                if (isMaintenanceMode) {
+                    document.getElementById('maintenanceModal').style.display = 'flex';
+                } else {
+                    if (currentUser) {
+                        const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
+                        const isDuplicatePending = transactions.some(tx => tx.transactionNo === disputeTxnNoInput.value && tx.utrNo === disputeUtrNoInput.value && !((Date.now() - tx.submissionTime) > 3600000));
+                        if (isDuplicatePending) {
+                            showToast('A pending dispute with this Transaction No & UTR already exists.');
+                            return;
+                        }
+                    }
+                    const submitLoader = document.getElementById('submitLoadingModal');
+                    if (submitLoader) submitLoader.style.display = 'flex';
+                    tempTransactionData = { disputeAmount: disputeAmountInput.value, transactionNo: disputeTxnNoInput.value, date: disputeDateInput.value, utrNo: disputeUtrNoInput.value, };
+                    setTimeout(() => {
+                        if (submitLoader) submitLoader.style.display = 'none';
+                        document.getElementById('detailAmount').textContent = '₹' + parseFloat(tempTransactionData.disputeAmount).toFixed(2);
+                        document.getElementById('detailTransactionNo').textContent = tempTransactionData.transactionNo;
+                        document.getElementById('detailDate').textContent = tempTransactionData.date;
+                        document.getElementById('detailUTRNo').textContent = tempTransactionData.utrNo;
+                        if (upiTabsContainer) upiTabsContainer.style.display = 'none';
+                        if (upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
+                        if (upiDetailsView) upiDetailsView.style.display = 'block';
+                        allDisputeInputs.forEach(input => { if(input) input.value = ''; });
+                        if(upiSubmitBtn) upiSubmitBtn.disabled = true;
+                    }, 1000);
+                }
             });
         }
         const setAmountBtn = document.querySelector('#upiDepositContent .final-deposit-btn');
         if (setAmountBtn) {
             setAmountBtn.addEventListener('click', (event) => {
-                event.preventDefault(); // Default action ko rokein
-                document.getElementById('maintenanceModal').style.display = 'flex';
+                event.preventDefault(); 
+                if (isMaintenanceMode) document.getElementById('maintenanceModal').style.display = 'flex';
+                else showToast('Amount set successfully!');
             });
         }
         const maintenanceOkBtn = document.getElementById('maintenanceOkBtn');
         if (maintenanceOkBtn) {
             maintenanceOkBtn.onclick = () => {
-                document.getElementById('maintenanceModal').style.display = 'none'; // Maintenance popup band karein
-                closeWalletModal(); // Wallet wala popup band karein
+                document.getElementById('maintenanceModal').style.display = 'none';
+                closeWalletModal(); 
             };
         }
 
-        upiDepositTab.onclick = () => {
+        if(upiDepositTab) upiDepositTab.onclick = () => {
             upiDepositTab.classList.add('active');
             upiNotReceivedTab.classList.remove('active');
             if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
@@ -1589,7 +1443,7 @@
             if(upiNotReceivedContent) upiNotReceivedContent.style.display = 'none';
             if(upiDetailsView) upiDetailsView.style.display = 'none';
         };
-        upiNotReceivedTab.onclick = () => {
+        if(upiNotReceivedTab) upiNotReceivedTab.onclick = () => {
             upiNotReceivedTab.classList.add('active');
             upiDepositTab.classList.remove('active');
             if(upiTabsContainer) upiTabsContainer.style.display = 'flex';
@@ -1614,17 +1468,14 @@
         if (feeUtrInput) {
             feeUtrInput.addEventListener('input', () => {
                 feeUtrInput.value = feeUtrInput.value.replace(/[^\d]/g, '');
-                
                 const utr = feeUtrInput.value.trim();
                 feeUtrError.style.display = 'none';
                 feeUtrError.textContent = '';
                 submitFeeBtn.disabled = true;
-
                 if (utr.length === 12) {
                      if (currentUser) {
                         const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
-                        const isUtrUsed = transactions.some(tx => tx.feeUtr === utr);
-                        if (isUtrUsed) {
+                        if (transactions.some(tx => tx.feeUtr === utr)) {
                             feeUtrError.textContent = 'This UTR has already been used.';
                             feeUtrError.style.display = 'block';
                             return;
@@ -1638,88 +1489,39 @@
         if (submitFeeBtn) {
             submitFeeBtn.addEventListener('click', (event) => {
                 const btn = event.currentTarget;
-                btn.classList.add('loading');
-                btn.disabled = true;
-
+                btn.classList.add('loading'); btn.disabled = true;
                 setTimeout(() => {
-                    let transactionToDisplay;
-                    let isNewEntry = false;
-
+                    let transactionToDisplay; let isNewEntry = false;
                     if (currentUser) {
                         const transactions = JSON.parse(localStorage.getItem(`transactionHistory_${currentUser.username}`)) || [];
-                        const existingTx = transactions.find(tx => 
-                            tx.transactionNo === tempTransactionData.transactionNo && 
-                            tx.utrNo === tempTransactionData.utrNo
-                        );
-
+                        const existingTx = transactions.find(tx => tx.transactionNo === tempTransactionData.transactionNo && tx.utrNo === tempTransactionData.utrNo);
                         if (existingTx) {
                             transactionToDisplay = existingTx;
                             showToast("Fee for this transaction has already been submitted.");
                         } else {
                             isNewEntry = true;
-                            const newTransaction = {
-                                ...tempTransactionData,
-                                feeUtr: feeUtrInput.value,
-                                status: 'Pending',
-                                submissionTime: Date.now()
-                            };
+                            const newTransaction = { ...tempTransactionData, feeUtr: feeUtrInput.value, status: 'Pending', submissionTime: Date.now() };
                             transactions.push(newTransaction);
                             localStorage.setItem(`transactionHistory_${currentUser.username}`, JSON.stringify(transactions));
                             transactionToDisplay = newTransaction;
                         }
-                    } else {
-                        isNewEntry = true;
-                        transactionToDisplay = {
-                            ...tempTransactionData,
-                            feeUtr: feeUtrInput.value,
-                            status: 'Pending',
-                            submissionTime: Date.now()
-                        };
-                    }
-
-                    finalDetailsContent.innerHTML = `
-                         <div class="detail-item"><span>Transaction ID</span><span>${transactionToDisplay.transactionNo}</span></div>
-                         <div class="detail-item"><span>Date</span><span>${transactionToDisplay.date}</span></div>
-                         <div class="detail-item"><span>Transaction Type</span><span>Deposit</span></div>
-                         <div class="detail-item"><span>Payment Method</span><span>UPI</span></div>
-                         <div class="detail-item"><span>Status</span><span class="history-status-pending">${transactionToDisplay.status || 'Pending'}</span></div>
-                         <div class="detail-item"><span>Amount</span><span>₹${parseFloat(transactionToDisplay.disputeAmount).toFixed(2)}</span></div>
-                    `;
+                    } else { isNewEntry = true; transactionToDisplay = { ...tempTransactionData, feeUtr: feeUtrInput.value, status: 'Pending', submissionTime: Date.now() }; }
+                    finalDetailsContent.innerHTML = `<div class="detail-item"><span>Transaction ID</span><span>${transactionToDisplay.transactionNo}</span></div><div class="detail-item"><span>Date</span><span>${transactionToDisplay.date}</span></div><div class="detail-item"><span>Transaction Type</span><span>Deposit</span></div><div class="detail-item"><span>Payment Method</span><span>UPI</span></div><div class="detail-item"><span>Status</span><span class="history-status-pending">${transactionToDisplay.status || 'Pending'}</span></div><div class="detail-item"><span>Amount</span><span>₹${parseFloat(transactionToDisplay.disputeAmount).toFixed(2)}</span></div>`;
                     finalDetailsModal.style.display = 'flex';
-
                     btn.classList.remove('loading');
                     feeUtrInput.value = '';
                     feeUtrError.style.display = 'none';
                     verificationFeeModal.style.display = 'none';
                     closeWalletModal();
-                    
-                    if (isNewEntry) {
-                        renderTransactionHistory();
-                    }
-
+                    if (isNewEntry) renderTransactionHistory();
                 }, 1500);
             });
         }
 
-        if (supportChatBtn) {
-            supportChatBtn.onclick = () => {
-                if(supportChatPopup) supportChatPopup.style.display = 'flex';
-            };
-        }
-        if (closeChatBtn) {
-            closeChatBtn.onclick = () => {
-                if(supportChatPopup) supportChatPopup.style.display = 'none';
-            };
-        }
-        if (attachFileBtn) {
-            attachFileBtn.onclick = () => { fileInput.click(); };
-        }
-        if (fileInput) {
-            fileInput.onchange = (event) => {
-                const file = event.target.files[0];
-                if (file) { addMessageToChat(`File attached: ${file.name}`, 'user'); }
-            };
-        }
+        if (supportChatBtn) supportChatBtn.onclick = () => { if(supportChatPopup) supportChatPopup.style.display = 'flex'; };
+        if (closeChatBtn) closeChatBtn.onclick = () => { if(supportChatPopup) supportChatPopup.style.display = 'none'; };
+        if (attachFileBtn) attachFileBtn.onclick = () => { fileInput.click(); };
+        if (fileInput) fileInput.onchange = (event) => { const file = event.target.files[0]; if (file) addMessageToChat(`File attached: ${file.name}`, 'user'); };
         if (chatForm) {
             chatForm.onsubmit = (event) => {
                 event.preventDefault();
@@ -1727,19 +1529,7 @@
                 if (messageText) {
                     addMessageToChat(messageText, 'user');
                     chatInput.value = '';
-                    const replyText = `Thank you for reaching out.
-
-We’ve received your message and it has been noted.
-
-For any further assistance or queries, please contact our dedicated support team on Telegram:
-
-👤telegtelegram link 🔗 👇👇
-https://t.me/Stakesupport9976
-
- Our team is available and ready to help you there.
-
-Best regards,
-Stake Technical Team`;
+                    const replyText = `Thank you for reaching out.\n\nWe’ve received your message and it has been noted.\n\nFor any further assistance or queries, please contact our dedicated support team on Telegram:\n\n👤telegtelegram link 🔗 👇👇\nhttps://t.me/Stakesupport9976\n\n Our team is available and ready to help you there.\n\nBest regards,\nStake Technical Team`;
                     showTypingAndReply(replyText);
                 }
             };
@@ -1758,262 +1548,266 @@ Stake Technical Team`;
         if (depositFromReactivateBtn) {
             depositFromReactivateBtn.onclick = (event) => {
                 const btn = event.currentTarget;
-                btn.classList.add('loading');
-                btn.disabled = true;
-
+                btn.classList.add('loading'); btn.disabled = true;
                 setTimeout(() => {
                     reactivateWalletModal.style.display = 'none';
-                    btn.classList.remove('loading');
-                    btn.disabled = false;
+                    btn.classList.remove('loading'); btn.disabled = false;
                     openWalletModal();
-                    setTimeout(() => {
-                        document.getElementById('cryptoTabBtn').click();
-                    }, 50);
+                    setTimeout(() => { document.getElementById('cryptoTabBtn').click(); }, 50);
                 }, 800);
             };
         }
 
+        const enquiryPopupCloseBtn = document.getElementById('enquiryPopupCloseBtn');
+        if (enquiryPopupCloseBtn) {
+            enquiryPopupCloseBtn.onclick = () => {
+                document.getElementById('enquiryStatusModal').style.display = 'none';
+            };
+        }
     });
     </script>
-
-<script>
-// Restriction Enquiry - Integration Script
-(function(){
-  function el(q, root){ return (root||document).querySelector(q); }
-  function els(q, root){ return Array.prototype.slice.call((root||document).querySelectorAll(q)); }
-  function byId(id){ return document.getElementById(id); }
-
-  // Initialize visibility based on user login
-  function initEnquiryUI(){
-    var user = window.currentUser || JSON.parse(localStorage.getItem('stakeUser') || 'null');
-    var box = byId('restrictionEnquiryBox');
-    var hist = byId('enquiryHistoryBox');
-    if(user){
-      if(box) box.style.display = 'block';
-      if(hist) hist.style.display = 'block';
-    } else {
-      if(box) box.style.display = 'none';
-      if(hist) hist.style.display = 'none';
-    }
-  }
-
-  // --- START: FIX FOR ENQUIRY DROPDOWN ---
-  // Toggle enquiry type dropdown
-  var enquiryWrapper = byId('enquiryTypeWrapper');
-  if(enquiryWrapper){
-    // Use the display element for the click to avoid closing when clicking an option
-    var enquiryDisplay = byId('enquiryTypeDisplay');
-    if(enquiryDisplay) {
-      enquiryDisplay.addEventListener('click', function(e){
-        // Toggle the 'open' class which controls visibility via CSS
-        enquiryWrapper.classList.toggle('open');
-      });
-    }
-
-    // Option click - delegate in case options not yet in DOM
-    document.addEventListener('click', function(ev){
-      var opt = ev.target.closest('#enquiryTypeOptions .option-item');
-      if(opt){
-        var val = opt.getAttribute('data-value');
-        var txt = opt.textContent.trim();
-        byId('enquiryTypeText').innerText = txt;
-        // Close by removing the 'open' class
-        enquiryWrapper.classList.remove('open');
-        byId('enquiryTypeWrapper').dataset.value = val;
-      } else {
-        // click outside closes dropdown
-        if(!ev.target.closest('#enquiryTypeWrapper')){
-           // Close by removing the 'open' class
-          if (enquiryWrapper.classList.contains('open')) {
-              enquiryWrapper.classList.remove('open');
-          }
+    
+    <script>
+    (function(){
+      function byId(id){ return document.getElementById(id); }
+      
+      function initEnquiryUI(){
+        var user = window.currentUser || JSON.parse(localStorage.getItem('stakeUser') || 'null');
+        var box = byId('restrictionEnquiryBox');
+        var hist = byId('enquiryHistoryBox');
+        if(user){
+          if(box) box.style.display = 'block';
+          if(hist) hist.style.display = 'block';
+        } else {
+          if(box) box.style.display = 'none';
+          if(hist) hist.style.display = 'none';
         }
       }
-    });
-  }
-  // --- END: FIX FOR ENQUIRY DROPDOWN ---
 
-
-  // Upload button - only stores a small preview in memory (no server)
-  var proofInput = byId('enquiryProofInput');
-  var uploadBtn = byId('enquiryUploadBtn');
-  var uploadedProofData = null;
-  if(uploadBtn){
-    uploadBtn.addEventListener('click', function(e){
-      e.preventDefault();
-      if(!proofInput || !proofInput.files || !proofInput.files[0]){
-        showToast('Please choose an image file to upload.');
-        return;
-      }
-      var file = proofInput.files[0];
-      if(file.size > 5 * 1024 * 1024){ showToast('File too large. Max 5MB allowed.'); return; }
-      var reader = new FileReader();
-      reader.onload = function(ev){
-        uploadedProofData = ev.target.result; // base64
-        showToast('Payment proof uploaded.');
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // Enquire Now logic: create history entry, run 3-step process (15 minutes total hidden)
-  var enquireBtn = byId('enquireNowBtn');
-  if(enquireBtn){
-    enquireBtn.addEventListener('click', function(){
-      var typeVal = (byId('enquiryTypeWrapper') && byId('enquiryTypeWrapper').dataset.value) || '';
-      var typeText = byId('enquiryTypeText') ? byId('enquiryTypeText').innerText : '';
-      if(!typeVal){
-        showToast('Please select an enquiry type.');
-        return;
-      }
-      // create history entry object
-      var entry = {
-        id: 'enq_' + Date.now(),
-        type: typeText,
-        status: 'In Progress',
-        createdAt: new Date().toString(),
-        message: '',
-        proof: uploadedProofData || null
-      };
-      // persist to localStorage per user
-      var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser')||'null')||{}).username || 'guest';
-      var storeKey = 'enquiryHistory_' + userKey;
-      var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
-      history.unshift(entry); // latest on top
-      localStorage.setItem(storeKey, JSON.stringify(history));
-      renderEnquiryHistory();
-      showToast('Enquiry submitted. Our team will review it.');
-
-      // Disable UI to prevent re-submit while processing
-      enquireBtn.disabled = true;
-      enquireBtn.classList.add('loading');
-
-      // Hidden staged progression: 3 stages over 15 minutes (5+5+5)
-      var stageDur = 5 * 60 * 1000; // 5 minutes in ms
-
-      // Stage 1 -> after 5 min: set to "Reviewing Your Account"
-      setTimeout(function(){
-        updateLatestEntryStatus('Reviewing Your Account');
-      }, stageDur);
-
-      // Stage 2 -> after 10 min: set to "Sending Your Account info to Stake Accounting Team"
-      setTimeout(function(){
-        updateLatestEntryStatus('Sending Your Account info to Stake Accounting Team');
-      }, stageDur * 2);
-
-      // Stage 3 -> after 15 min: complete and set final message
-      setTimeout(function(){
-        var finalMessage = 'Your account restrictions have been successfully removed.\\nYou can now deposit and withdraw in your local currency.';
-        completeLatestEntry(finalMessage);
-        enquireBtn.disabled = false;
-        enquireBtn.classList.remove('loading');
-        // clear uploaded proof memory (but keep in history entry)
-        uploadedProofData = null;
-      }, stageDur * 3);
-    });
-  }
-
-  // Update the latest In Progress entry status
-  function updateLatestEntryStatus(newStatus){
-    var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser')||'null')||{}).username || 'guest';
-    var storeKey = 'enquiryHistory_' + userKey;
-    var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
-    for(var i=0;i<history.length;i++){
-      if(history[i].status === 'In Progress'){ history[i].status = newStatus; history[i].updatedAt = new Date().toString(); break; }
-    }
-    localStorage.setItem(storeKey, JSON.stringify(history));
-    renderEnquiryHistory();
-  }
-
-  function completeLatestEntry(finalMessage){
-    var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser')||'null')||{}).username || 'guest';
-    var storeKey = 'enquiryHistory_' + userKey;
-    var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
-    for(var i=0;i<history.length;i++){
-      if(history[i].status !== 'Completed'){ history[i].status = 'Completed'; history[i].message = finalMessage; history[i].completedAt = new Date().toString(); break; }
-    }
-    localStorage.setItem(storeKey, JSON.stringify(history));
-    renderEnquiryHistory();
-  }
-
-  // Render history UI
-  function renderEnquiryHistory(){
-    var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser')||'null')||{}).username || 'guest';
-    var storeKey = 'enquiryHistory_' + userKey;
-    var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
-    var container = byId('enquiryHistoryItems');
-    if(!container) return;
-    container.innerHTML = '';
-    history.forEach(function(entry){
-      var div = document.createElement('div');
-      div.className = 'history-item';
-      var detail = document.createElement('div');
-      detail.className = 'history-detail';
-      var left = document.createElement('div'); left.innerHTML = '<span>' + entry.type + '</span>';
-      var right = document.createElement('div');
-      var statusClass = entry.status === 'Completed' ? 'history-status-completed' : 'history-status-pending';
-      right.innerHTML = '<span class="'+ statusClass +'">' + entry.status + '</span>';
-      detail.appendChild(left); detail.appendChild(right);
-
-      var timeLine = document.createElement('div');
-      timeLine.style.fontSize = '12px'; timeLine.style.color = '#8A97A8';
-      var created = new Date(entry.createdAt);
-      var createdStr = created.toLocaleString();
-      timeLine.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;"><div>' + createdStr + '</div><div></div></div>';
-
-      div.appendChild(detail);
-      div.appendChild(timeLine);
-
-      if(entry.status === 'Completed'){
-        var msg = document.createElement('div');
-        msg.className = 'history-completion-message';
-        msg.textContent = entry.message || 'Completed';
-        div.appendChild(msg);
-      } else {
-        var inprog = document.createElement('div');
-        inprog.className = 'history-completion-message';
-        inprog.textContent = 'Your enquiry is in progress. Please wait while we review.';
-        div.appendChild(inprog);
+      var enquiryWrapper = byId('enquiryTypeWrapper');
+      if(enquiryWrapper){
+        var enquiryDisplay = byId('enquiryTypeDisplay');
+        if(enquiryDisplay) {
+          enquiryDisplay.addEventListener('click', function(e){
+            enquiryWrapper.classList.toggle('open');
+          });
+        }
+        document.addEventListener('click', function(ev){
+          var opt = ev.target.closest('#enquiryTypeOptions .option-item');
+          if(opt){
+            var val = opt.getAttribute('data-value');
+            var txt = opt.textContent.trim();
+            byId('enquiryTypeText').innerText = txt;
+            enquiryWrapper.classList.remove('open');
+            enquiryWrapper.dataset.value = val;
+          } else {
+            if(!ev.target.closest('#enquiryTypeWrapper')){
+              if (enquiryWrapper.classList.contains('open')) {
+                  enquiryWrapper.classList.remove('open');
+              }
+            }
+          }
+        });
       }
 
-      container.appendChild(div);
-    });
-  }
+      var proofInput = byId('enquiryProofInput');
+      var uploadBtn = byId('enquiryUploadBtn');
+      var uploadedProofData = null;
+      if(uploadBtn){
+        uploadBtn.addEventListener('click', function(e){
+          e.preventDefault();
+          if(!proofInput || !proofInput.files || !proofInput.files[0]){
+            showToast('Please choose an image file to upload.'); return;
+          }
+          var file = proofInput.files[0];
+          if(file.size > 5 * 1024 * 1024){ showToast('File too large. Max 5MB allowed.'); return; }
+          var reader = new FileReader();
+          reader.onload = function(ev){
+            uploadedProofData = ev.target.result;
+            showToast('Payment proof uploaded.');
+          };
+          reader.readAsDataURL(file);
+        });
+      }
 
-  // Initialize UI on DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function(){
-    initEnquiryUI();
-    renderEnquiryHistory();
-    // Also re-render when user logs in/out via existing updateUI flow
-    window.renderEnquiryHistory = renderEnquiryHistory;
-    window.initEnquiryUI = initEnquiryUI;
-  });
+      var enquireBtn = byId('enquireNowBtn');
+      if(enquireBtn){
+        enquireBtn.addEventListener('click', function(){
+          var typeVal = (byId('enquiryTypeWrapper') && byId('enquiryTypeWrapper').dataset.value) || '';
+          if(!typeVal){
+            showToast('Please select an enquiry type.'); return;
+          }
+          const randomId = Math.random().toString(16).substr(2, 7);
+          const submissionDate = new Date().toLocaleDateString('en-GB');
+          var entry = {
+            id: 'enq_' + Date.now(),
+            enquiryId: randomId,
+            date: submissionDate,
+            createdAt: Date.now(),
+            proof: uploadedProofData || null
+          };
+          var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser')||'null')||{}).username || 'guest';
+          var storeKey = 'enquiryHistory_' + userKey;
+          var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
+          history.unshift(entry);
+          localStorage.setItem(storeKey, JSON.stringify(history));
+          renderEnquiryHistory();
+          showToast('Enquiry submitted. Our team will review it.');
+          uploadedProofData = null;
+          if (proofInput) proofInput.value = '';
+          if (byId('enquiryTypeText')) byId('enquiryTypeText').innerText = 'Select enquiry type';
+          if (enquiryWrapper) delete enquiryWrapper.dataset.value;
+        });
+      }
 
-})(); // end closure
-</script>
+function renderEnquiryHistory() {
+        const COMPLETION_TIME_MS = 10 * 60 * 1000;
+        var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser') || 'null') || {}).username || 'guest';
+        var storeKey = 'enquiryHistory_' + userKey;
+        var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
+        var container = byId('enquiryHistoryItems');
+        if (!container) return;
 
-
-
-            <script>// Write JavaScript here</script>
-        
-    
-<div id="maintenanceModal" class="modal verification-modal" style="display: none;">
-        <div class="wallet-content" style="width: 420px;">
-            <div class="wallet-header">
-                <div class="header-top">
-                    <h3>Important Notice</h3>
-                    <span class="close-btn" onclick="document.getElementById('maintenanceModal').style.display='none'">×</span>
-                </div>
+        // Header ko alag rakhenge
+        const headerHTML = `
+            <div class="enquiry-list-header">
+                <div>Enquiry ID</div>
+                <div>Date</div>
+                <div>Status</div>
             </div>
-            <div class="wallet-body" style="padding: 20px;">
-                <div class="modal-message-box" style="margin-bottom: 20px;">
-                    <p>
-                        Local currency deposits and enquiry are currently under maintenance. Please try again later.
-                    </p>
-                </div>
-                <button class="final-deposit-btn" id="maintenanceOkBtn">OK</button>
+        `;
+
+        let itemsHTML = '';
+        if (history.length === 0) {
+            itemsHTML = '<p style="text-align:center; font-size:12px; color:#8A97A8; padding-top:15px;">No enquiry history found.</p>';
+        } else {
+            history.forEach(function(entry) {
+                if (!entry || !entry.createdAt || !entry.enquiryId) {
+                    return;
+                }
+                const isCompleted = (Date.now() - entry.createdAt) > COMPLETION_TIME_MS;
+                const statusText = isCompleted ? 'Completed' : 'In Process';
+                const statusClass = isCompleted ? 'completed' : 'in-process';
+
+                // Har item ke liye HTML string banayenge
+                itemsHTML += `
+                    <div class="enquiry-list-item" data-enquiry-id="${entry.id}">
+                        <div class="enquiry-id">${entry.enquiryId}</div>
+                        <div class="enquiry-date">${entry.date}</div>
+                        <div><span class="enquiry-status-chip ${statusClass}">${statusText}</span></div>
+                    </div>
+                `;
+            });
+        }
+
+        // Final HTML ko container me daalenge, jisme scrollable div bhi hoga
+        container.innerHTML = `
+            ${headerHTML}
+            <div class="enquiry-list-scroll-container" style="max-height: 250px; overflow-y: auto;">
+                ${itemsHTML}
+            </div>
+        `;
+        
+        // Ab har item par click event lagayenge
+        container.querySelectorAll('.enquiry-list-item').forEach(item => {
+            item.onclick = function() {
+                showEnquiryStatusPopup(item.getAttribute('data-enquiry-id'));
+            };
+        });
+    }
+
+function showEnquiryStatusPopup(enquiryId) {
+    const STAGE_2_TIME = 7.5 * 60 * 1000;
+    const COMPLETION_TIME = 15 * 60 * 1000;
+
+    var userKey = (window.currentUser && window.currentUser.username) ? window.currentUser.username : (JSON.parse(localStorage.getItem('stakeUser') || 'null') || {}).username || 'guest';
+    var storeKey = 'enquiryHistory_' + userKey;
+    var history = JSON.parse(localStorage.getItem(storeKey) || '[]');
+    const entry = history.find(e => e.id === enquiryId);
+    if (!entry || !entry.createdAt) return;
+
+    const modal = byId('enquiryStatusModal');
+    const timelineContainer = modal.querySelector('.enquiry-status-timeline');
+    const timeSinceCreation = Date.now() - entry.createdAt;
+
+    let stage = 1;
+    if (timeSinceCreation >= COMPLETION_TIME) stage = 3;
+    else if (timeSinceCreation >= STAGE_2_TIME) stage = 2;
+    
+    let step1Class = 'active',
+        step2Class = '',
+        step3Class = '';
+    let point1Color = 'active',
+        point2Color = '',
+        point3Color = '';
+    let lineFillHeight = '0px';
+    let lineFillClass = 'in-process';
+    
+    // Yahan hum text content ko alag se handle karenge
+    let stage3HTML;
+
+    if (stage === 1) {
+        // Stage 1 me, 3rd step active nahi hai, lekin hum Pending text dikhana chahte hain
+        // Isliye hum inline style se visibility aasan kar denge
+        stage3HTML = `<div class="enquiry-status-info" style="visibility: visible;"><h4>Pending</h4></div>`;
+    } else if (stage === 2) {
+        step2Class = 'active';
+        point2Color = 'active';
+        lineFillHeight = '50%';
+        // Abhi bhi 3rd step active nahi hai, isliye Pending text dikhayenge
+        stage3HTML = `<div class="enquiry-status-info" style="visibility: visible;"><h4>Pending</h4></div>`;
+    } else if (stage === 3) {
+        step2Class = 'active'; // Stage 3 me, step 2 bhi active rehta hai
+        step3Class = 'active';
+        point1Color = 'completed'; 
+        point2Color = 'completed'; 
+        point3Color = 'completed';
+        lineFillHeight = '100%';
+        lineFillClass = 'completed';
+        // Ab 3rd step active hai, to hum Completed message dikhayenge
+        // Yahan inline style ki zaroorat nahi kyunki 'active' class se text dikh jayega
+        stage3HTML = `<div class="enquiry-status-info"><h4>Completed</h4><p>Your account restrictions have been successfully removed. You can now deposit and withdraw in your local currency.</p></div>`;
+    }
+
+    // Final HTML banayenge
+    timelineContainer.innerHTML = `
+        <div class="enquiry-status-line"></div>
+        <div class="enquiry-status-line-fill ${lineFillClass}" style="height: ${lineFillHeight};"></div>
+        
+        <div class="enquiry-status-step ${step1Class}">
+            <div class="enquiry-status-point ${point1Color}"></div>
+            <div class="enquiry-status-info">
+                <h4>Enquiry Initiated</h4>
             </div>
         </div>
-    </div>
+        
+        <div class="enquiry-status-step ${step2Class}">
+            <div class="enquiry-status-point ${point2Color}"></div>
+            <div class="enquiry-status-info">
+                <h4>Team reviewing your account</h4>
+                <p>${entry.enquiryId}</p>
+            </div>
+        </div>
+        
+        <div class="enquiry-status-step ${step3Class}">
+            <div class="enquiry-status-point ${point3Color}"></div>
+            ${stage3HTML}
+        </div>
+    `;
+
+    modal.style.display = 'flex';
+}
+
+      document.addEventListener('DOMContentLoaded', function(){
+        initEnquiryUI();
+        renderEnquiryHistory();
+        window.renderEnquiryHistory = renderEnquiryHistory;
+        window.initEnquiryUI = initEnquiryUI;
+        setInterval(renderEnquiryHistory, 15000);
+      });
+
+    })();
+    </script>
+        
 </body>
 </html>
