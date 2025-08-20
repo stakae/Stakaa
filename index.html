@@ -1932,8 +1932,9 @@ function showEnquiryStatusPopup(enquiryId) {
     let point1Color = 'active', point2Color = '', point3Color = '';
     let lineFillHeight = '0px', lineFillClass = 'in-process';
     let stage3HTML = '';
-
-    const reviewTime = (FAILURE_TIME_MS / 2);
+    
+    // FIX: Calculate reviewTime based on whether the attempt is a failing or succeeding one.
+    const reviewTime = (attempt < 3 ? FAILURE_TIME_MS : COMPLETION_TIME_MS) / 2;
 
     if (timeSinceCreation >= reviewTime) {
         step2Class = 'active';
@@ -1966,15 +1967,13 @@ function showEnquiryStatusPopup(enquiryId) {
         }
     }
     
-    // FIX: Show "Pending" text by default on 3rd step
+    // FIX: Show "Pending" text by default on 3rd step, and make it slightly transparent if not the final step.
     if (!stage3HTML) {
-       stage3HTML = `<div class="enquiry-status-info" style="visibility: visible;"><h4>Pending</h4></div>`;
-       // Make text less prominent if not the active step
+       stage3HTML = `<div class="enquiry-status-info" style="visibility: visible;"><h4>Pending Resolution</h4></div>`;
        if(step3Class !== 'active') {
             stage3HTML = `<div class="enquiry-status-info" style="visibility: visible; opacity: 0.5;"><h4>Pending Resolution</h4></div>`;
        }
     }
-
 
     timelineContainer.innerHTML = `
         <div class="enquiry-status-line"></div>
